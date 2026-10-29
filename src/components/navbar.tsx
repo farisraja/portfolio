@@ -1,3 +1,6 @@
+"use client";
+
+import { Icons } from "@/components/icons";
 import { Dock, DockIcon } from "@/components/magicui/dock";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Separator } from "@/components/ui/separator";
@@ -8,13 +11,81 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { DATA } from "@/data/resume";
+import React from "react";
 
-export default function Navbar() {
+export interface NavbarSocialProps {
+  github?: string | null;
+  instagram?: string | null;
+  linkedin?: string | null;
+  x?: string | null;
+  youtube?: string | null;
+}
+
+interface NavbarProps {
+  social?: NavbarSocialProps;
+  ownerName?: string;
+}
+
+export default function Navbar({ social, ownerName = "Faris Raja Ardana" }: NavbarProps) {
+  // Determine social links with priority: CMS live data -> DATA fallback
+  const githubUrl =
+    social?.github !== undefined ? social.github : DATA.contact.social.GitHub?.url;
+  const instagramUrl =
+    social?.instagram !== undefined ? social.instagram : (DATA.contact.social as any).Instagram?.url;
+  const linkedinUrl =
+    social?.linkedin !== undefined ? social.linkedin : (DATA.contact.social as any).LinkedIn?.url;
+
+  const isValidUrl = (url?: string | null): url is string =>
+    Boolean(url && url.trim() !== "" && url !== "#");
+
+  const normalizeUrl = (url: string) =>
+    url.startsWith("http://") || url.startsWith("https://") ? url : `https://${url}`;
+
+  // Exact requested order: GitHub → Instagram → LinkedIn
+  const socialLinks: Array<{
+    name: string;
+    url: string;
+    icon: (props: React.HTMLAttributes<SVGElement>) => React.JSX.Element;
+    ariaLabel: string;
+  }> = [];
+
+  if (isValidUrl(githubUrl)) {
+    socialLinks.push({
+      name: "GitHub",
+      url: normalizeUrl(githubUrl.trim()),
+      icon: Icons.github,
+      ariaLabel: `GitHub ${ownerName}`,
+    });
+  }
+
+  if (isValidUrl(instagramUrl)) {
+    socialLinks.push({
+      name: "Instagram",
+      url: normalizeUrl(instagramUrl.trim()),
+      icon: Icons.instagram,
+      ariaLabel: `Instagram ${ownerName}`,
+    });
+  }
+
+  if (isValidUrl(linkedinUrl)) {
+    socialLinks.push({
+      name: "LinkedIn",
+      url: normalizeUrl(linkedinUrl.trim()),
+      icon: Icons.linkedin,
+      ariaLabel: `LinkedIn ${ownerName}`,
+    });
+  }
+
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-4 z-30">
-      <Dock className="z-50 pointer-events-auto relative h-14 p-2 w-fit mx-auto flex gap-2 border bg-card/90 backdrop-blur-3xl shadow-[0_0_10px_3px] shadow-primary/5">
+    <nav
+      aria-label="Navigasi Utama"
+      className="pointer-events-none fixed inset-x-0 bottom-4 z-30 flex justify-center pb-[env(safe-area-inset-bottom,0px)]"
+    >
+      <Dock className="z-50 pointer-events-auto relative h-14 p-2 w-fit max-w-[calc(100vw-2rem)] mx-auto flex items-center gap-1.5 sm:gap-2 border bg-card/90 backdrop-blur-3xl shadow-[0_0_10px_3px] shadow-primary/5">
+        {/* Beranda (Home) */}
         {DATA.navbar.map((item) => {
           const isExternal = item.href.startsWith("http");
+          const label = item.label === "Home" ? "Beranda" : item.label;
           return (
             <Tooltip key={item.href}>
               <TooltipTrigger asChild>
@@ -22,6 +93,8 @@ export default function Navbar() {
                   href={item.href}
                   target={isExternal ? "_blank" : undefined}
                   rel={isExternal ? "noopener noreferrer" : undefined}
+                  aria-label={`${label} ${ownerName}`}
+                  className="rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
                   <DockIcon className="rounded-3xl cursor-pointer size-full bg-background p-0 text-muted-foreground hover:text-foreground hover:bg-muted backdrop-blur-3xl border border-border transition-colors">
                     <item.icon className="size-full rounded-sm overflow-hidden object-contain" />
@@ -33,65 +106,76 @@ export default function Navbar() {
                 sideOffset={8}
                 className="rounded-xl bg-primary text-primary-foreground px-4 py-2 text-sm shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] dark:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)]"
               >
-                <p>{item.label}</p>
+                <p>{label}</p>
                 <TooltipArrow className="fill-primary" />
               </TooltipContent>
             </Tooltip>
           );
         })}
-        <Separator
-          orientation="vertical"
-          className="h-2/3 m-auto w-px bg-border"
-        />
-        {Object.entries(DATA.contact.social)
-          .filter(([_, social]) => social.navbar)
-          .map(([name, social], index) => {
-            const isExternal = social.url.startsWith("http");
-            const IconComponent = social.icon;
-            return (
-              <Tooltip key={`social-${name}-${index}`}>
-                <TooltipTrigger asChild>
-                  <a
-                    href={social.url}
-                    target={isExternal ? "_blank" : undefined}
-                    rel={isExternal ? "noopener noreferrer" : undefined}
-                  >
-                    <DockIcon className="rounded-3xl cursor-pointer size-full bg-background p-0 text-muted-foreground hover:text-foreground hover:bg-muted backdrop-blur-3xl border border-border transition-colors">
-                      <IconComponent className="size-full rounded-sm overflow-hidden object-contain" />
-                    </DockIcon>
-                  </a>
-                </TooltipTrigger>
-                <TooltipContent
-                  side="top"
-                  sideOffset={8}
-                  className="rounded-xl bg-primary text-primary-foreground px-4 py-2 text-sm shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] dark:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)]"
+
+        {/* Separator setelah Beranda jika ada tautan sosial */}
+        {socialLinks.length > 0 && (
+          <Separator
+            orientation="vertical"
+            className="h-2/3 m-auto w-px bg-border"
+          />
+        )}
+
+        {/* Tautan Sosial: GitHub → Instagram → LinkedIn */}
+        {socialLinks.map((item) => {
+          const IconComponent = item.icon;
+          return (
+            <Tooltip key={item.name}>
+              <TooltipTrigger asChild>
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={item.ariaLabel}
+                  className="rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
-                  <p>{name}</p>
-                  <TooltipArrow className="fill-primary" />
-                </TooltipContent>
-              </Tooltip>
-            );
-          })}
+                  <DockIcon className="rounded-3xl cursor-pointer size-full bg-background p-0 text-muted-foreground hover:text-foreground hover:bg-muted backdrop-blur-3xl border border-border transition-colors">
+                    <IconComponent className="size-full rounded-sm overflow-hidden object-contain" />
+                  </DockIcon>
+                </a>
+              </TooltipTrigger>
+              <TooltipContent
+                side="top"
+                sideOffset={8}
+                className="rounded-xl bg-primary text-primary-foreground px-4 py-2 text-sm shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] dark:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)]"
+              >
+                <p>{item.name}</p>
+                <TooltipArrow className="fill-primary" />
+              </TooltipContent>
+            </Tooltip>
+          );
+        })}
+
+        {/* Separator sebelum Pengubah Tema */}
         <Separator
           orientation="vertical"
           className="h-2/3 m-auto w-px bg-border"
         />
+
+        {/* Pengubah Tema */}
         <Tooltip>
           <TooltipTrigger asChild>
-            <DockIcon className="rounded-3xl cursor-pointer size-full bg-background p-0 text-muted-foreground hover:text-foreground hover:bg-muted backdrop-blur-3xl border border-border transition-colors">
-              <ModeToggle className="size-full cursor-pointer" />
-            </DockIcon>
+            <div className="rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+              <DockIcon className="rounded-3xl cursor-pointer size-full bg-background p-0 text-muted-foreground hover:text-foreground hover:bg-muted backdrop-blur-3xl border border-border transition-colors">
+                <ModeToggle className="size-full cursor-pointer" />
+              </DockIcon>
+            </div>
           </TooltipTrigger>
           <TooltipContent
             side="top"
             sideOffset={8}
             className="rounded-xl bg-primary text-primary-foreground px-4 py-2 text-sm shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] dark:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)]"
           >
-            <p>Theme</p>
+            <p>Pengubah Tema</p>
             <TooltipArrow className="fill-primary" />
           </TooltipContent>
         </Tooltip>
       </Dock>
-    </div>
+    </nav>
   );
 }

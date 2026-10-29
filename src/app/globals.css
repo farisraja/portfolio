@@ -232,5 +232,78 @@
   .prose :where(tbody tr:last-child td):not(:where([class~="not-prose"] *)) {
     @apply border-b-0;
   }
-
 }
+
+/* Profile Avatar Hover Zoom Effect */
+@media (hover: hover) and (pointer: fine) {
+  .profile-avatar-image {
+    transition: transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: 50% 20%;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .group:hover .profile-avatar-image,
+  .profile-avatar-image:hover {
+    transform: scale(1.10);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-avatar-image {
+    transition: none !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+}
+
+/* ========================================================
+   Project Card Smooth Hover Effects (Section D)
+   ======================================================== */
+.project-card {
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow;
+}
+
+.project-card-image {
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.project-card-arrow {
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.1), 0 4px 8px -4px rgba(0, 0, 0, 0.06);
+    border-color: var(--color-border);
+  }
+
+  .dark .project-card:hover {
+    box-shadow: 0 14px 28px -6px rgba(0, 0, 0, 0.55), 0 6px 12px -4px rgba(0, 0, 0, 0.35);
+  }
+
+  .project-card:hover .project-card-image {
+    transform: scale(1.03);
+  }
+
+  .project-card:hover .project-card-arrow {
+    transform: translate(2px, -2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .project-card-image,
+  .project-card-arrow {
+    transition: none !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+}
+

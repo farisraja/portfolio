@@ -30,19 +30,31 @@ function LogoImage({ src, alt }: { src: string; alt: string }) {
   );
 }
 
-export default function WorkSection() {
+export type WorkItem = {
+  company: string;
+  title: string;
+  href?: string | null;
+  location?: string | null;
+  start?: string | null;
+  end?: string | null;
+  description: string;
+  logoUrl?: string | null;
+};
+
+export default function WorkSection({ data }: { data?: WorkItem[] }) {
+  const workList = data || DATA.work;
   return (
     <Accordion type="single" collapsible className="w-full grid gap-6">
-      {DATA.work.map((work) => (
+      {workList.map((work) => (
         <AccordionItem
-          key={work.company}
-          value={work.company}
+          key={`${work.company}-${work.title}`}
+          value={`${work.company}-${work.title}`}
           className="w-full border-b-0 grid gap-2"
         >
           <AccordionTrigger className="hover:no-underline p-0 cursor-pointer transition-colors rounded-none group [&>svg]:hidden">
             <div className="flex items-center gap-x-3 justify-between w-full text-left">
               <div className="flex items-center gap-x-3 flex-1 min-w-0">
-                <LogoImage src={work.logoUrl} alt={work.company} />
+                <LogoImage src={work.logoUrl || ""} alt={work.company} />
                 <div className="flex-1 min-w-0 gap-0.5 flex flex-col">
                   <div className="font-semibold leading-none flex items-center gap-2">
                     {work.company}
@@ -69,14 +81,16 @@ export default function WorkSection() {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center gap-1 text-xs tabular-nums text-muted-foreground text-right flex-none">
-                <span>
-                  {work.start} - {work.end ?? "Present"}
-                </span>
-              </div>
+              {work.start && work.start.trim() !== "" ? (
+                <div className="flex items-center gap-1 text-xs tabular-nums text-muted-foreground text-right flex-none">
+                  <span>
+                    {work.start} - {work.end ? work.end : "Sekarang"}
+                  </span>
+                </div>
+              ) : null}
             </div>
           </AccordionTrigger>
-          <AccordionContent className="p-0 ml-13 text-xs sm:text-sm text-muted-foreground">
+          <AccordionContent className="p-0 ml-13 text-xs sm:text-sm text-muted-foreground whitespace-pre-line">
             {work.description}
           </AccordionContent>
         </AccordionItem>

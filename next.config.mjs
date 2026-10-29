@@ -1,8 +1,10 @@
+import { withPayload } from "@payloadcms/next/withPayload";
 import { withContentCollections } from "@content-collections/next";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  agentRules: false,
   async headers() {
     return [
       {
@@ -14,7 +16,7 @@ const nextConfig = {
           },
           {
             key: "X-Frame-Options",
-            value: "DENY",
+            value: "SAMEORIGIN",
           },
           {
             key: "Referrer-Policy",
@@ -31,4 +33,4 @@ const nextConfig = {
 };
 
 // withContentCollections must be the outermost plugin
-export default withContentCollections(nextConfig);
+export default withContentCollections(withPayload(nextConfig));

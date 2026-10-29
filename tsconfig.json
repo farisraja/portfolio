@@ -25,6 +25,9 @@
       "@/*": [
         "./src/*"
       ],
+      "@payload-config": [
+        "./src/payload.config.ts"
+      ],
       "content-collections": [
         "./.content-collections/generated"
       ]

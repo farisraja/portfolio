@@ -6,7 +6,7 @@ import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 
 export function ModeToggle({ className }: { className?: string }) {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   return (
     <Button
@@ -14,10 +14,11 @@ export function ModeToggle({ className }: { className?: string }) {
       variant="link"
       size="icon"
       className={cn(className)}
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+      aria-label="Toggle theme"
     >
-      <SunIcon className="h-full w-full" />
-      <MoonIcon className="hidden h-full w-full" />
+      <SunIcon className="h-full w-full dark:hidden" />
+      <MoonIcon className="hidden h-full w-full dark:block" />
     </Button>
   );
 }
