@@ -43,3 +43,8 @@ next-env.d.ts
 /media
 pnpm-workspace.yaml
 content-demo-backup/
+
+# migration artifacts
+*.sql
+migration_bundle/
+*.zip
