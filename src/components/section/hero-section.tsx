@@ -32,7 +32,7 @@ export function HeroSection({
     >
       <Spotlight />
 
-      {/* ── 1. Infinite Moving Marquee Teks Outline Abu-Abu & Fill Mengikuti Background (Layer 0) ── */}
+      {/* ── 1. Infinite Moving Marquee Teks Bebas Neue Outline Abu-Abu & Fill Mengikuti Background (Layer 0) ── */}
       <div
         className="pointer-events-none absolute top-[25%] sm:top-[27%] md:top-[29%] left-0 w-full -translate-y-1/2 select-none z-0 overflow-hidden leading-none whitespace-nowrap"
         aria-hidden="true"
@@ -41,42 +41,45 @@ export function HeroSection({
           {/* Segment 1 */}
           <div className="flex items-center shrink-0">
             <span
-              className="hero-text-gray text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[145px] font-black uppercase font-sans tracking-tight pr-8 sm:pr-14"
+              className="hero-text-gray font-bebas text-[18vw] sm:text-[16vw] md:text-[14vw] lg:text-[165px] font-normal uppercase tracking-wide pr-8 sm:pr-14"
               style={{
+                fontFamily: "var(--font-bebas), sans-serif",
                 color: "var(--background)",
                 WebkitTextFillColor: "var(--background)",
-                WebkitTextStroke: "1.6px var(--hero-outline, rgba(15, 23, 42, 0.16))",
+                WebkitTextStroke: "1.8px var(--hero-outline, rgba(15, 23, 42, 0.16))",
               }}
             >
               FARIS RAJA ARDANA
             </span>
-            <span className="text-[4vw] sm:text-[3vw] font-bold text-muted-foreground/35 pr-8 sm:pr-14">
+            <span className="text-[3vw] sm:text-[2.2vw] font-bold text-muted-foreground/35 pr-8 sm:pr-14">
               ✦
             </span>
             <span
-              className="hero-text-gray text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[145px] font-black uppercase font-sans tracking-tight pr-8 sm:pr-14"
+              className="hero-text-gray font-bebas text-[18vw] sm:text-[16vw] md:text-[14vw] lg:text-[165px] font-normal uppercase tracking-wide pr-8 sm:pr-14"
               style={{
+                fontFamily: "var(--font-bebas), sans-serif",
                 color: "var(--background)",
                 WebkitTextFillColor: "var(--background)",
-                WebkitTextStroke: "1.6px var(--hero-outline, rgba(15, 23, 42, 0.16))",
+                WebkitTextStroke: "1.8px var(--hero-outline, rgba(15, 23, 42, 0.16))",
               }}
             >
               SOFTWARE DEVELOPER
             </span>
-            <span className="text-[4vw] sm:text-[3vw] font-bold text-muted-foreground/35 pr-8 sm:pr-14">
+            <span className="text-[3vw] sm:text-[2.2vw] font-bold text-muted-foreground/35 pr-8 sm:pr-14">
               ✦
             </span>
             <span
-              className="hero-text-gray text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[145px] font-black uppercase font-sans tracking-tight pr-8 sm:pr-14"
+              className="hero-text-gray font-bebas text-[18vw] sm:text-[16vw] md:text-[14vw] lg:text-[165px] font-normal uppercase tracking-wide pr-8 sm:pr-14"
               style={{
+                fontFamily: "var(--font-bebas), sans-serif",
                 color: "var(--background)",
                 WebkitTextFillColor: "var(--background)",
-                WebkitTextStroke: "1.6px var(--hero-outline, rgba(15, 23, 42, 0.16))",
+                WebkitTextStroke: "1.8px var(--hero-outline, rgba(15, 23, 42, 0.16))",
               }}
             >
               FULL STACK BUILDER
             </span>
-            <span className="text-[4vw] sm:text-[3vw] font-bold text-muted-foreground/35 pr-8 sm:pr-14">
+            <span className="text-[3vw] sm:text-[2.2vw] font-bold text-muted-foreground/35 pr-8 sm:pr-14">
               ✦
             </span>
           </div>
@@ -84,42 +87,45 @@ export function HeroSection({
           {/* Segment 2 (Duplikasi identik untuk infinite loop mulus tanpa jeda) */}
           <div className="flex items-center shrink-0">
             <span
-              className="hero-text-gray text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[145px] font-black uppercase font-sans tracking-tight pr-8 sm:pr-14"
+              className="hero-text-gray font-bebas text-[18vw] sm:text-[16vw] md:text-[14vw] lg:text-[165px] font-normal uppercase tracking-wide pr-8 sm:pr-14"
               style={{
+                fontFamily: "var(--font-bebas), sans-serif",
                 color: "var(--background)",
                 WebkitTextFillColor: "var(--background)",
-                WebkitTextStroke: "1.6px var(--hero-outline, rgba(15, 23, 42, 0.16))",
+                WebkitTextStroke: "1.8px var(--hero-outline, rgba(15, 23, 42, 0.16))",
               }}
             >
               FARIS RAJA ARDANA
             </span>
-            <span className="text-[4vw] sm:text-[3vw] font-bold text-muted-foreground/35 pr-8 sm:pr-14">
+            <span className="text-[3vw] sm:text-[2.2vw] font-bold text-muted-foreground/35 pr-8 sm:pr-14">
               ✦
             </span>
             <span
-              className="hero-text-gray text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[145px] font-black uppercase font-sans tracking-tight pr-8 sm:pr-14"
+              className="hero-text-gray font-bebas text-[18vw] sm:text-[16vw] md:text-[14vw] lg:text-[165px] font-normal uppercase tracking-wide pr-8 sm:pr-14"
               style={{
+                fontFamily: "var(--font-bebas), sans-serif",
                 color: "var(--background)",
                 WebkitTextFillColor: "var(--background)",
-                WebkitTextStroke: "1.6px var(--hero-outline, rgba(15, 23, 42, 0.16))",
+                WebkitTextStroke: "1.8px var(--hero-outline, rgba(15, 23, 42, 0.16))",
               }}
             >
               SOFTWARE DEVELOPER
             </span>
-            <span className="text-[4vw] sm:text-[3vw] font-bold text-muted-foreground/35 pr-8 sm:pr-14">
+            <span className="text-[3vw] sm:text-[2.2vw] font-bold text-muted-foreground/35 pr-8 sm:pr-14">
               ✦
             </span>
             <span
-              className="hero-text-gray text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[145px] font-black uppercase font-sans tracking-tight pr-8 sm:pr-14"
+              className="hero-text-gray font-bebas text-[18vw] sm:text-[16vw] md:text-[14vw] lg:text-[165px] font-normal uppercase tracking-wide pr-8 sm:pr-14"
               style={{
+                fontFamily: "var(--font-bebas), sans-serif",
                 color: "var(--background)",
                 WebkitTextFillColor: "var(--background)",
-                WebkitTextStroke: "1.6px var(--hero-outline, rgba(15, 23, 42, 0.16))",
+                WebkitTextStroke: "1.8px var(--hero-outline, rgba(15, 23, 42, 0.16))",
               }}
             >
               FULL STACK BUILDER
             </span>
-            <span className="text-[4vw] sm:text-[3vw] font-bold text-muted-foreground/35 pr-8 sm:pr-14">
+            <span className="text-[3vw] sm:text-[2.2vw] font-bold text-muted-foreground/35 pr-8 sm:pr-14">
               ✦
             </span>
           </div>

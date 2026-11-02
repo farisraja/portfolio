@@ -4,7 +4,7 @@ import { TopographicBackground } from "@/components/ui/topographic-background";
 import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Bebas_Neue, Geist, Geist_Mono } from "next/font/google";
 import "@/app/globals.css";
 
 const geist = Geist({
@@ -15,8 +15,14 @@ const geist = Geist({
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-mono",
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const bebasNeue = Bebas_Neue({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-bebas",
 });
 
 import { getPortfolioData } from "@/lib/payload-data";
@@ -75,7 +81,8 @@ export default async function RootLayout({
         className={cn(
           "min-h-screen bg-background font-sans antialiased relative",
           geist.variable,
-          geistMono.variable
+          geistMono.variable,
+          bebasNeue.variable
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="light">

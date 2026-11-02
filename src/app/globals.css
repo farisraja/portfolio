@@ -429,22 +429,27 @@
   animation-play-state: paused;
 }
 
+.font-bebas {
+  font-family: var(--font-bebas), sans-serif;
+}
+
 /* Clean, soft gray outline text with fill matching background (white in light mode) */
 .hero-text-gray {
+  font-family: var(--font-bebas), sans-serif;
   color: var(--background) !important;
   -webkit-text-fill-color: var(--background) !important;
-  -webkit-text-stroke: 1.6px rgba(15, 23, 42, 0.16) !important;
+  -webkit-text-stroke: 1.8px var(--hero-outline, rgba(15, 23, 42, 0.16)) !important;
   user-select: none;
-  letter-spacing: -0.03em;
-  line-height: 1;
+  letter-spacing: 0.04em;
+  line-height: 0.95;
 }
 
 .dark .hero-text-gray {
-  -webkit-text-stroke: 1.6px rgba(255, 255, 255, 0.18) !important;
+  -webkit-text-stroke: 1.8px var(--hero-outline, rgba(255, 255, 255, 0.18)) !important;
 }
 
 @media (min-width: 1024px) {
   .hero-text-gray {
-    -webkit-text-stroke-width: 2px !important;
+    -webkit-text-stroke-width: 2.2px !important;
   }
 }
