@@ -112,3 +112,4 @@ NEXT_PUBLIC_SERVER_URL=http://localhost:3002
 - [ ] Bagian **Keahlian (Skills)** menampilkan seluruh 19 logo teknologi SVG lengkap.
 - [ ] Bagian **Lisensi & Sertifikasi** menampilkan foto sertifikat dan modal lightbox saat diklik.
 - [ ] Dashboard Admin [http://localhost:3002/admin](http://localhost:3002/admin) dapat diakses dengan akun admin Anda.
+

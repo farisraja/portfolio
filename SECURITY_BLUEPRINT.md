@@ -90,3 +90,4 @@ Mencegah serangan umum berbasis web seperti Clickjacking, XSS (Cross-Site Script
 2. **Bot Fight Mode:** Menghentikan bot scraper yang mencoba mencuri konten teks atau menyedot resource.
 3. **DDoS Protection:** Menahan lonjakan request berbahaya secara real-time.
 4. **Cloudflare Zero Trust / Access:** Membatasi akses ke dashboard `/admin` hanya untuk email pribadi Anda dengan kode OTP sekali pakai.
+
