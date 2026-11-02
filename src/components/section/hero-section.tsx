@@ -5,7 +5,6 @@ import BlurFade from "@/components/magicui/blur-fade";
 import { TypingEffect } from "@/components/magicui/typing-effect";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { Spotlight } from "@/components/ui/spotlight";
-import { motion } from "motion/react";
 
 interface HeroSectionProps {
   name?: string | null;
@@ -29,90 +28,123 @@ export function HeroSection({
   return (
     <section
       id="hero"
-      className="relative w-full overflow-hidden pt-6 pb-14 sm:pt-10 sm:pb-20 md:pt-12 md:pb-24 flex flex-col items-center justify-center min-h-[84vh] lg:min-h-[88vh]"
+      className="relative w-full overflow-hidden pt-4 pb-20 sm:pt-8 sm:pb-24 md:pt-10 md:pb-28 flex flex-col items-center justify-center min-h-[85vh]"
     >
       <Spotlight />
 
-      {/* ── 1. Infinite Moving Marquee Berwarna Soft di Belakang Foto (Layer 0 ala Video Referensi) ── */}
+      {/* ── 1. Infinite Moving Marquee Teks Outline Berwarna Soft di Belakang Foto (Layer 0) ── */}
       <div
-        className="pointer-events-none absolute top-[22%] sm:top-[24%] md:top-[26%] left-0 w-full -translate-y-1/2 select-none z-0 overflow-hidden leading-none whitespace-nowrap"
+        className="pointer-events-none absolute top-[28%] sm:top-[30%] md:top-[32%] left-0 w-full -translate-y-1/2 select-none z-0 overflow-hidden leading-none whitespace-nowrap"
         aria-hidden="true"
       >
-        <motion.div
-          className="flex items-center w-max"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{
-            repeat: Infinity,
-            repeatType: "loop",
-            duration: 22,
-            ease: "linear",
-          }}
-        >
+        <div className="hero-marquee-track">
           {/* Segment 1 */}
           <div className="flex items-center shrink-0">
-            <span className="hero-moving-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+            <span
+              className="hero-text-indigo text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[150px] font-black uppercase font-sans tracking-tight pr-8 sm:pr-14"
+              style={{
+                color: "transparent",
+                WebkitTextFillColor: "transparent",
+                WebkitTextStroke: "1.8px rgba(99, 102, 241, 0.55)",
+              }}
+            >
               FARIS RAJA ARDANA
             </span>
-            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-cyan-400/80 drop-shadow-[0_0_15px_rgba(34,211,238,0.7)] pr-8 sm:pr-12">
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.7)] pr-8 sm:pr-14">
               ✦
             </span>
-            <span className="hero-moving-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+            <span
+              className="hero-text-purple text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[150px] font-black uppercase font-sans tracking-tight pr-8 sm:pr-14"
+              style={{
+                color: "transparent",
+                WebkitTextFillColor: "transparent",
+                WebkitTextStroke: "1.8px rgba(168, 85, 247, 0.55)",
+              }}
+            >
               SOFTWARE DEVELOPER
             </span>
-            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-fuchsia-400/80 drop-shadow-[0_0_15px_rgba(232,121,249,0.7)] pr-8 sm:pr-12">
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-fuchsia-400 drop-shadow-[0_0_15px_rgba(232,121,249,0.7)] pr-8 sm:pr-14">
               ✦
             </span>
-            <span className="hero-moving-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+            <span
+              className="hero-text-cyan text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[150px] font-black uppercase font-sans tracking-tight pr-8 sm:pr-14"
+              style={{
+                color: "transparent",
+                WebkitTextFillColor: "transparent",
+                WebkitTextStroke: "1.8px rgba(6, 182, 212, 0.55)",
+              }}
+            >
               FULL STACK BUILDER
             </span>
-            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-emerald-400/80 drop-shadow-[0_0_15px_rgba(52,211,153,0.7)] pr-8 sm:pr-12">
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.7)] pr-8 sm:pr-14">
               ✦
             </span>
           </div>
 
-          {/* Segment 2 (Exact Duplicate for seamless infinite loop) */}
+          {/* Segment 2 (Duplikasi identik untuk infinite marquee continuous mulus tanpa jeda) */}
           <div className="flex items-center shrink-0">
-            <span className="hero-moving-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+            <span
+              className="hero-text-indigo text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[150px] font-black uppercase font-sans tracking-tight pr-8 sm:pr-14"
+              style={{
+                color: "transparent",
+                WebkitTextFillColor: "transparent",
+                WebkitTextStroke: "1.8px rgba(99, 102, 241, 0.55)",
+              }}
+            >
               FARIS RAJA ARDANA
             </span>
-            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-cyan-400/80 drop-shadow-[0_0_15px_rgba(34,211,238,0.7)] pr-8 sm:pr-12">
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.7)] pr-8 sm:pr-14">
               ✦
             </span>
-            <span className="hero-moving-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+            <span
+              className="hero-text-purple text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[150px] font-black uppercase font-sans tracking-tight pr-8 sm:pr-14"
+              style={{
+                color: "transparent",
+                WebkitTextFillColor: "transparent",
+                WebkitTextStroke: "1.8px rgba(168, 85, 247, 0.55)",
+              }}
+            >
               SOFTWARE DEVELOPER
             </span>
-            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-fuchsia-400/80 drop-shadow-[0_0_15px_rgba(232,121,249,0.7)] pr-8 sm:pr-12">
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-fuchsia-400 drop-shadow-[0_0_15px_rgba(232,121,249,0.7)] pr-8 sm:pr-14">
               ✦
             </span>
-            <span className="hero-moving-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+            <span
+              className="hero-text-cyan text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[150px] font-black uppercase font-sans tracking-tight pr-8 sm:pr-14"
+              style={{
+                color: "transparent",
+                WebkitTextFillColor: "transparent",
+                WebkitTextStroke: "1.8px rgba(6, 182, 212, 0.55)",
+              }}
+            >
               FULL STACK BUILDER
             </span>
-            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-emerald-400/80 drop-shadow-[0_0_15px_rgba(52,211,153,0.7)] pr-8 sm:pr-12">
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.7)] pr-8 sm:pr-14">
               ✦
             </span>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* ── 2. Kontainer Utama: Foto Cutout & Teks Depan (Layer 10) ── */}
       <div className="relative z-10 w-full max-w-[1080px] mx-auto px-4 sm:px-6 md:px-8 flex flex-col items-center text-center">
         {/* Foto Cutout Formal Faris Raja dengan Mask Fading Bawah */}
         <BlurFade delay={BLUR_FADE_DELAY} yOffset={12}>
-          <div className="relative group mx-auto mb-4 sm:mb-6 select-none">
+          <div className="relative group mx-auto mb-3 sm:mb-5 select-none">
             {/* Ambient Aura Glow di Belakang Foto */}
             <div className="absolute inset-0 -inset-x-8 rounded-full bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-2xl sm:blur-3xl -z-10 opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
 
-            <div className="relative w-[240px] sm:w-[300px] md:w-[360px] lg:w-[410px] aspect-[4/4.8] overflow-hidden flex items-end justify-center">
+            <div className="relative w-[210px] sm:w-[260px] md:w-[310px] lg:w-[350px] aspect-[4/4.7] overflow-hidden flex items-end justify-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={displayAvatar}
                 alt={`Foto resmi ${displayName}`}
-                className="w-full h-full object-contain object-bottom filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.25)] dark:drop-shadow-[0_20px_40px_rgba(0,0,0,0.65)] transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                className="w-full h-full object-contain object-bottom filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.20)] dark:drop-shadow-[0_20px_40px_rgba(0,0,0,0.65)] transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                 style={{
                   maskImage:
-                    "linear-gradient(to bottom, black 80%, rgba(0,0,0,0.4) 93%, transparent 100%)",
+                    "linear-gradient(to bottom, black 82%, rgba(0,0,0,0.4) 94%, transparent 100%)",
                   WebkitMaskImage:
-                    "linear-gradient(to bottom, black 80%, rgba(0,0,0,0.4) 93%, transparent 100%)",
+                    "linear-gradient(to bottom, black 82%, rgba(0,0,0,0.4) 94%, transparent 100%)",
                 }}
               />
             </div>
@@ -121,7 +153,7 @@ export function HeroSection({
 
         {/* Badge Typing Effect Interaktif */}
         <BlurFade delay={BLUR_FADE_DELAY + 0.08} yOffset={10}>
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-primary/25 bg-background/80 dark:bg-card/80 backdrop-blur-md text-primary text-xs font-semibold shadow-xs mb-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-primary/25 bg-background/85 dark:bg-card/85 backdrop-blur-md text-primary text-xs font-semibold shadow-xs mb-3">
             <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
             <TypingEffect
               phrases={[
@@ -148,14 +180,14 @@ export function HeroSection({
 
         {/* Deskripsi Singkat */}
         <BlurFade delay={BLUR_FADE_DELAY + 0.20} yOffset={10}>
-          <p className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-[580px] mt-3 leading-relaxed text-pretty">
+          <p className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-[580px] mt-2.5 leading-relaxed text-pretty">
             {displayDescription}
           </p>
         </BlurFade>
 
         {/* Tombol Aksi CTA */}
         <BlurFade delay={BLUR_FADE_DELAY + 0.26} yOffset={10}>
-          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-5">
+          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-4">
             <a
               href="#projects"
               className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-all duration-200 shadow-sm hover:shadow-md group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
