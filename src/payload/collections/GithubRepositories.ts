@@ -271,16 +271,168 @@ export const GithubRepositories: CollectionConfig = {
             collection: 'projects',
             limit: 300,
             sort: 'title',
+            draft: true,
           })
           const list = projs.docs.map((p) => ({
             id: p.id,
             title: p.title,
             slug: p.slug,
+            status: (p as any)._status || 'published',
+            featured: Boolean((p as any).featured),
             githubRepoId: (p as any).githubRepoId,
           }))
           return Response.json({ projects: list })
         } catch (err: any) {
           return Response.json({ error: err.message || 'Gagal mengambil daftar proyek.' }, { status: 500 })
+        }
+      },
+    },
+    {
+      path: '/toggle-publish',
+      method: 'post',
+      handler: async (req) => {
+        if (!req.user) {
+          return Response.json(
+            { error: 'Akses ditolak: Anda harus login sebagai admin.' },
+            { status: 401 }
+          )
+        }
+        try {
+          let body: any = {}
+          if (typeof req.json === 'function') {
+            body = await req.json().catch(() => ({}))
+          } else if ((req as any).data) {
+            body = (req as any).data
+          }
+          const projectId = body.projectId
+          if (!projectId) {
+            return Response.json({ error: 'Parameter projectId diperlukan.' }, { status: 400 })
+          }
+
+          const targetProject = await req.payload.findByID({
+            collection: 'projects',
+            id: projectId,
+            draft: true,
+          })
+
+          if (!targetProject) {
+            return Response.json({ error: 'Proyek tidak ditemukan.' }, { status: 404 })
+          }
+
+          const currentStatus = (targetProject as any)._status || 'draft'
+          const newStatus = currentStatus === 'published' ? 'draft' : 'published'
+
+          await req.payload.update({
+            collection: 'projects',
+            id: projectId,
+            draft: newStatus === 'draft',
+            data: {
+              _status: newStatus,
+            },
+          })
+
+          return Response.json({
+            success: true,
+            projectId,
+            newStatus,
+            message:
+              newStatus === 'published'
+                ? `Proyek "${targetProject.title}" sekarang DITAMPILKAN di website.`
+                : `Proyek "${targetProject.title}" sekarang DISEMBUNYIKAN dari website.`,
+          })
+        } catch (err: any) {
+          return Response.json({ error: err.message || 'Gagal mengubah status publikasi proyek.' }, { status: 400 })
+        }
+      },
+    },
+    {
+      path: '/unlink',
+      method: 'post',
+      handler: async (req) => {
+        if (!req.user) {
+          return Response.json(
+            { error: 'Akses ditolak: Anda harus login sebagai admin.' },
+            { status: 401 }
+          )
+        }
+        try {
+          let body: any = {}
+          if (typeof req.json === 'function') {
+            body = await req.json().catch(() => ({}))
+          } else if ((req as any).data) {
+            body = (req as any).data
+          }
+          const repoId = Number(body.repoId)
+          if (!repoId) {
+            return Response.json({ error: 'Parameter repoId diperlukan.' }, { status: 400 })
+          }
+
+          const repoRes = await req.payload.find({
+            collection: 'github-repositories',
+            where: { repoId: { equals: repoId } },
+            limit: 1,
+          })
+
+          if (repoRes.docs.length === 0) {
+            return Response.json({ error: 'Repository tidak ditemukan.' }, { status: 404 })
+          }
+
+          const repoDoc = repoRes.docs[0]
+          await req.payload.update({
+            collection: 'github-repositories',
+            id: repoDoc.id,
+            data: { project: null },
+          })
+
+          return Response.json({
+            success: true,
+            message: `Hubungan repository "${repoDoc.name}" dengan proyek telah dilepas.`,
+          })
+        } catch (err: any) {
+          return Response.json({ error: err.message || 'Gagal melepas hubungan repository.' }, { status: 400 })
+        }
+      },
+    },
+    {
+      path: '/import-publish',
+      method: 'post',
+      handler: async (req) => {
+        if (!req.user) {
+          return Response.json(
+            { error: 'Akses ditolak: Anda harus login sebagai admin.' },
+            { status: 401 }
+          )
+        }
+        try {
+          let body: any = {}
+          if (typeof req.json === 'function') {
+            body = await req.json().catch(() => ({}))
+          } else if ((req as any).data) {
+            body = (req as any).data
+          }
+          const repoId = Number(body.repoId)
+          if (!repoId) {
+            return Response.json({ error: 'Parameter repoId diperlukan.' }, { status: 400 })
+          }
+
+          const result = await executeImportAsDraft(req.payload, req.user, repoId)
+          if (result.projectId) {
+            await req.payload.update({
+              collection: 'projects',
+              id: result.projectId,
+              draft: false,
+              data: {
+                _status: 'published',
+              },
+            })
+          }
+
+          return Response.json({
+            ...result,
+            message: `Berhasil mengimpor repository dan LANGSUNG DITAMPILKAN di website.`,
+          })
+        } catch (err: any) {
+          return Response.json({ error: err.message || 'Gagal mengimpor repository.' }, { status: 400 })
         }
       },
     },
