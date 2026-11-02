@@ -3,7 +3,7 @@
 import React from "react";
 import BlurFade from "@/components/magicui/blur-fade";
 import { TypingEffect } from "@/components/magicui/typing-effect";
-import { ArrowDown, ArrowUpRight, ChevronDown } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { Spotlight } from "@/components/ui/spotlight";
 
 interface HeroSectionProps {
@@ -24,8 +24,6 @@ export function HeroSection({
     description ||
     "Saya membangun website dan aplikasi modern dengan performa tinggi dan arsitektur teruji.";
   const displayAvatar = avatarUrl || "/faris-cutout.png";
-  // Ambil nama pendek untuk teks outline arsitektural di belakang
-  const outlineName = "FARIS RAJA";
 
   return (
     <section
@@ -34,21 +32,56 @@ export function HeroSection({
     >
       <Spotlight />
 
-      {/* ── 1. Teks Raksasa Arsitektural Outlined di Belakang (Layer 0) ── */}
+      {/* ── 1. Infinite Moving Outlined Marquee Text di Belakang Foto (Layer 0 ala Video Referensi) ── */}
       <div
-        className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center select-none z-0 overflow-hidden leading-none"
+        className="pointer-events-none absolute top-[23%] sm:top-[25%] md:top-[27%] left-0 w-full -translate-y-1/2 select-none z-0 overflow-hidden leading-none whitespace-nowrap"
         aria-hidden="true"
       >
-        <span
-          className="block text-[15vw] sm:text-[14vw] md:text-[13vw] font-black tracking-tighter uppercase font-sans whitespace-nowrap transition-colors duration-500"
-          style={{
-            WebkitTextStroke: "1.5px var(--hero-outline, rgba(255,255,255,0.18))",
-            color: "transparent",
-            letterSpacing: "-0.04em",
-          }}
-        >
-          {outlineName}
-        </span>
+        <div className="hero-marquee-track">
+          {/* Segment 1 */}
+          <div className="flex items-center shrink-0">
+            <span className="hero-outline-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+              FARIS RAJA ARDANA
+            </span>
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-primary/30 pr-8 sm:pr-12">
+              ✦
+            </span>
+            <span className="hero-outline-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+              SOFTWARE DEVELOPER
+            </span>
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-primary/30 pr-8 sm:pr-12">
+              ✦
+            </span>
+            <span className="hero-outline-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+              NEXT.JS SPECIALIST
+            </span>
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-primary/30 pr-8 sm:pr-12">
+              ✦
+            </span>
+          </div>
+
+          {/* Segment 2 (Exact Duplicate for seamless infinite loop) */}
+          <div className="flex items-center shrink-0">
+            <span className="hero-outline-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+              FARIS RAJA ARDANA
+            </span>
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-primary/30 pr-8 sm:pr-12">
+              ✦
+            </span>
+            <span className="hero-outline-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+              SOFTWARE DEVELOPER
+            </span>
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-primary/30 pr-8 sm:pr-12">
+              ✦
+            </span>
+            <span className="hero-outline-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+              NEXT.JS SPECIALIST
+            </span>
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-primary/30 pr-8 sm:pr-12">
+              ✦
+            </span>
+          </div>
+        </div>
       </div>
 
       {/* ── 2. Kontainer Utama: Foto Cutout & Teks Depan (Layer 10) ── */}
@@ -60,7 +93,6 @@ export function HeroSection({
             <div className="absolute inset-0 -inset-x-8 rounded-full bg-primary/10 dark:bg-primary/20 blur-2xl sm:blur-3xl -z-10 opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
 
             <div className="relative w-[240px] sm:w-[300px] md:w-[360px] lg:w-[410px] aspect-[4/4.8] overflow-hidden flex items-end justify-center">
-              {/* eslint-disable-next-js-image */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={displayAvatar}

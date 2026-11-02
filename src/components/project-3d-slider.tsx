@@ -405,3 +405,4 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
     </div>
   );
 }
+
