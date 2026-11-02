@@ -40,7 +40,6 @@ next-env.d.ts
 .content-collections
 
 # uploads & pnpm
-/media
 pnpm-workspace.yaml
 content-demo-backup/
 
