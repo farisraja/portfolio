@@ -82,6 +82,11 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Topographic Contour Lines - Light Theme */
+  --topo-line: rgba(15, 23, 42, 0.05);
+  --topo-line-mid: rgba(15, 23, 42, 0.12);
+  --topo-line-bright: rgba(15, 23, 42, 0.08);
 }
 
 .dark {
@@ -116,6 +121,11 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Topographic Contour Lines - Dark Theme */
+  --topo-line: rgba(255, 255, 255, 0.05);
+  --topo-line-mid: rgba(255, 255, 255, 0.16);
+  --topo-line-bright: rgba(255, 255, 255, 0.10);
 }
 
 @layer base {
@@ -355,4 +365,42 @@
 @keyframes typing-blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
+}
+
+/* ========================================================
+   Animation: Topographic Contour Waves
+   ======================================================== */
+@keyframes topo-wave-float {
+  0%, 100% {
+    transform: translateY(0px) scaleY(1);
+  }
+  50% {
+    transform: translateY(-8px) scaleY(1.02);
+  }
+}
+
+@keyframes topo-wave-drift {
+  0%, 100% {
+    transform: translateY(0px) scaleY(1);
+  }
+  50% {
+    transform: translateY(8px) scaleY(0.98);
+  }
+}
+
+.topo-wave-slow {
+  animation: topo-wave-float 18s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.topo-wave-reverse {
+  animation: topo-wave-drift 22s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topo-wave-slow,
+  .topo-wave-reverse {
+    animation: none !important;
+  }
 }

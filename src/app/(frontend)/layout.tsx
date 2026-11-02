@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { TopographicBackground } from "@/components/ui/topographic-background";
 import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
@@ -79,6 +80,7 @@ export default async function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="light">
           <TooltipProvider delayDuration={0}>
+            <TopographicBackground />
             {children}
           </TooltipProvider>
         </ThemeProvider>
