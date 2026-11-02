@@ -7,6 +7,7 @@ interface ProjectOption {
   title: string;
   slug: string;
   status?: "published" | "draft";
+  active?: boolean;
   featured?: boolean;
   githubRepoId?: number;
 }
@@ -32,12 +33,17 @@ interface RepoData {
 }
 
 export function GitHubSyncControls() {
-  const [activeTab, setActiveTab] = useState<"github" | "projects">("github");
+  const [activeTab, setActiveTab] = useState<"projects" | "github">("projects");
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<{ type: "success" | "error" | "info"; text: string } | null>(null);
   const [repos, setRepos] = useState<RepoData[]>([]);
   const [projects, setProjects] = useState<ProjectOption[]>([]);
   const [isLoadingRepos, setIsLoadingRepos] = useState(false);
+
+  // Visibility state & Batch Save
+  const [visibilityMap, setVisibilityMap] = useState<Record<string | number, boolean>>({});
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [isSavingVisibility, setIsSavingVisibility] = useState(false);
 
   // Filters & Search
   const [searchQuery, setSearchQuery] = useState("");
@@ -69,6 +75,14 @@ export function GitHubSyncControls() {
         const projJson = await projRes.json();
         if (projJson?.projects) {
           setProjects(projJson.projects);
+
+          // Inisialisasi visibility map dari status database
+          const initMap: Record<string | number, boolean> = {};
+          projJson.projects.forEach((p: ProjectOption) => {
+            initMap[p.id] = p.status === "published" && p.active !== false;
+          });
+          setVisibilityMap(initMap);
+          setHasUnsavedChanges(false);
         }
       }
     } catch (err: any) {
@@ -82,6 +96,86 @@ export function GitHubSyncControls() {
     loadData();
   }, []);
 
+  // Ubah status centang visibilitas proyek
+  const handleToggleCheckbox = (projectId: string | number) => {
+    setVisibilityMap((prev) => {
+      const nextVal = !prev[projectId];
+      const updated = { ...prev, [projectId]: nextVal };
+      setHasUnsavedChanges(true);
+      return updated;
+    });
+  };
+
+  // Pilih Semua Tampil
+  const handleSelectAllVisible = () => {
+    const updated: Record<string | number, boolean> = {};
+    projects.forEach((p) => {
+      updated[p.id] = true;
+    });
+    setVisibilityMap(updated);
+    setHasUnsavedChanges(true);
+  };
+
+  // Sembunyikan Semua
+  const handleSelectAllHidden = () => {
+    const updated: Record<string | number, boolean> = {};
+    projects.forEach((p) => {
+      updated[p.id] = false;
+    });
+    setVisibilityMap(updated);
+    setHasUnsavedChanges(true);
+  };
+
+  // BATALKAN perubahan (kembalikan ke database awal)
+  const handleResetChanges = () => {
+    const resetMap: Record<string | number, boolean> = {};
+    projects.forEach((p) => {
+      resetMap[p.id] = p.status === "published" && p.active !== false;
+    });
+    setVisibilityMap(resetMap);
+    setHasUnsavedChanges(false);
+  };
+
+  // SIMPAN PERUBAHAN VISIBILITAS KE DATABASE (Batch Save)
+  const handleSaveVisibility = async () => {
+    setIsSavingVisibility(true);
+    setSyncMessage(null);
+
+    try {
+      const updates = projects.map((p) => ({
+        projectId: p.id,
+        isVisible: Boolean(visibilityMap[p.id]),
+      }));
+
+      const res = await fetch("/api/github-repositories/save-visibility", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ updates }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Gagal menyimpan perubahan visibilitas.");
+      }
+
+      setSyncMessage({
+        type: "success",
+        text: `✓ ${data.message}`,
+      });
+
+      setHasUnsavedChanges(false);
+      await loadData();
+    } catch (err: any) {
+      setSyncMessage({
+        type: "error",
+        text: `Gagal menyimpan: ${err.message}`,
+      });
+    } finally {
+      setIsSavingVisibility(false);
+    }
+  };
+
+  // Sinkronkan data dari REST API GitHub
   const handleSync = async () => {
     setIsSyncing(true);
     setSyncMessage({ type: "info", text: "Menghubungi GitHub API dan menyinkronkan repository..." });
@@ -144,39 +238,6 @@ export function GitHubSyncControls() {
       });
     } finally {
       setIsImportingAll(false);
-    }
-  };
-
-  // Toggle Visibility: Tampilkan atau Sembunyikan Proyek
-  const handleTogglePublish = async (projectId: string | number) => {
-    setActionLoadingId(`toggle-${projectId}`);
-    setSyncMessage(null);
-
-    try {
-      const res = await fetch("/api/github-repositories/toggle-publish", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ projectId }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "Gagal mengubah status publikasi.");
-      }
-
-      setSyncMessage({
-        type: "success",
-        text: data.message,
-      });
-
-      await loadData();
-    } catch (err: any) {
-      setSyncMessage({
-        type: "error",
-        text: `Gagal mengubah status: ${err.message}`,
-      });
-    } finally {
-      setActionLoadingId(null);
     }
   };
 
@@ -248,7 +309,7 @@ export function GitHubSyncControls() {
 
   // Lepas Hubungan Repository dengan Proyek
   const handleUnlink = async (repoId: number) => {
-    if (!confirm("Apakah Anda yakin ingin melepas hubungan repository ini dengan proyek? Proyek tidak akan terhapus, hanya tidak terhubung lagi.")) {
+    if (!confirm("Apakah Anda yakin ingin melepas hubungan repository ini dengan proyek? Proyek tidak akan terhapus.")) {
       return;
     }
 
@@ -321,17 +382,21 @@ export function GitHubSyncControls() {
     }
   };
 
-  // Filter repositories
+  // Hitung status saat ini dari visibilityMap
+  const currentVisibleCount = Object.values(visibilityMap).filter(Boolean).length;
+  const currentHiddenCount = projects.length - currentVisibleCount;
+
+  // Filter repositories untuk Tab 2
   const filteredRepos = repos.filter((r) => {
     if (hideForks && r.isFork) return false;
     if (hideArchived && r.isArchived) return false;
 
     const connectedProjectId = r.project && typeof r.project === "object" ? r.project.id : r.project;
     const connectedProject = projects.find((p) => String(p.id) === String(connectedProjectId));
-    const isPublished = connectedProject?.status === "published";
+    const isVisible = connectedProject ? Boolean(visibilityMap[connectedProject.id]) : false;
 
-    if (statusFilter === "published" && (!connectedProject || !isPublished)) return false;
-    if (statusFilter === "draft" && (!connectedProject || isPublished)) return false;
+    if (statusFilter === "published" && (!connectedProject || !isVisible)) return false;
+    if (statusFilter === "draft" && (!connectedProject || isVisible)) return false;
     if (statusFilter === "unlinked" && connectedProject) return false;
 
     if (searchQuery.trim()) {
@@ -346,10 +411,6 @@ export function GitHubSyncControls() {
     return true;
   });
 
-  // Hitung Statistik
-  const totalPublishedProjects = projects.filter((p) => p.status === "published").length;
-  const totalDraftProjects = projects.filter((p) => p.status !== "published").length;
-
   return (
     <div
       style={{
@@ -361,7 +422,7 @@ export function GitHubSyncControls() {
         boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
       }}
     >
-      {/* Top Banner */}
+      {/* Top Banner Header */}
       <div
         style={{
           display: "flex",
@@ -385,7 +446,7 @@ export function GitHubSyncControls() {
               gap: "8px",
             }}
           >
-            <span>Kelola Tampilan & Sinkronisasi Proyek</span>
+            <span>Pilihan Proyek yang Ditampilkan di Website</span>
             <span
               style={{
                 fontSize: "0.75rem",
@@ -400,58 +461,64 @@ export function GitHubSyncControls() {
             </span>
           </h2>
           <p style={{ margin: "4px 0 0 0", fontSize: "0.875rem", color: "var(--theme-elevation-500, #64748b)" }}>
-            Tentukan proyek apa saja yang ingin <strong>DITAMPILKAN</strong> atau <strong>DISEMBUNYIKAN</strong> dari website secara instan.
+            Centang proyek yang ingin <strong>DITAMPILKAN</strong> di website, lalu klik tombol <strong>&quot;Simpan Perubahan Tampilan&quot;</strong>.
           </p>
         </div>
 
         <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+          {/* Tombol Simpan Utama */}
           <button
             type="button"
-            onClick={handleSync}
-            disabled={isSyncing || isImportingAll}
+            onClick={handleSaveVisibility}
+            disabled={isSavingVisibility}
             style={{
-              padding: "9px 16px",
-              backgroundColor: isSyncing ? "#94a3b8" : "#0f172a",
+              padding: "10px 20px",
+              backgroundColor: hasUnsavedChanges ? "#16a34a" : "#2563eb",
               color: "#ffffff",
               border: "none",
               borderRadius: "8px",
-              fontWeight: 600,
+              fontWeight: 700,
               fontSize: "0.875rem",
-              cursor: isSyncing || isImportingAll ? "not-allowed" : "pointer",
+              cursor: isSavingVisibility ? "not-allowed" : "pointer",
               display: "flex",
               alignItems: "center",
               gap: "8px",
-              transition: "background-color 0.2s",
+              boxShadow: hasUnsavedChanges ? "0 0 0 3px rgba(34, 197, 94, 0.3)" : "none",
+              transition: "all 0.2s",
             }}
           >
-            {isSyncing ? "Menyinkronkan..." : "🔄 Sinkronkan GitHub"}
+            <span>{isSavingVisibility ? "Menyimpan ke Database..." : "💾 Simpan Perubahan Tampilan"}</span>
+            {hasUnsavedChanges && (
+              <span style={{ fontSize: "0.7rem", padding: "1px 6px", borderRadius: "999px", background: "#ffffff", color: "#16a34a", fontWeight: 800 }}>
+                Ada Perubahan
+              </span>
+            )}
           </button>
 
-          <button
-            type="button"
-            onClick={handleImportAllDrafts}
-            disabled={isSyncing || isImportingAll}
+          <a
+            href="http://localhost:3002#projects"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
-              padding: "9px 16px",
-              backgroundColor: isImportingAll ? "#94a3b8" : "#2563eb",
-              color: "#ffffff",
+              padding: "9px 14px",
+              backgroundColor: "var(--theme-elevation-200, #e2e8f0)",
+              color: "inherit",
               border: "none",
               borderRadius: "8px",
               fontWeight: 600,
               fontSize: "0.875rem",
-              cursor: isSyncing || isImportingAll ? "not-allowed" : "pointer",
+              textDecoration: "none",
               display: "flex",
               alignItems: "center",
-              gap: "8px",
-              transition: "background-color 0.2s",
+              gap: "6px",
             }}
           >
-            {isImportingAll ? "Mengimpor..." : "➕ Impor Semua Repository"}
-          </button>
+            <span>🌐 Buka Website ↗</span>
+          </a>
         </div>
       </div>
 
-      {/* Sync Message Alert */}
+      {/* Sync / Success Message Alert */}
       {syncMessage && (
         <div
           style={{
@@ -485,8 +552,97 @@ export function GitHubSyncControls() {
         </div>
       )}
 
-      {/* Tab Navigasi: Repository GitHub vs Semua Proyek */}
+      {/* Peringatan jika ada perubahan yang belum disimpan */}
+      {hasUnsavedChanges && (
+        <div
+          style={{
+            padding: "12px 16px",
+            marginBottom: "16px",
+            borderRadius: "8px",
+            fontSize: "0.875rem",
+            fontWeight: 600,
+            backgroundColor: "#fffbeb",
+            color: "#92400e",
+            border: "1px solid #fde68a",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "10px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <span>⚠️</span>
+            <span>Anda memiliki perubahan pilihan proyek yang belum disimpan.</span>
+          </div>
+
+          <div style={{ display: "flex", gap: "8px" }}>
+            <button
+              type="button"
+              onClick={handleResetChanges}
+              style={{
+                padding: "6px 12px",
+                borderRadius: "6px",
+                border: "1px solid #cbd5e1",
+                background: "#ffffff",
+                color: "#475569",
+                fontSize: "0.75rem",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Batalkan
+            </button>
+            <button
+              type="button"
+              onClick={handleSaveVisibility}
+              disabled={isSavingVisibility}
+              style={{
+                padding: "6px 14px",
+                borderRadius: "6px",
+                border: "none",
+                background: "#16a34a",
+                color: "#ffffff",
+                fontSize: "0.75rem",
+                fontWeight: 700,
+                cursor: "pointer",
+              }}
+            >
+              {isSavingVisibility ? "Menyimpan..." : "💾 Simpan Sekarang"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Tab Navigasi Utama */}
       <div style={{ display: "flex", gap: "8px", marginBottom: "16px" }}>
+        <button
+          type="button"
+          onClick={() => setActiveTab("projects")}
+          style={{
+            padding: "8px 16px",
+            borderRadius: "8px",
+            fontWeight: 600,
+            fontSize: "0.875rem",
+            border: "1px solid",
+            borderColor: activeTab === "projects" ? "#2563eb" : "var(--theme-elevation-200, #cbd5e1)",
+            backgroundColor: activeTab === "projects" ? "#2563eb" : "var(--theme-elevation-100, #ffffff)",
+            color: activeTab === "projects" ? "#ffffff" : "inherit",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+          }}
+        >
+          <span>📋 Pilihan Tampilan Proyek ({projects.length})</span>
+          <span style={{ fontSize: "0.75rem", padding: "1px 6px", borderRadius: "999px", background: "#10b981", color: "#ffffff" }}>
+            {currentVisibleCount} Tampil
+          </span>
+          <span style={{ fontSize: "0.75rem", padding: "1px 6px", borderRadius: "999px", background: "#6b7280", color: "#ffffff" }}>
+            {currentHiddenCount} Sembunyi
+          </span>
+        </button>
+
         <button
           type="button"
           onClick={() => setActiveTab("github")}
@@ -505,38 +661,273 @@ export function GitHubSyncControls() {
             gap: "6px",
           }}
         >
-          <span>Repository GitHub ({repos.length})</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab("projects")}
-          style={{
-            padding: "8px 16px",
-            borderRadius: "8px",
-            fontWeight: 600,
-            fontSize: "0.875rem",
-            border: "1px solid",
-            borderColor: activeTab === "projects" ? "#2563eb" : "var(--theme-elevation-200, #cbd5e1)",
-            backgroundColor: activeTab === "projects" ? "#2563eb" : "var(--theme-elevation-100, #ffffff)",
-            color: activeTab === "projects" ? "#ffffff" : "inherit",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-          }}
-        >
-          <span>Daftar Semua Proyek ({projects.length})</span>
-          <span style={{ fontSize: "0.75rem", padding: "1px 6px", borderRadius: "999px", background: "#10b981", color: "#ffffff" }}>
-            {totalPublishedProjects} Tampil
-          </span>
-          <span style={{ fontSize: "0.75rem", padding: "1px 6px", borderRadius: "999px", background: "#6b7280", color: "#ffffff" }}>
-            {totalDraftProjects} Draf
-          </span>
+          <span>🐙 Hubungkan Repository GitHub ({repos.length})</span>
         </button>
       </div>
 
-      {/* TAB 1: REPOSITORY GITHUB */}
+      {/* TAB 1: PILIHAN TAMPILAN PROYEK (DENGAN CHECKBOX & TOMBOL SIMPAN) */}
+      {activeTab === "projects" && (
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+          {/* Quick Toolbar */}
+          <div
+            style={{
+              padding: "12px 16px",
+              background: "var(--theme-elevation-100, #ffffff)",
+              border: "1px solid var(--theme-elevation-150, #e2e8f0)",
+              borderRadius: "8px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "12px",
+            }}
+          >
+            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+              <button
+                type="button"
+                onClick={handleSelectAllVisible}
+                style={{
+                  padding: "5px 10px",
+                  borderRadius: "6px",
+                  border: "1px solid var(--theme-elevation-200, #cbd5e1)",
+                  background: "var(--theme-elevation-50, #f8fafc)",
+                  color: "inherit",
+                  fontSize: "0.75rem",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                Pilih Semua Tampil
+              </button>
+
+              <button
+                type="button"
+                onClick={handleSelectAllHidden}
+                style={{
+                  padding: "5px 10px",
+                  borderRadius: "6px",
+                  border: "1px solid var(--theme-elevation-200, #cbd5e1)",
+                  background: "var(--theme-elevation-50, #f8fafc)",
+                  color: "inherit",
+                  fontSize: "0.75rem",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                Sembunyikan Semua
+              </button>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <span style={{ fontSize: "0.8125rem", color: "var(--theme-elevation-600, #475569)" }}>
+                Total: <strong>{currentVisibleCount}</strong> proyek dipilih untuk tampil di website.
+              </span>
+
+              <button
+                type="button"
+                onClick={handleSaveVisibility}
+                disabled={isSavingVisibility}
+                style={{
+                  padding: "6px 14px",
+                  backgroundColor: hasUnsavedChanges ? "#16a34a" : "#2563eb",
+                  color: "#ffffff",
+                  border: "none",
+                  borderRadius: "6px",
+                  fontWeight: 700,
+                  fontSize: "0.8125rem",
+                  cursor: isSavingVisibility ? "not-allowed" : "pointer",
+                }}
+              >
+                {isSavingVisibility ? "Menyimpan..." : "💾 Simpan Pilihan"}
+              </button>
+            </div>
+          </div>
+
+          {/* Project Items List with Checkboxes */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxHeight: "650px", overflowY: "auto" }}>
+            {projects.map((proj) => {
+              const isChecked = Boolean(visibilityMap[proj.id]);
+
+              return (
+                <div
+                  key={proj.id}
+                  onClick={() => handleToggleCheckbox(proj.id)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "14px 18px",
+                    background: isChecked ? "#f0fdf4" : "var(--theme-elevation-100, #ffffff)",
+                    border: "2px solid",
+                    borderColor: isChecked ? "#86efac" : "var(--theme-elevation-150, #e2e8f0)",
+                    borderRadius: "10px",
+                    gap: "14px",
+                    cursor: "pointer",
+                    transition: "all 0.15s ease-in-out",
+                  }}
+                >
+                  {/* Left: Checkbox & Title */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "14px", flex: 1, minWidth: 0 }}>
+                    {/* Custom Large Checkbox */}
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => handleToggleCheckbox(proj.id)}
+                      onClick={(e) => e.stopPropagation()}
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        cursor: "pointer",
+                        accentColor: "#16a34a",
+                        flexShrink: 0,
+                      }}
+                    />
+
+                    <div style={{ display: "flex", flexDirection: "column", gap: "2px", minWidth: 0 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                        <span
+                          style={{
+                            fontSize: "0.75rem",
+                            fontWeight: 700,
+                            padding: "2px 8px",
+                            borderRadius: "999px",
+                            backgroundColor: isChecked ? "#dcfce7" : "#f1f5f9",
+                            color: isChecked ? "#15803d" : "#64748b",
+                            border: `1px solid ${isChecked ? "#86efac" : "#cbd5e1"}`,
+                          }}
+                        >
+                          {isChecked ? "🟢 Tampil di Web" : "⚪ Disembunyikan"}
+                        </span>
+
+                        {proj.featured && (
+                          <span
+                            style={{
+                              fontSize: "0.75rem",
+                              fontWeight: 600,
+                              padding: "2px 8px",
+                              borderRadius: "999px",
+                              backgroundColor: "#fef3c7",
+                              color: "#b45309",
+                            }}
+                          >
+                            ⭐ Unggulan
+                          </span>
+                        )}
+
+                        <strong style={{ fontSize: "0.9375rem" }}>{proj.title}</strong>
+                      </div>
+
+                      <span style={{ fontSize: "0.75rem", color: "var(--theme-elevation-400, #94a3b8)", fontFamily: "monospace" }}>
+                        URL Slug: /{proj.slug} (ID: {proj.id})
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Right: Status Label & Edit Link */}
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: "10px" }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <span
+                      style={{
+                        fontSize: "0.8125rem",
+                        fontWeight: 600,
+                        color: isChecked ? "#15803d" : "#64748b",
+                      }}
+                    >
+                      {isChecked ? "Dipilih untuk Tampil" : "Akan Disembunyikan"}
+                    </span>
+
+                    <a
+                      href={`/admin/collections/projects/${proj.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        padding: "6px 12px",
+                        fontSize: "0.75rem",
+                        background: "var(--theme-elevation-200, #e2e8f0)",
+                        borderRadius: "6px",
+                        color: "inherit",
+                        textDecoration: "none",
+                        fontWeight: 500,
+                      }}
+                    >
+                      Edit Konten ↗
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Sticky Bottom Save Bar */}
+          <div
+            style={{
+              padding: "16px 20px",
+              background: "#1e293b",
+              borderRadius: "10px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              color: "#ffffff",
+              flexWrap: "wrap",
+              gap: "12px",
+              marginTop: "8px",
+            }}
+          >
+            <div>
+              <div style={{ fontWeight: 700, fontSize: "0.9375rem" }}>
+                Siap menerapkan tampilan ke website?
+              </div>
+              <div style={{ fontSize: "0.8125rem", color: "#94a3b8" }}>
+                {currentVisibleCount} proyek akan muncul di website, {currentHiddenCount} proyek akan disembunyikan.
+              </div>
+            </div>
+
+            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <button
+                type="button"
+                onClick={handleSaveVisibility}
+                disabled={isSavingVisibility}
+                style={{
+                  padding: "10px 24px",
+                  backgroundColor: "#22c55e",
+                  color: "#ffffff",
+                  border: "none",
+                  borderRadius: "8px",
+                  fontWeight: 700,
+                  fontSize: "0.9375rem",
+                  cursor: isSavingVisibility ? "not-allowed" : "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
+              >
+                <span>{isSavingVisibility ? "Menyimpan..." : "💾 Simpan Perubahan Sekarang"}</span>
+              </button>
+
+              <a
+                href="http://localhost:3002#projects"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  padding: "10px 16px",
+                  backgroundColor: "#334155",
+                  color: "#ffffff",
+                  borderRadius: "8px",
+                  fontWeight: 600,
+                  fontSize: "0.875rem",
+                  textDecoration: "none",
+                }}
+              >
+                Lihat di Web ↗
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: REPOSITORY GITHUB */}
       {activeTab === "github" && (
         <>
           {/* Controls & Filters Bar */}
@@ -653,8 +1044,7 @@ export function GitHubSyncControls() {
                     : repo.project;
 
                 const connectedProject = projects.find((p) => String(p.id) === String(connectedProjectId));
-                const isPublished = connectedProject?.status === "published";
-                const isToggling = actionLoadingId === `toggle-${connectedProjectId}`;
+                const isChecked = connectedProject ? Boolean(visibilityMap[connectedProject.id]) : false;
                 const isUnlinking = actionLoadingId === `unlink-${repo.repoId}`;
                 const isImportingDraft = actionLoadingId === `import-draft-${repo.repoId}`;
                 const isImportingPublish = actionLoadingId === `import-publish-${repo.repoId}`;
@@ -672,9 +1062,9 @@ export function GitHubSyncControls() {
                       background: "var(--theme-elevation-100, #ffffff)",
                       border: "1px solid",
                       borderColor: connectedProject
-                        ? isPublished
+                        ? isChecked
                           ? "#86efac"
-                          : "#fed7aa"
+                          : "#cbd5e1"
                         : "var(--theme-elevation-150, #e2e8f0)",
                       borderRadius: "8px",
                     }}
@@ -773,51 +1163,31 @@ export function GitHubSyncControls() {
                     <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
                       {connectedProjectId ? (
                         <>
-                          {/* Status Badge */}
-                          <div
+                          {/* Centang Cepat */}
+                          <label
                             style={{
                               display: "inline-flex",
                               alignItems: "center",
                               gap: "6px",
-                              fontSize: "0.75rem",
-                              fontWeight: 600,
-                              padding: "4px 10px",
-                              borderRadius: "6px",
-                              border: "1px solid",
-                              backgroundColor: isPublished ? "#ecfdf5" : "#fefce8",
-                              borderColor: isPublished ? "#a7f3d0" : "#fef08a",
-                              color: isPublished ? "#065f46" : "#854d0e",
-                            }}
-                          >
-                            <span>{isPublished ? "🟢 Tampil di Web" : "⚪ Disembunyikan (Draf)"}</span>
-                          </div>
-
-                          {/* Tombol Saklar Tampilkan / Sembunyikan */}
-                          <button
-                            type="button"
-                            onClick={() => handleTogglePublish(connectedProjectId)}
-                            disabled={isToggling}
-                            style={{
-                              padding: "6px 12px",
                               fontSize: "0.8125rem",
                               fontWeight: 600,
+                              padding: "6px 12px",
                               borderRadius: "6px",
-                              border: "none",
-                              cursor: isToggling ? "not-allowed" : "pointer",
-                              backgroundColor: isPublished ? "#fee2e2" : "#10b981",
-                              color: isPublished ? "#991b1b" : "#ffffff",
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "4px",
-                              transition: "all 0.2s",
+                              border: "1px solid",
+                              backgroundColor: isChecked ? "#ecfdf5" : "#f1f5f9",
+                              borderColor: isChecked ? "#a7f3d0" : "#cbd5e1",
+                              color: isChecked ? "#065f46" : "#64748b",
+                              cursor: "pointer",
                             }}
                           >
-                            {isToggling
-                              ? "Memproses..."
-                              : isPublished
-                              ? "🚫 Sembunyikan"
-                              : "👁️ Tampilkan di Web"}
-                          </button>
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={() => handleToggleCheckbox(connectedProjectId)}
+                              style={{ width: "16px", height: "16px", accentColor: "#16a34a" }}
+                            />
+                            <span>{isChecked ? "🟢 Tampil di Web" : "⚪ Disembunyikan"}</span>
+                          </label>
 
                           {/* Link Buka Proyek */}
                           <a
@@ -951,149 +1321,6 @@ export function GitHubSyncControls() {
             </div>
           )}
         </>
-      )}
-
-      {/* TAB 2: SEMUA PROYEK PORTFOLIO */}
-      {activeTab === "projects" && (
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <div
-            style={{
-              padding: "10px 14px",
-              background: "#eff6ff",
-              border: "1px solid #bfdbfe",
-              borderRadius: "8px",
-              fontSize: "0.8125rem",
-              color: "#1e40af",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: "8px",
-            }}
-          >
-            <span>
-              💡 <strong>Tips:</strong> Klik tombol <strong>&quot;Tampilkan di Web&quot;</strong> atau <strong>&quot;Sembunyikan&quot;</strong> untuk mengatur visibilitas proyek secara langsung.
-            </span>
-            <a
-              href="/admin/collections/projects/create"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                padding: "4px 10px",
-                background: "#2563eb",
-                color: "#ffffff",
-                borderRadius: "6px",
-                textDecoration: "none",
-                fontWeight: 600,
-                fontSize: "0.75rem",
-              }}
-            >
-              + Tambah Proyek Manual
-            </a>
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxHeight: "600px", overflowY: "auto" }}>
-            {projects.map((proj) => {
-              const isPublished = proj.status === "published";
-              const isToggling = actionLoadingId === `toggle-${proj.id}`;
-
-              return (
-                <div
-                  key={proj.id}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "12px 16px",
-                    background: "var(--theme-elevation-100, #ffffff)",
-                    border: "1px solid",
-                    borderColor: isPublished ? "#86efac" : "var(--theme-elevation-150, #e2e8f0)",
-                    borderRadius: "8px",
-                    gap: "12px",
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-                    <span
-                      style={{
-                        fontSize: "0.75rem",
-                        fontWeight: 700,
-                        padding: "2px 8px",
-                        borderRadius: "999px",
-                        backgroundColor: isPublished ? "#ecfdf5" : "#f1f5f9",
-                        color: isPublished ? "#059669" : "#64748b",
-                        border: `1px solid ${isPublished ? "#a7f3d0" : "#cbd5e1"}`,
-                      }}
-                    >
-                      {isPublished ? "🟢 Tampil di Web" : "⚪ Draf (Tersembunyi)"}
-                    </span>
-
-                    {proj.featured && (
-                      <span
-                        style={{
-                          fontSize: "0.75rem",
-                          fontWeight: 600,
-                          padding: "2px 8px",
-                          borderRadius: "999px",
-                          backgroundColor: "#fef3c7",
-                          color: "#b45309",
-                        }}
-                      >
-                        ⭐ Unggulan
-                      </span>
-                    )}
-
-                    <strong style={{ fontSize: "0.9375rem" }}>{proj.title}</strong>
-                    <span style={{ fontSize: "0.75rem", color: "var(--theme-elevation-400, #94a3b8)", fontFamily: "monospace" }}>
-                      /{proj.slug}
-                    </span>
-                  </div>
-
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    <button
-                      type="button"
-                      onClick={() => handleTogglePublish(proj.id)}
-                      disabled={isToggling}
-                      style={{
-                        padding: "6px 14px",
-                        fontSize: "0.8125rem",
-                        fontWeight: 600,
-                        borderRadius: "6px",
-                        border: "none",
-                        cursor: isToggling ? "not-allowed" : "pointer",
-                        backgroundColor: isPublished ? "#fee2e2" : "#10b981",
-                        color: isPublished ? "#991b1b" : "#ffffff",
-                        transition: "all 0.2s",
-                      }}
-                    >
-                      {isToggling
-                        ? "Memproses..."
-                        : isPublished
-                        ? "🚫 Sembunyikan dari Web"
-                        : "👁️ Tampilkan di Web"}
-                    </button>
-
-                    <a
-                      href={`/admin/collections/projects/${proj.id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        padding: "6px 12px",
-                        fontSize: "0.8125rem",
-                        background: "var(--theme-elevation-200, #e2e8f0)",
-                        borderRadius: "6px",
-                        color: "inherit",
-                        textDecoration: "none",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Edit ↗
-                    </a>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
       )}
     </div>
   );

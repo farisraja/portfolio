@@ -327,7 +327,10 @@ export async function getPortfolioData(): Promise<PortfolioData> {
       payload.find({
         collection: 'projects',
         where: {
-          _status: { equals: 'published' },
+          and: [
+            { _status: { equals: 'published' } },
+            { active: { equals: true } },
+          ],
         },
         sort: 'sortOrder',
         limit: 100,

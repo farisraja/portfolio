@@ -6,7 +6,8 @@ import { DATA } from "@/data/resume";
 const BLUR_FADE_DELAY = 0.04;
 
 export default function ProjectsSection({ data }: { data?: ProjectItem[] }) {
-  const projectList = data && data.length > 0 ? data : (DATA.projects as unknown as ProjectItem[]);
+  const rawList = data && data.length > 0 ? data : (DATA.projects as unknown as ProjectItem[]);
+  const projectList = rawList.filter((p) => p.active !== false);
 
   if (projectList.length === 0) {
     return null;
