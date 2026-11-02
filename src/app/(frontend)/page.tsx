@@ -12,6 +12,7 @@ import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { Spotlight } from "@/components/ui/spotlight";
 import { getPortfolioData, formatWhatsAppUrl } from "@/lib/payload-data";
 import { getSkillIcon } from "@/lib/skill-icons";
+import { TypingEffect } from "@/components/magicui/typing-effect";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -43,8 +44,20 @@ export default async function Page() {
             <div className="flex flex-col gap-3.5 sm:gap-4 text-center md:text-left items-center md:items-start flex-1 min-w-0">
               <BlurFade delay={BLUR_FADE_DELAY} yOffset={10}>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-medium w-fit mb-0.5">
-                  <span className="size-2 rounded-full bg-primary" />
-                  <span>Web & Software Developer</span>
+                  <span className="size-2 rounded-full bg-primary animate-pulse" />
+                  <TypingEffect
+                    phrases={[
+                      "Web & Software Developer",
+                      "Next.js Enthusiast",
+                      "Full-Stack Builder",
+                      "Backend Developer",
+                    ]}
+                    startDelay={800}
+                    typingSpeed={60}
+                    deletingSpeed={32}
+                    pauseAfterTyping={2000}
+                    pauseAfterDeleting={350}
+                  />
                 </div>
               </BlurFade>
 
@@ -196,7 +209,8 @@ export default async function Page() {
                 return (
                   <BlurFade
                     key={`${skill.name}-${id}`}
-                    delay={BLUR_FADE_DELAY * 10 + id * 0.05}
+                    delay={BLUR_FADE_DELAY * 10 + id * 0.07}
+                    inView
                   >
                     <div className="border bg-background border-border ring-2 ring-border/20 rounded-xl h-8 w-fit px-4 flex items-center gap-2">
                       {IconComp && (
