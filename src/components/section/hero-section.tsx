@@ -5,6 +5,7 @@ import BlurFade from "@/components/magicui/blur-fade";
 import { TypingEffect } from "@/components/magicui/typing-effect";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { Spotlight } from "@/components/ui/spotlight";
+import { motion } from "motion/react";
 
 interface HeroSectionProps {
   name?: string | null;
@@ -28,60 +29,69 @@ export function HeroSection({
   return (
     <section
       id="hero"
-      className="relative w-full overflow-hidden pt-6 pb-14 sm:pt-10 sm:pb-20 md:pt-12 md:pb-24 flex flex-col items-center justify-center min-h-[82vh] lg:min-h-[86vh]"
+      className="relative w-full overflow-hidden pt-6 pb-14 sm:pt-10 sm:pb-20 md:pt-12 md:pb-24 flex flex-col items-center justify-center min-h-[84vh] lg:min-h-[88vh]"
     >
       <Spotlight />
 
-      {/* ── 1. Infinite Moving Outlined Marquee Text di Belakang Foto (Layer 0 ala Video Referensi) ── */}
+      {/* ── 1. Infinite Moving Marquee Berwarna Soft di Belakang Foto (Layer 0 ala Video Referensi) ── */}
       <div
-        className="pointer-events-none absolute top-[23%] sm:top-[25%] md:top-[27%] left-0 w-full -translate-y-1/2 select-none z-0 overflow-hidden leading-none whitespace-nowrap"
+        className="pointer-events-none absolute top-[22%] sm:top-[24%] md:top-[26%] left-0 w-full -translate-y-1/2 select-none z-0 overflow-hidden leading-none whitespace-nowrap"
         aria-hidden="true"
       >
-        <div className="hero-marquee-track">
+        <motion.div
+          className="flex items-center w-max"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{
+            repeat: Infinity,
+            repeatType: "loop",
+            duration: 22,
+            ease: "linear",
+          }}
+        >
           {/* Segment 1 */}
           <div className="flex items-center shrink-0">
-            <span className="hero-outline-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+            <span className="hero-moving-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
               FARIS RAJA ARDANA
             </span>
-            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-primary/30 pr-8 sm:pr-12">
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-cyan-400/80 drop-shadow-[0_0_15px_rgba(34,211,238,0.7)] pr-8 sm:pr-12">
               ✦
             </span>
-            <span className="hero-outline-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+            <span className="hero-moving-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
               SOFTWARE DEVELOPER
             </span>
-            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-primary/30 pr-8 sm:pr-12">
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-fuchsia-400/80 drop-shadow-[0_0_15px_rgba(232,121,249,0.7)] pr-8 sm:pr-12">
               ✦
             </span>
-            <span className="hero-outline-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
-              NEXT.JS SPECIALIST
+            <span className="hero-moving-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+              FULL STACK BUILDER
             </span>
-            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-primary/30 pr-8 sm:pr-12">
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-emerald-400/80 drop-shadow-[0_0_15px_rgba(52,211,153,0.7)] pr-8 sm:pr-12">
               ✦
             </span>
           </div>
 
           {/* Segment 2 (Exact Duplicate for seamless infinite loop) */}
           <div className="flex items-center shrink-0">
-            <span className="hero-outline-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+            <span className="hero-moving-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
               FARIS RAJA ARDANA
             </span>
-            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-primary/30 pr-8 sm:pr-12">
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-cyan-400/80 drop-shadow-[0_0_15px_rgba(34,211,238,0.7)] pr-8 sm:pr-12">
               ✦
             </span>
-            <span className="hero-outline-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+            <span className="hero-moving-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
               SOFTWARE DEVELOPER
             </span>
-            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-primary/30 pr-8 sm:pr-12">
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-fuchsia-400/80 drop-shadow-[0_0_15px_rgba(232,121,249,0.7)] pr-8 sm:pr-12">
               ✦
             </span>
-            <span className="hero-outline-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
-              NEXT.JS SPECIALIST
+            <span className="hero-moving-text text-[18vw] sm:text-[15vw] md:text-[13vw] lg:text-[170px] font-black uppercase font-sans pr-8 sm:pr-12">
+              FULL STACK BUILDER
             </span>
-            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-primary/30 pr-8 sm:pr-12">
+            <span className="text-[5vw] sm:text-[3.5vw] font-bold text-emerald-400/80 drop-shadow-[0_0_15px_rgba(52,211,153,0.7)] pr-8 sm:pr-12">
               ✦
             </span>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* ── 2. Kontainer Utama: Foto Cutout & Teks Depan (Layer 10) ── */}
@@ -90,7 +100,7 @@ export function HeroSection({
         <BlurFade delay={BLUR_FADE_DELAY} yOffset={12}>
           <div className="relative group mx-auto mb-4 sm:mb-6 select-none">
             {/* Ambient Aura Glow di Belakang Foto */}
-            <div className="absolute inset-0 -inset-x-8 rounded-full bg-primary/10 dark:bg-primary/20 blur-2xl sm:blur-3xl -z-10 opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute inset-0 -inset-x-8 rounded-full bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-2xl sm:blur-3xl -z-10 opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
 
             <div className="relative w-[240px] sm:w-[300px] md:w-[360px] lg:w-[410px] aspect-[4/4.8] overflow-hidden flex items-end justify-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
