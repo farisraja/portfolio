@@ -8,6 +8,8 @@ import ProjectsSection from "@/components/section/projects-section";
 import CertificatesSection from "@/components/section/certificates-section";
 import WorkSection from "@/components/section/work-section";
 import Navbar from "@/components/navbar";
+import { TopNavbar } from "@/components/top-navbar";
+import { HeroSection } from "@/components/section/hero-section";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { Spotlight } from "@/components/ui/spotlight";
 import { getPortfolioData, formatWhatsAppUrl } from "@/lib/payload-data";
@@ -27,6 +29,8 @@ export default async function Page() {
 
   return (
     <div className="relative z-10 w-full min-h-dvh flex flex-col items-center pb-28">
+      <TopNavbar ownerName={owner} whatsappUrl={whatsappUrl} />
+
       {!data.isFromDatabase && data.dbError && (
         <div className="w-full max-w-2xl px-6 pt-4">
           <div className="bg-amber-500/10 border border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs px-3 py-2 rounded-xl text-center">
@@ -35,79 +39,12 @@ export default async function Page() {
         </div>
       )}
 
-      {/* 1. HERO DUA KOLOM (1040–1120px) DENGAN SPOTLIGHT HALUS */}
-      <section id="hero" className="relative w-full overflow-hidden pt-8 pb-10 sm:pt-14 sm:pb-16 md:pt-18 md:pb-20">
-        <Spotlight />
-        <div className="relative z-10 w-full max-w-[1080px] mx-auto px-4 sm:px-6 md:px-8">
-          <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-8 sm:gap-10 md:gap-12 lg:gap-16">
-            {/* Kolom Kiri: Teks & Tombol Aksi */}
-            <div className="flex flex-col gap-3.5 sm:gap-4 text-center md:text-left items-center md:items-start flex-1 min-w-0">
-              <BlurFade delay={BLUR_FADE_DELAY} yOffset={10}>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-medium w-fit mb-0.5">
-                  <span className="size-2 rounded-full bg-primary animate-pulse" />
-                  <TypingEffect
-                    phrases={[
-                      "Web & Software Developer",
-                      "Next.js Enthusiast",
-                      "Full-Stack Builder",
-                      "Backend Developer",
-                    ]}
-                    startDelay={800}
-                    typingSpeed={60}
-                    deletingSpeed={32}
-                    pauseAfterTyping={2000}
-                    pauseAfterDeleting={350}
-                  />
-                </div>
-              </BlurFade>
-
-              <BlurFade delay={BLUR_FADE_DELAY + 0.06} yOffset={10}>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground text-balance">
-                  {data.profile.name || "Faris Raja Ardana"}
-                </h1>
-              </BlurFade>
-
-              <BlurFade delay={BLUR_FADE_DELAY + 0.12} yOffset={10}>
-                <p className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-[560px] leading-relaxed text-pretty">
-                  {data.profile.description ||
-                    "Saya membangun website dan aplikasi yang mudah digunakan untuk kebutuhan sehari-hari."}
-                </p>
-              </BlurFade>
-
-              <BlurFade delay={BLUR_FADE_DELAY + 0.18} yOffset={10}>
-                <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2">
-                  <a
-                    href="#projects"
-                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-all duration-200 shadow-sm hover:shadow group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                  >
-                    <span>Lihat Proyek</span>
-                    <ArrowDown className="size-4 transition-transform duration-200 group-hover:translate-y-0.5" />
-                  </a>
-                  <a
-                    href="#contact"
-                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-border bg-card/60 backdrop-blur-xs text-foreground text-sm font-medium hover:bg-muted hover:border-border/80 transition-all duration-200 shadow-2xs group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                  >
-                    <span>Hubungi Saya</span>
-                    <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </a>
-                </div>
-              </BlurFade>
-            </div>
-
-            {/* Kolom Kanan: Foto Profil Menonjol (160–200px di mobile, 220–280px di desktop) */}
-            <BlurFade delay={BLUR_FADE_DELAY + 0.08} yOffset={12} className="shrink-0">
-              <div className="group relative size-44 sm:size-52 md:size-60 lg:size-64 rounded-full border border-border/80 shadow-xl ring-4 ring-muted/60 dark:ring-muted/30 dark:shadow-[0_0_35px_-5px_rgba(59,130,246,0.18)] shrink-0 select-none overflow-hidden isolate mx-auto md:mx-0">
-                <img
-                  alt="Foto profil Faris Raja Ardana"
-                  src={data.profile.avatarUrl}
-                  className="profile-avatar-image size-full object-cover object-[50%_20%] transition-transform duration-300 ease-out group-hover:scale-110 motion-reduce:transform-none"
-                  style={{ objectPosition: "50% 20%" }}
-                />
-              </div>
-            </BlurFade>
-          </div>
-        </div>
-      </section>
+      {/* 1. HERO SECTION ARSITEKTURAL (Layered Cutout + Outlined Typography ala Referensi) */}
+      <HeroSection
+        name={data.profile.name || "Faris Raja Ardana"}
+        description={data.profile.description}
+        avatarUrl="/faris-cutout.png"
+      />
 
       {/* 2. BAGIAN TEKS PANJANG (About, Experience, Education, Skills) - Lebar Nyaman max-w-2xl */}
       <div className="w-full max-w-2xl mx-auto px-6 flex flex-col gap-14 my-4">

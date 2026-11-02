@@ -87,6 +87,7 @@
   --topo-line: rgba(15, 23, 42, 0.05);
   --topo-line-mid: rgba(15, 23, 42, 0.12);
   --topo-line-bright: rgba(15, 23, 42, 0.08);
+  --hero-outline: rgba(15, 23, 42, 0.14);
 }
 
 .dark {
@@ -126,6 +127,7 @@
   --topo-line: rgba(255, 255, 255, 0.05);
   --topo-line-mid: rgba(255, 255, 255, 0.16);
   --topo-line-bright: rgba(255, 255, 255, 0.10);
+  --hero-outline: rgba(255, 255, 255, 0.18);
 }
 
 @layer base {
