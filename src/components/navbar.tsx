@@ -99,6 +99,20 @@ export default function Navbar({ social, ownerName = "Faris Raja Ardana" }: Navb
                     target={isExternal ? "_blank" : undefined}
                     rel={isExternal ? "noopener noreferrer" : undefined}
                     aria-label={`${label} ${ownerName}`}
+                    onClick={(e) => {
+                      if (
+                        !isExternal &&
+                        item.href === "/" &&
+                        typeof window !== "undefined" &&
+                        window.location.pathname === "/"
+                      ) {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        if (window.location.hash) {
+                          window.history.replaceState(null, "", window.location.pathname);
+                        }
+                      }
+                    }}
                     className="rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   >
                     <DockIcon className="rounded-3xl cursor-pointer size-full bg-background p-0 text-muted-foreground hover:text-foreground hover:bg-muted backdrop-blur-3xl border border-border transition-colors">

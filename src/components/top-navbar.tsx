@@ -21,6 +21,27 @@ export function TopNavbar({
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Bersihkan hash dari URL address bar pada saat halaman dimuat (clean URL, tanpa #hero atau #projects)
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hash) {
+      const hash = window.location.hash.slice(1);
+      window.history.replaceState(null, "", window.location.pathname);
+
+      if (hash && hash !== "hero") {
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({
+              top: elementPosition - 80,
+              behavior: "smooth",
+            });
+          }
+        }, 100);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -29,12 +50,35 @@ export function TopNavbar({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Smooth scroll ke bagian halaman tanpa memunculkan #hashtag di URL address bar
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, targetId?: string) => {
+    e.preventDefault();
+    if (!targetId || targetId === "hero" || targetId === "top") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      const element = document.getElementById(targetId);
+      if (element) {
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+          top: elementPosition - 80,
+          behavior: "smooth",
+        });
+      }
+    }
+
+    // Pastikan URL di address bar tetap bersih tanpa #hashtag
+    if (typeof window !== "undefined" && window.location.hash) {
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+    setMobileMenuOpen(false);
+  };
+
   const navLinks = [
-    { label: t.nav.projects, href: "#projects" },
-    { label: t.nav.skills, href: "#skills" },
-    { label: t.nav.about, href: "#about" },
-    { label: t.nav.certificates, href: "#certificates" },
-    { label: t.nav.experience, href: "#work" },
+    { label: t.nav.projects, targetId: "projects" },
+    { label: t.nav.skills, targetId: "skills" },
+    { label: t.nav.about, targetId: "about" },
+    { label: t.nav.certificates, targetId: "certificates" },
+    { label: t.nav.experience, targetId: "work" },
   ];
 
   return (
@@ -48,23 +92,25 @@ export function TopNavbar({
             : "bg-background/60 dark:bg-card/50 backdrop-blur-md border-border/40"
         )}
       >
-        {/* Brand Kiri (Tanpa logo F, nama 1 baris responsif) */}
+        {/* Brand Kiri: Smooth scroll ke atas & URL tetap bersih tanpa #hero */}
         <a
-          href="#hero"
-          className="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl shrink-0"
+          href="/"
+          onClick={(e) => scrollToSection(e, "hero")}
+          className="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl shrink-0 cursor-pointer"
         >
           <span className="font-bold text-[11px] sm:text-xs md:text-sm tracking-wider uppercase text-foreground whitespace-nowrap">
             {ownerName}
           </span>
         </a>
 
-        {/* Menu Navigasi Tengah (Desktop Only) */}
+        {/* Menu Navigasi Tengah (Desktop Only): Scroll halus tanpa # di URL */}
         <div className="hidden md:flex items-center gap-5 lg:gap-7">
           {navLinks.map((link) => (
             <a
               key={link.label}
-              href={link.href}
-              className="text-xs font-semibold tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-200 whitespace-nowrap"
+              href={`#${link.targetId}`}
+              onClick={(e) => scrollToSection(e, link.targetId)}
+              className="text-xs font-semibold tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-200 whitespace-nowrap cursor-pointer"
             >
               {link.label}
             </a>
@@ -83,6 +129,11 @@ export function TopNavbar({
           {/* Tombol CTA "Hubungi Saya": Tampil di layar sm ke atas, di mobile ada di dalam hamburger dropdown */}
           <a
             href={finalWhatsappUrl}
+            onClick={(e) => {
+              if (finalWhatsappUrl.startsWith("#")) {
+                scrollToSection(e, finalWhatsappUrl.slice(1));
+              }
+            }}
             className="hidden sm:inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 rounded-xl border border-border/90 bg-primary text-primary-foreground text-xs font-semibold tracking-wide hover:bg-primary/90 transition-all duration-200 shadow-xs hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring whitespace-nowrap"
           >
             <span>{t.nav.contactMe}</span>
@@ -106,9 +157,9 @@ export function TopNavbar({
           {navLinks.map((link) => (
             <a
               key={link.label}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-xs font-semibold tracking-wider text-foreground/80 hover:text-foreground px-3 py-2 rounded-xl hover:bg-muted transition-colors"
+              href={`#${link.targetId}`}
+              onClick={(e) => scrollToSection(e, link.targetId)}
+              className="text-xs font-semibold tracking-wider text-foreground/80 hover:text-foreground px-3 py-2 rounded-xl hover:bg-muted transition-colors cursor-pointer"
             >
               {link.label}
             </a>
@@ -116,8 +167,14 @@ export function TopNavbar({
           <div className="pt-2 border-t border-border/40">
             <a
               href={finalWhatsappUrl}
-              onClick={() => setMobileMenuOpen(false)}
-              className="inline-flex w-full items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-semibold tracking-wide shadow-xs"
+              onClick={(e) => {
+                if (finalWhatsappUrl.startsWith("#")) {
+                  scrollToSection(e, finalWhatsappUrl.slice(1));
+                } else {
+                  setMobileMenuOpen(false);
+                }
+              }}
+              className="inline-flex w-full items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-semibold tracking-wide shadow-xs cursor-pointer"
             >
               <span>{t.nav.contactMe}</span>
               <ArrowUpRight className="size-3.5" />

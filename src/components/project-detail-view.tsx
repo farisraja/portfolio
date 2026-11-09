@@ -67,7 +67,7 @@ export function ProjectDetailView({
       >
         {/* Kiri: Tautan Kembali ke Proyek */}
         <Link
-          href="/#projects"
+          href="/"
           className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group rounded-md py-1 px-1.5 -ml-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
         >
           <ArrowLeft className="size-4 transition-transform duration-200 group-hover:-translate-x-1" />
@@ -337,7 +337,7 @@ export function ProjectDetailView({
         {/* 10. Navigasi Bawah Proyek */}
         <div className="mt-10 sm:mt-12 pt-6 border-t border-border/40 flex flex-wrap items-center justify-between gap-4">
           <Link
-            href="/#projects"
+            href="/"
             className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors group rounded-md p-1 -ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
           >
             <ArrowLeft className="size-3.5 transition-transform duration-200 group-hover:-translate-x-1" />
