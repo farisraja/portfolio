@@ -3,6 +3,12 @@ import { withContentCollections } from "@content-collections/next";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  allowedDevOrigins: [
+    "alpine-helicopter-formula-matrix.trycloudflare.com",
+    "*.trycloudflare.com",
+    "localhost:3002",
+    "127.0.0.1:3002",
+  ],
   reactStrictMode: true,
   agentRules: false,
   async headers() {

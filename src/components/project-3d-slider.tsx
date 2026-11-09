@@ -230,6 +230,8 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
                       {project.video ? (
                         <video
                           src={project.video}
+                          poster={project.image}
+                          preload="metadata"
                           autoPlay
                           muted
                           playsInline
