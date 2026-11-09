@@ -137,103 +137,273 @@ export const DATA = {
     links?: readonly any[];
   }>,
   certificates: [
-    {
-      id: "cert-1",
-      title: "Sertifikasi Kompetensi Rekayasa Perangkat Lunak (Junior Web Developer)",
-      issuer: "Badan Nasional Sertifikasi Profesi (BNSP)",
-      category: "khusus" as const,
-      issueDate: "2024",
-      expiryDate: "2027",
-      credentialId: "BNSP-JWD-2024-884129",
-      credentialUrl: "",
-      description:
-        "Sertifikasi okupasi nasional menguji standar kompetensi pengkodean terstruktur, implementasi logika backend, perancangan database relasional, dan penerapan pengujian perangkat lunak.",
-      skills: ["PHP", "Laravel", "MySQL", "REST API", "Unit Testing"],
-      image: "",
-    },
-    {
-      id: "cert-2",
-      title: "Menjadi Back-End Developer Expert dengan Node.js & Clean Architecture",
-      issuer: "Dicoding Indonesia",
-      category: "khusus" as const,
-      issueDate: "2024",
-      expiryDate: "Tidak Kedaluwarsa",
-      credentialId: "DICODING-BE-90214",
-      credentialUrl: "https://www.dicoding.com/certificates/DICODING-BE-90214",
-      description:
-        "Spesialisasi perancangan RESTful API modular berkinerja tinggi, arsitektur Clean Architecture, autentikasi JWT token, caching memory, dan automasi test-driven development.",
-      skills: ["Node.js", "Clean Architecture", "PostgreSQL", "JWT", "REST API"],
-      image: "",
-    },
-    {
-      id: "cert-3",
-      title: "Alibaba Cloud Certified Associate (ACA) - Cloud Computing",
-      issuer: "Alibaba Cloud & Kominfo",
-      category: "khusus" as const,
-      issueDate: "2023",
-      expiryDate: "2025",
-      credentialId: "ACA-CLOUD-2023-412",
-      credentialUrl: "",
-      description:
-        "Pemahaman arsitektur komputasi awan, konfigurasi virtual machine Elastic Compute Service (ECS), Server Load Balancer (SLB), Object Storage (OSS), dan manajemen keamanan jaringan cloud.",
-      skills: ["Cloud Computing", "DevOps", "Linux", "Networking"],
-      image: "",
-    },
-    {
-      id: "cert-4",
-      title: "SQL (Advanced) & Database Optimization Certificate",
-      issuer: "HackerRank",
-      category: "khusus" as const,
-      issueDate: "2024",
-      expiryDate: "Tidak Kedaluwarsa",
-      credentialId: "HR-SQL-ADV-6671",
-      credentialUrl: "https://www.hackerrank.com/certificates/",
-      description:
-        "Uji kompetensi teknis manipulasi kueri kompleks, optimasi subquery bersarang, indeks database relasional, agregasi tingkat lanjut, serta penulisan prosedur SQL efisien.",
-      skills: ["PostgreSQL", "MySQL", "Query Optimization", "Database Indexing"],
-      image: "",
-    },
-    {
-      id: "cert-5",
-      title: "Belajar Dasar Pemrograman Web & JavaScript Modern (ES6+)",
-      issuer: "Dicoding Academy",
-      category: "umum" as const,
-      issueDate: "2023",
-      expiryDate: "Tidak Kedaluwarsa",
-      credentialId: "DICODING-JS-12940",
-      credentialUrl: "https://www.dicoding.com/certificates/DICODING-JS-12940",
-      description:
-        "Penguasaan fondasi standar web semantik, struktur DOM interaktif, pemrograman asinkron (Promises, Fetch, Async/Await), dan penulisan kode JavaScript modular modern.",
-      skills: ["JavaScript", "HTML5", "CSS3", "DOM API", "Web Basics"],
-      image: "",
-    },
-    {
-      id: "cert-6",
-      title: "Digital Talent Scholarship - Fundamental Git & Version Control",
-      issuer: "Kementerian Kominfo RI",
-      category: "umum" as const,
-      issueDate: "2023",
-      expiryDate: "Tidak Kedaluwarsa",
-      credentialId: "DTS-KOMINFO-2023-772",
-      credentialUrl: "",
-      description:
-        "Pelatihan kolaborasi pengembangan tim menggunakan Git dan GitHub, manajemen alur kerja GitFlow, mitigasi merge conflicts, dan integrasi continuous code review.",
-      skills: ["Git", "GitHub", "Team Collaboration", "Code Review"],
-      image: "",
-    },
-    {
-      id: "cert-7",
-      title: "Agile Project Management & Scrum Foundations",
-      issuer: "Coursera & Atlassian",
-      category: "umum" as const,
-      issueDate: "2024",
-      expiryDate: "Tidak Kedaluwarsa",
-      credentialId: "COURSERA-JIRA-5519",
-      credentialUrl: "https://www.coursera.org",
-      description:
-        "Metodologi manajemen proyek berbasis Agile, implementasi siklus Sprint Scrum, estimasi backlog, pemantauan burndown chart dengan Jira, dan kolaborasi tim lintas fungsi.",
-      skills: ["Agile", "Scrum", "Kanban", "Jira", "Project Management"],
-      image: "",
-    },
-  ],
+  {
+    id: "cert-10",
+    title: "Kegiatan BEST Seri Ke-7: \"Membangun Kesehatan Jangka Panjang melalui Gaya Hidup Aktif\"",
+    issuer: "Kepaniteraan dan Sekretariat Jenderal Mahkamah Konstitusi RI",
+    category: "umum" as const,
+    issueDate: "14 Oktober 2026",
+    expiryDate: "",
+    credentialId: "No. 90.18/10/2",
+    credentialUrl: "",
+    description: "",
+    skills: [],
+    image: "/api/media/file/WhatsApp%20Image%202026-10-29%20at%2013.48.59.jpeg"
+  },
+  {
+    id: "cert-9",
+    title: "Webinar Nasional: \"Data Analyst Karir dan Peta Kompetensi Mahasiswa Era Digital\"",
+    issuer: "Maestro Academy",
+    category: "khusus" as const,
+    issueDate: "5 November 2025",
+    expiryDate: "",
+    credentialId: "8607-2057-5571-3330",
+    credentialUrl: "",
+    description: "",
+    skills: [],
+    image: "/api/media/file/WhatsApp%20Image%202026-10-29%20at%2013.33.34.jpeg"
+  },
+  {
+    id: "cert-8",
+    title: "Machine learning with Phyton",
+    issuer: "freeCodeCamp",
+    category: "khusus" as const,
+    issueDate: "17 Juni 2026",
+    expiryDate: "",
+    credentialId: "fcc-a8fc185a-266f-4e34-8597-f4ff2ad4d51f",
+    credentialUrl: "https://www.freecodecamp.org/certification/fcc-a8fc185a-266f-4e34-8597-f4ff2ad4d51f/machine-learning-with-python-v7",
+    description: "",
+    skills: [],
+    image: "/api/media/file/WhatsApp%20Image%202026-10-29%20at%2010.51.25.jpeg"
+  },
+  {
+    id: "cert-11",
+    title: "Guide to Vibe Coding in Windsurf",
+    issuer: "Analytics Vidhya",
+    category: "khusus" as const,
+    issueDate: "17 Juni 2026",
+    expiryDate: "",
+    credentialId: "cty4nxmgii",
+    credentialUrl: "",
+    description: "Sertifikasi keahlian pengembangan perangkat lunak berbasis AI-assisted programming (Vibe Coding) menggunakan Windsurf IDE.",
+    skills: [
+      "AI-Assisted Development",
+      "Windsurf IDE",
+      "Prompt Engineering",
+      "Full Stack Development"
+    ],
+    image: "/api/media/file/sertifikat-analytics-vidhya-guide-to-vibe-coding-in-windsurf.jpg"
+  },
+  {
+    id: "cert-12",
+    title: "Data Analysis with Apache Hive",
+    issuer: "Analytics Vidhya",
+    category: "khusus" as const,
+    issueDate: "17 Juni 2026",
+    expiryDate: "",
+    credentialId: "a2ygol6rie",
+    credentialUrl: "",
+    description: "Penyelesaian kursus analisis data berskala besar menggunakan Apache Hive dan kueri SQL terstruktur dalam ekosistem big data Hadoop.",
+    skills: [
+      "Apache Hive",
+      "Big Data",
+      "SQL",
+      "Data Analysis",
+      "Hadoop"
+    ],
+    image: "/api/media/file/sertifikat-analytics-vidhya-data-analysis-with-apache-hive.jpg"
+  },
+  {
+    id: "cert-13",
+    title: "TOEFL Prediction Test (Skor: 500)",
+    issuer: "Central Course Kampung Inggris Pare",
+    category: "umum" as const,
+    issueDate: "21 Des 2025",
+    expiryDate: "21 Des 2027",
+    credentialId: "2512186187",
+    credentialUrl: "",
+    description: "Sertifikasi tes prediksi kemampuan bahasa Inggris TOEFL dengan perolehan skor total 500 (Listening: 50, Structure & Written Expression: 53, Reading: 47).",
+    skills: [
+      "English Proficiency",
+      "TOEFL",
+      "Communication"
+    ],
+    image: "/api/media/file/sertifikat-central-course-toefl-prediction-test.jpg"
+  },
+  {
+    id: "cert-14",
+    title: "Webinar Series: Blend of IoT and Big Data (A Post-Pandemic Business Adaptation)",
+    issuer: "Comstrac-DSC FMIPA Universitas Pakuan & UTHM",
+    category: "khusus" as const,
+    issueDate: "10 Des 2020",
+    expiryDate: "",
+    credentialId: "0353/WS.02/COMSTRAC-DSC/FMIPA-UP/XII/2020",
+    credentialUrl: "",
+    description: "Webinar internasional mengenai integrasi arsitektur Internet of Things (IoT) dan pemrosesan Big Data untuk transformasi bisnis digital.",
+    skills: [
+      "Internet of Things (IoT)",
+      "Big Data",
+      "Cloud Architecture"
+    ],
+    image: "/api/media/file/sertifikat-comstrac-dsc-unpak-blend-of-iot-and-big-data.jpg"
+  },
+  {
+    id: "cert-15",
+    title: "Webinar Information Technology: Virtual Reality For Future",
+    issuer: "Comstrac-DSC FMIPA Universitas Pakuan",
+    category: "khusus" as const,
+    issueDate: "13 Nov 2021",
+    expiryDate: "",
+    credentialId: "621/WB/COMSTRAC-DSC/FMIPA-UP/XI/2021",
+    credentialUrl: "",
+    description: "Webinar teknologi informasi mengenai tren perkembangan Virtual Reality (VR), interaksi spasial, dan perancangan lingkungan 3D imersif.",
+    skills: [
+      "Virtual Reality (VR)",
+      "Computer Graphics",
+      "Human-Computer Interaction"
+    ],
+    image: "/api/media/file/sertifikat-comstrac-dsc-unpak-virtual-reality-for-future.jpg"
+  },
+  {
+    id: "cert-16",
+    title: "Financial Literacy and Job Readiness (You RISE Programme)",
+    issuer: "DBS Foundation & Yayasan Plan International Indonesia",
+    category: "umum" as const,
+    issueDate: "17 Juni 2026",
+    expiryDate: "",
+    credentialId: "",
+    credentialUrl: "",
+    description: "Pelatihan kesiapan kerja profesional, perencanaan finansial, dan pengembangan karir dalam modul Youth be Ready, Inclusive, Skilled, and Empowered (You RISE).",
+    skills: [
+      "Job Readiness",
+      "Financial Literacy",
+      "Career Planning"
+    ],
+    image: "/api/media/file/sertifikat-dbs-foundation-financial-literacy-and-job-readiness.jpg"
+  },
+  {
+    id: "cert-17",
+    title: "Edsen Hackathon Competition",
+    issuer: "PT Edsen Gudang Komputerindo",
+    category: "khusus" as const,
+    issueDate: "Des 2022",
+    expiryDate: "",
+    credentialId: "013/CERT/EDSEN/HACKATHON/12/2022",
+    credentialUrl: "",
+    description: "Partisipasi kompetisi hackathon pengembangan solusi perangkat lunak dan arsitektur data terintegrasi.",
+    skills: [
+      "Hackathon",
+      "Problem Solving",
+      "Rapid Prototyping",
+      "Teamwork"
+    ],
+    image: "/api/media/file/sertifikat-edsen-hackathon-competition.jpg"
+  },
+  {
+    id: "cert-18",
+    title: "Next Generation Cisco IPv6 Training",
+    issuer: "Hendevane Training Partner (HTP)",
+    category: "khusus" as const,
+    issueDate: "27 Juni 2026",
+    expiryDate: "",
+    credentialId: "HTP202610266907",
+    credentialUrl: "http://www.htp.co.id",
+    description: "Pelatihan teknis konfigurasi routing, transisi pengalamatan IPv6, dan arsitektur jaringan berbasis infrastruktur Cisco.",
+    skills: [
+      "Cisco",
+      "IPv6",
+      "Computer Networking",
+      "Routing & Switching"
+    ],
+    image: "/api/media/file/sertifikat-htp-next-generation-cisco-ipv6.jpg"
+  },
+  {
+    id: "cert-19",
+    title: "IEEE Sharing Session: Let's Find Out about Tips on Building a Startup",
+    issuer: "IEEE Student Branch Universitas Pakuan & FMIPA Unpak",
+    category: "umum" as const,
+    issueDate: "03 Okt 2021",
+    expiryDate: "",
+    credentialId: "",
+    credentialUrl: "",
+    description: "Sesi berbagi wawasan mengenai validasi ide produk teknologi, tahap awal pembentukan startup digital, dan strategi pengembangan produk.",
+    skills: [
+      "Startup Development",
+      "Product Management",
+      "Entrepreneurship"
+    ],
+    image: "/api/media/file/sertifikat-ieee-unpak-tips-on-building-a-startup.jpg"
+  },
+  {
+    id: "cert-20",
+    title: "Webinar TIK: Menjadi Web Developer Kompeten",
+    issuer: "Maestro Academy, RTIK Kota Bandar Lampung & PT Winosa Mitra Bharatadjaya",
+    category: "khusus" as const,
+    issueDate: "20 Sep 2025",
+    expiryDate: "",
+    credentialId: "5586-3978-3422-2208",
+    credentialUrl: "",
+    description: "Webinar standar kompetensi industri rekayasa web, arsitektur frontend dan backend modern, serta best practice pengembangan web profesional.",
+    skills: [
+      "Web Development",
+      "Frontend",
+      "Backend",
+      "Software Engineering"
+    ],
+    image: "/api/media/file/sertifikat-maestro-academy-webinar-tik-menjadi-web-developer-kompeten.jpg"
+  },
+  {
+    id: "cert-21",
+    title: "Microsoft Office Desktop Training",
+    issuer: "Trust Training Partners (Microsoft Learning Partner) & Universitas Pakuan",
+    category: "umum" as const,
+    issueDate: "28 Okt 2023",
+    expiryDate: "",
+    credentialId: "23BGD0018",
+    credentialUrl: "",
+    description: "Pelatihan terakreditasi standar profesional pemanfaatan aplikasi Microsoft Office untuk produktivitas dokumen, pengolahan spreadsheet data, dan presentasi.",
+    skills: [
+      "Microsoft Office",
+      "Microsoft Excel",
+      "Productivity",
+      "Data Processing"
+    ],
+    image: "/api/media/file/sertifikat-microsoft-learning-partner-microsoft-office-desktop-training.jpg"
+  },
+  {
+    id: "cert-22",
+    title: "Computer Science Webinar Series: Creative Developer with Society 5.0",
+    issuer: "Program Studi Ilmu Komputer FMIPA Universitas Pakuan",
+    category: "khusus" as const,
+    issueDate: "16 Des 2020",
+    expiryDate: "",
+    credentialId: "175/Webinar1/ILKOM/FMIPA-UP/XII/2020",
+    credentialUrl: "",
+    description: "Webinar seri ilmu komputer mengenai peran dan kompetensi kreatif developer perangkat lunak di era keterhubungan Society 5.0.",
+    skills: [
+      "Creative Development",
+      "Computer Science",
+      "Society 5.0"
+    ],
+    image: "/api/media/file/sertifikat-unpak-creative-developer-with-society-5-0.jpg"
+  },
+  {
+    id: "cert-23",
+    title: "Orientasi Bidang Studi (OBS) Ilmu Komputer",
+    issuer: "Program Studi Ilmu Komputer FMIPA Universitas Pakuan",
+    category: "umum" as const,
+    issueDate: "15 Des 2021",
+    expiryDate: "",
+    credentialId: "046/OBS/ILKOM/FMIPA-UP/XII/2021",
+    credentialUrl: "",
+    description: "Program orientasi akademik pengenalan fondasi disiplin ilmu komputer, kurikulum komputasi, dan etika profesional rekayasa software.",
+    skills: [
+      "Computer Science Foundations",
+      "Academic Orientation",
+      "Ethics"
+    ],
+    image: "/api/media/file/sertifikat-unpak-orientasi-bidang-studi-obs-ilmu-komputer.jpg"
+  }
+],
+
 };
