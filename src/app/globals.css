@@ -399,7 +399,7 @@
   transform-origin: center;
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce), (max-width: 768px) {
   .topo-wave-slow,
   .topo-wave-reverse {
     animation: none !important;

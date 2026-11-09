@@ -6,20 +6,32 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/language-context";
 import { LanguageSegmentedPill } from "@/components/language-switcher";
+import { Icons } from "@/components/icons";
+import { DATA } from "@/data/resume";
 
 interface TopNavbarProps {
   ownerName?: string;
   whatsappUrl?: string | null;
+  social?: {
+    github?: string | null;
+    instagram?: string | null;
+    linkedin?: string | null;
+  };
 }
 
 export function TopNavbar({
   ownerName = "Faris Raja Ardana",
   whatsappUrl = "#contact",
+  social,
 }: TopNavbarProps) {
   const { t } = useLanguage();
   const finalWhatsappUrl = whatsappUrl || "#contact";
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const githubUrl = social?.github || DATA.contact.social.GitHub?.url;
+  const instagramUrl = social?.instagram || (DATA.contact.social as any).Instagram?.url;
+  const linkedinUrl = social?.linkedin || (DATA.contact.social as any).LinkedIn?.url;
 
   // Bersihkan hash dari URL address bar pada saat halaman dimuat (clean URL, tanpa #hero atau #projects)
   useEffect(() => {
@@ -180,6 +192,45 @@ export function TopNavbar({
               <ArrowUpRight className="size-3.5" />
             </a>
           </div>
+
+          {/* Social Icons di Mobile Menu */}
+          {(githubUrl || instagramUrl || linkedinUrl) && (
+            <div className="flex items-center justify-center gap-4 pt-2 border-t border-border/30">
+              {githubUrl && (
+                <a
+                  href={githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="size-8 rounded-lg bg-muted/60 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="GitHub"
+                >
+                  <Icons.github className="size-4" />
+                </a>
+              )}
+              {instagramUrl && (
+                <a
+                  href={instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="size-8 rounded-lg bg-muted/60 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Instagram"
+                >
+                  <Icons.instagram className="size-4" />
+                </a>
+              )}
+              {linkedinUrl && (
+                <a
+                  href={linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="size-8 rounded-lg bg-muted/60 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Icons.linkedin className="size-4" />
+                </a>
+              )}
+            </div>
+          )}
         </div>
       )}
     </header>

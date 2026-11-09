@@ -25,8 +25,12 @@ export default async function Page() {
   );
 
   return (
-    <div className="relative z-10 w-full min-h-dvh flex flex-col items-center pb-28">
-      <TopNavbar ownerName={owner} whatsappUrl={whatsappUrl} />
+    <div className="relative z-10 w-full min-h-dvh flex flex-col items-center pb-12 md:pb-28">
+      <TopNavbar
+        ownerName={owner}
+        whatsappUrl={whatsappUrl}
+        social={data.siteSettings.social}
+      />
 
       {!data.isFromDatabase && data.dbError && (
         <div className="w-full max-w-2xl px-6 pt-4">

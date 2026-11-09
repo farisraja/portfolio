@@ -34,9 +34,9 @@ export function Spotlight({ className, fill = "#3b82f6" }: SpotlightProps) {
         }}
       />
 
-      {/* 2. Directional soft spotlight beam */}
+      {/* 2. Directional soft spotlight beam (Desktop / Tablet only, hidden on mobile for 60fps performance) */}
       <svg
-        className="absolute -top-10 sm:-top-16 left-1/2 -translate-x-1/2 w-[760px] sm:w-[1000px] lg:w-[1200px] h-[440px] sm:h-[520px] opacity-65 dark:opacity-30 pointer-events-none transition-opacity duration-500"
+        className="hidden sm:block absolute -top-10 sm:-top-16 left-1/2 -translate-x-1/2 w-[760px] sm:w-[1000px] lg:w-[1200px] h-[440px] sm:h-[520px] opacity-65 dark:opacity-30 pointer-events-none transition-opacity duration-500"
         viewBox="0 0 1000 500"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

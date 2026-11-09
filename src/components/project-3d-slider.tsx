@@ -28,6 +28,17 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [viewMode, setViewMode] = useState<"3d" | "grid">("3d");
   const [, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Deteksi ukuran layar mobile untuk optimasi performa & gestur
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const total = projects.length;
 
@@ -40,6 +51,34 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
     if (total === 0) return;
     setCurrentIndex((prev) => (prev - 1 + total) % total);
   }, [total]);
+
+  // Touch Swipe Gesture Support untuk Mobile
+  const touchStartX = React.useRef<number | null>(null);
+  const touchEndX = React.useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > 40;
+    const isRightSwipe = distance < -40;
+
+    if (isLeftSwipe) {
+      nextSlide();
+    } else if (isRightSwipe) {
+      prevSlide();
+    }
+
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
 
   // Keyboard navigation (ArrowLeft & ArrowRight)
   useEffect(() => {
@@ -137,13 +176,16 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          {/* Stage 3D Perspective Container */}
+          {/* Stage 3D Perspective Container dengan Dukungan Touch Swipe */}
           <div
-            className="relative w-full h-[260px] sm:h-[340px] md:h-[400px] flex items-center justify-center overflow-hidden"
-            style={{ perspective: "1200px" }}
+            className="relative w-full h-[240px] sm:h-[340px] md:h-[400px] flex items-center justify-center overflow-hidden touch-pan-y"
+            style={{ perspective: isMobile ? "800px" : "1200px" }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
             {/* Ambient Spotlight Glow di Belakang Kartu Aktif */}
-            <div className="absolute w-[360px] sm:w-[500px] h-[220px] sm:h-[300px] rounded-full bg-primary/10 dark:bg-primary/20 blur-3xl -z-10 pointer-events-none" />
+            <div className="absolute w-[320px] sm:w-[500px] h-[200px] sm:h-[300px] rounded-full bg-primary/10 dark:bg-primary/20 blur-2xl sm:blur-3xl -z-10 pointer-events-none" />
 
             {projects.map((project, index) => {
               // Hitung jarak index signed relatif terhadap currentIndex
@@ -153,7 +195,9 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
               if (offset < -total / 2) offset += total;
 
               const isCenter = offset === 0;
-              const isVisible = Math.abs(offset) <= 2;
+              // Di mobile hanya render max 3 kartu (kiri, tengah, kanan) untuk menghemat 40% memori & GPU
+              const maxDistance = isMobile ? 1 : 2;
+              const isVisible = Math.abs(offset) <= maxDistance;
 
               if (!isVisible) return null;
 
@@ -173,11 +217,11 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
 
                 if (distance === 1) {
                   return {
-                    x: direction * 230,
-                    scale: 0.82,
-                    rotateY: -direction * 24,
+                    x: direction * (isMobile ? 135 : 230),
+                    scale: isMobile ? 0.84 : 0.82,
+                    rotateY: -direction * (isMobile ? 12 : 24),
                     zIndex: 10,
-                    opacity: 0.45,
+                    opacity: isMobile ? 0.35 : 0.45,
                   };
                 }
                 return {
@@ -218,7 +262,7 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
                 >
                   <div
                     className={cn(
-                      "w-[280px] sm:w-[420px] md:w-[540px] aspect-video rounded-2xl border bg-card overflow-hidden transition-all duration-300 shadow-xl",
+                      "w-[260px] min-[390px]:w-[290px] sm:w-[420px] md:w-[540px] aspect-video rounded-2xl border bg-card overflow-hidden transition-all duration-300 shadow-xl",
                       isCenter
                         ? "border-primary/50 ring-2 ring-primary/20 shadow-2xl shadow-primary/10"
                         : "border-border/60 hover:opacity-75"
