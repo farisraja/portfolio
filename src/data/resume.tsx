@@ -10,7 +10,7 @@ export const DATA = {
   description:
     "Saya mengembangkan website dan aplikasi dengan perhatian pada kegunaan, tampilan, dan kebutuhan pengguna.",
   summary:
-    "Saya lulusan Ilmu Komputer Universitas Pakuan yang berfokus pada pengembangan web dan aplikasi. Saya senang menerjemahkan kebutuhan pengguna menjadi fitur yang terstruktur, mudah digunakan, dan dapat dikembangkan lebih lanjut.\n\nSaat ini saya menjalani magang di PUSDIK MK dan terlibat dalam pengembangan platform pembelajaran MKLC. Kontribusi saya mencakup pengembangan fitur, perapihan antarmuka, serta pengujian fungsional untuk menemukan bagian yang perlu diperbaiki.",
+    "Saya lulusan Ilmu Komputer Universitas Pakuan yang berfokus pada pengembangan web dan aplikasi modern dengan performa tinggi. Saya terbiasa menerjemahkan kebutuhan pengguna menjadi fitur yang terstruktur, efisien, dan dapat dikembangkan lebih lanjut.\n\nSaat ini saya berkontribusi aktif sebagai Web Developer di PUSDIK MK, bertanggung jawab dalam pengembangan platform pembelajaran digital MKLC. Peran saya mencakup perancangan fitur, optimasi antarmuka pengguna (UI/UX), integrasi sistem, hingga pengujian fungsional untuk memastikan keandalan platform.",
   avatarUrl: "/api/media/file/faris-raja-ardana.jpg",
   skills: [
     { name: "Laravel" },
@@ -71,7 +71,7 @@ export const DATA = {
       href: "",
       badges: [],
       location: "",
-      title: "Pengembangan Web — Magang",
+      title: "Web Developer",
       logoUrl: "",
       start: "September 2026",
       end: "Sekarang",
@@ -83,7 +83,7 @@ export const DATA = {
       href: "",
       badges: [],
       location: "",
-      title: "Administrasi Perpustakaan — PKL",
+      title: "Staff Administrasi Sistem & Pengelola Data",
       logoUrl: "",
       start: "",
       end: "",
