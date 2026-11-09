@@ -27,6 +27,46 @@ interface CertificatesSectionProps {
   data?: CertificateItem[];
 }
 
+function CertificateThumbnailImage({
+  image,
+  thumbnail,
+  alt,
+  onClick,
+}: {
+  image: string;
+  thumbnail?: string | null;
+  alt: string;
+  onClick: () => void;
+}) {
+  const getInitialSrc = () => {
+    if (thumbnail) return thumbnail;
+    if (image.includes("-300x300.") || image.startsWith("data:")) return image;
+    const dotIndex = image.lastIndexOf(".");
+    if (dotIndex !== -1) {
+      return `${image.substring(0, dotIndex)}-300x300${image.substring(dotIndex)}`;
+    }
+    return image;
+  };
+
+  const [src, setSrc] = useState(getInitialSrc);
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      decoding="async"
+      onError={() => {
+        if (src !== image) {
+          setSrc(image);
+        }
+      }}
+      className="size-full object-cover object-center transition-transform duration-300 ease-out group-hover/img:scale-105 cursor-pointer"
+      onClick={onClick}
+    />
+  );
+}
+
 export default function CertificatesSection({ data }: CertificatesSectionProps) {
   const { t, locale } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<"khusus" | "umum">("khusus");
@@ -223,12 +263,10 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
                   {/* === FOTO / GAMBAR SERTIFIKAT === */}
                   {cert.image ? (
                     <div className="relative w-full aspect-[16/10] overflow-hidden bg-muted/40 border-b border-border/70 group/img">
-                      <img
-                        src={cert.image}
+                      <CertificateThumbnailImage
+                        image={cert.image}
+                        thumbnail={cert.thumbnailUrl}
                         alt={`Sertifikat ${certData.title} - ${cert.issuer}`}
-                        loading="lazy"
-                        decoding="async"
-                        className="size-full object-cover object-center transition-transform duration-300 ease-out group-hover/img:scale-105 cursor-pointer"
                         onClick={() =>
                           setPreviewImage({
                             url: cert.image!,

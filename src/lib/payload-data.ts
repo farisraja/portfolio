@@ -119,6 +119,7 @@ export type CertificateItem = {
   description?: string | null
   skills?: string[]
   image?: string | null
+  thumbnailUrl?: string | null
 }
 
 export function getMediaUrl(media?: (string | number | Media) | null, fallbackUrl?: string | null): string {
@@ -405,6 +406,21 @@ export async function getPortfolioData(): Promise<PortfolioData> {
       links: h.links || [],
     }))
 
+    // Helper to extract or generate thumbnail URL
+    const getThumbnailUrl = (mediaObj: any, fallbackUrl?: string | null): string => {
+      if (mediaObj && typeof mediaObj === 'object') {
+        if (mediaObj.sizes?.thumbnail?.url) return mediaObj.sizes.thumbnail.url
+      }
+      const raw = getMediaUrl(mediaObj, fallbackUrl)
+      if (!raw) return ''
+      if (raw.includes('-300x300.')) return raw
+      const dotIndex = raw.lastIndexOf('.')
+      if (dotIndex !== -1) {
+        return `${raw.substring(0, dotIndex)}-300x300${raw.substring(dotIndex)}`
+      }
+      return raw
+    }
+
     // Map certificates
     const mappedCertificates: CertificateItem[] = (rawCertificates?.docs || []).map((c: any) => ({
       id: c.id,
@@ -420,6 +436,7 @@ export async function getPortfolioData(): Promise<PortfolioData> {
         ? c.skills.map((s: any) => (typeof s === 'string' ? s : s.name))
         : [],
       image: getMediaUrl(c.image, c.imageUrl),
+      thumbnailUrl: getThumbnailUrl(c.image, c.imageUrl),
     }))
 
     // If database returned valid records, use them
