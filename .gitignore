@@ -47,3 +47,4 @@ content-demo-backup/
 *.sql
 migration_bundle/
 *.zip
+.neon
