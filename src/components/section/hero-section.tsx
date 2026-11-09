@@ -192,7 +192,21 @@ export function HeroSection({
           <div className="flex flex-wrap items-center justify-center gap-3 pt-3.5">
             <a
               href="#projects"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-xl bg-primary text-primary-foreground text-xs sm:text-sm font-semibold hover:bg-primary/90 transition-all duration-200 shadow-sm hover:shadow-md group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById("projects");
+                if (el) {
+                  const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+                  window.scrollTo({
+                    top: elementPosition - 80,
+                    behavior: "smooth",
+                  });
+                }
+                if (typeof window !== "undefined" && window.location.hash) {
+                  window.history.replaceState(null, "", window.location.pathname);
+                }
+              }}
+              className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-xl bg-primary text-primary-foreground text-xs sm:text-sm font-semibold hover:bg-primary/90 transition-all duration-200 shadow-sm hover:shadow-md group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 cursor-pointer"
             >
               <span>{t.hero.viewProjects}</span>
               <ArrowDown className="size-3.5 sm:size-4 transition-transform duration-200 group-hover:translate-y-0.5" />
@@ -200,7 +214,21 @@ export function HeroSection({
 
             <a
               href="#contact"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-xl border border-border/80 bg-background/80 dark:bg-card/80 backdrop-blur-md text-foreground text-xs sm:text-sm font-semibold hover:bg-muted hover:border-border transition-all duration-200 shadow-2xs group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById("contact");
+                if (el) {
+                  const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+                  window.scrollTo({
+                    top: elementPosition - 80,
+                    behavior: "smooth",
+                  });
+                }
+                if (typeof window !== "undefined" && window.location.hash) {
+                  window.history.replaceState(null, "", window.location.pathname);
+                }
+              }}
+              className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-xl border border-border/80 bg-background/80 dark:bg-card/80 backdrop-blur-md text-foreground text-xs sm:text-sm font-semibold hover:bg-muted hover:border-border transition-all duration-200 shadow-2xs group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 cursor-pointer"
             >
               <span>{t.hero.contactMe}</span>
               <ArrowUpRight className="size-3.5 sm:size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
