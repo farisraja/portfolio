@@ -164,7 +164,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       demo: 'Demo',
     },
     footer: {
-      rightsReserved: 'Seluruh hak cipta dilindungi.',
+      rightsReserved: '',
     },
   },
 
@@ -412,7 +412,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       demo: 'Demo',
     },
     footer: {
-      rightsReserved: 'All rights reserved.',
+      rightsReserved: '',
     },
   },
 }

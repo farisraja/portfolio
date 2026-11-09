@@ -375,7 +375,7 @@ export function ProjectDetailView({
 
       <footer className="mt-12 sm:mt-14 text-center text-xs text-muted-foreground border-t border-border/40 pt-6">
         <p>
-          © {new Date().getFullYear()} {owner}. {t.footer.rightsReserved}
+          © {new Date().getFullYear()} {owner}.
         </p>
       </footer>
     </div>
