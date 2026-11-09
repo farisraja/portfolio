@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import { ModeToggle } from "@/components/mode-toggle";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -14,7 +13,7 @@ interface TopNavbarProps {
 }
 
 export function TopNavbar({
-  ownerName = "Faris Raja",
+  ownerName = "Faris Raja Ardana",
   whatsappUrl = "#contact",
 }: TopNavbarProps) {
   const { t } = useLanguage();
@@ -39,44 +38,41 @@ export function TopNavbar({
   ];
 
   return (
-    <header className="sticky top-4 z-40 w-full px-4 sm:px-6 max-w-5xl mx-auto">
+    <header className="sticky top-4 z-40 w-full px-3 sm:px-6 max-w-6xl mx-auto">
       <nav
         aria-label="Navigasi Atas"
         className={cn(
-          "flex items-center justify-between px-3.5 sm:px-5 py-2.5 rounded-2xl border transition-all duration-300",
+          "flex items-center justify-between px-4 sm:px-6 py-2.5 rounded-2xl border transition-all duration-300",
           scrolled
             ? "bg-background/80 dark:bg-card/75 backdrop-blur-xl border-border/80 shadow-md shadow-primary/5"
             : "bg-background/60 dark:bg-card/50 backdrop-blur-md border-border/40"
         )}
       >
-        {/* Logo & Brand Kiri */}
+        {/* Brand Kiri (Tanpa logo F, nama 1 baris tidak wrap) */}
         <a
           href="#hero"
-          className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl"
+          className="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl shrink-0"
         >
-          <div className="size-8 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm tracking-wider shadow-sm transition-transform duration-200 group-hover:scale-105">
-            F
-          </div>
-          <span className="font-bold text-xs sm:text-sm tracking-wider uppercase text-foreground">
+          <span className="font-bold text-xs sm:text-sm tracking-wider uppercase text-foreground whitespace-nowrap">
             {ownerName}
           </span>
         </a>
 
         {/* Menu Navigasi Tengah (Desktop) */}
-        <div className="hidden md:flex items-center gap-6 lg:gap-8">
+        <div className="hidden md:flex items-center gap-5 lg:gap-7">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="text-xs font-semibold tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-200"
+              className="text-xs font-semibold tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-200 whitespace-nowrap"
             >
               {link.label}
             </a>
           ))}
         </div>
 
-        {/* Aksi Kanan: Language Switcher + Dark Mode Toggle + Tombol "Hubungi Saya" */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        {/* Aksi Kanan: Jarak lega terpisah dari PENGALAMAN + Language Switcher + Dark Mode Toggle + Tombol "Hubungi Saya" */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-4 lg:ml-8 pl-3 sm:pl-5 border-l border-border/40">
           {/* Segmented Glass Pill Language Switcher */}
           <LanguageSegmentedPill />
 
@@ -86,7 +82,7 @@ export function TopNavbar({
 
           <a
             href={finalWhatsappUrl}
-            className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 rounded-xl border border-border/90 bg-primary text-primary-foreground text-xs font-semibold tracking-wide hover:bg-primary/90 transition-all duration-200 shadow-xs hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 rounded-xl border border-border/90 bg-primary text-primary-foreground text-xs font-semibold tracking-wide hover:bg-primary/90 transition-all duration-200 shadow-xs hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring whitespace-nowrap"
           >
             <span>{t.nav.contactMe}</span>
             <ArrowUpRight className="size-3.5" />
@@ -95,7 +91,7 @@ export function TopNavbar({
           {/* Tombol Hamburger Mobile */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            className="md:hidden p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
