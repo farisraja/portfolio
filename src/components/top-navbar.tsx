@@ -38,27 +38,27 @@ export function TopNavbar({
   ];
 
   return (
-    <header className="sticky top-4 z-40 w-full px-3 sm:px-6 max-w-6xl mx-auto">
+    <header className="sticky top-3 sm:top-4 z-40 w-full px-3 sm:px-6 max-w-6xl mx-auto">
       <nav
         aria-label="Navigasi Atas"
         className={cn(
-          "flex items-center justify-between px-4 sm:px-6 py-2.5 rounded-2xl border transition-all duration-300",
+          "flex items-center justify-between px-3 sm:px-6 py-2 sm:py-2.5 rounded-2xl border transition-all duration-300",
           scrolled
             ? "bg-background/80 dark:bg-card/75 backdrop-blur-xl border-border/80 shadow-md shadow-primary/5"
             : "bg-background/60 dark:bg-card/50 backdrop-blur-md border-border/40"
         )}
       >
-        {/* Brand Kiri (Tanpa logo F, nama 1 baris tidak wrap) */}
+        {/* Brand Kiri (Tanpa logo F, nama 1 baris responsif) */}
         <a
           href="#hero"
           className="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl shrink-0"
         >
-          <span className="font-bold text-xs sm:text-sm tracking-wider uppercase text-foreground whitespace-nowrap">
+          <span className="font-bold text-[11px] sm:text-xs md:text-sm tracking-wider uppercase text-foreground whitespace-nowrap">
             {ownerName}
           </span>
         </a>
 
-        {/* Menu Navigasi Tengah (Desktop) */}
+        {/* Menu Navigasi Tengah (Desktop Only) */}
         <div className="hidden md:flex items-center gap-5 lg:gap-7">
           {navLinks.map((link) => (
             <a
@@ -71,8 +71,8 @@ export function TopNavbar({
           ))}
         </div>
 
-        {/* Aksi Kanan: Jarak lega terpisah dari PENGALAMAN + Language Switcher + Dark Mode Toggle + Tombol "Hubungi Saya" */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-4 lg:ml-8 pl-3 sm:pl-5 border-l border-border/40">
+        {/* Aksi Kanan: Language Switcher + Dark Mode Toggle + Tombol "Hubungi Saya" */}
+        <div className="flex items-center gap-1.5 sm:gap-2.5 md:gap-3 shrink-0 ml-2 sm:ml-4 lg:ml-8 pl-2 sm:pl-3 lg:pl-5 border-l border-border/40">
           {/* Segmented Glass Pill Language Switcher */}
           <LanguageSegmentedPill />
 
@@ -80,9 +80,10 @@ export function TopNavbar({
             <ModeToggle className="size-full" />
           </div>
 
+          {/* Tombol CTA "Hubungi Saya": Tampil di layar sm ke atas, di mobile ada di dalam hamburger dropdown */}
           <a
             href={finalWhatsappUrl}
-            className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 rounded-xl border border-border/90 bg-primary text-primary-foreground text-xs font-semibold tracking-wide hover:bg-primary/90 transition-all duration-200 shadow-xs hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring whitespace-nowrap"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 rounded-xl border border-border/90 bg-primary text-primary-foreground text-xs font-semibold tracking-wide hover:bg-primary/90 transition-all duration-200 shadow-xs hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring whitespace-nowrap"
           >
             <span>{t.nav.contactMe}</span>
             <ArrowUpRight className="size-3.5" />
@@ -101,17 +102,27 @@ export function TopNavbar({
 
       {/* Menu Dropdown Mobile */}
       {mobileMenuOpen && (
-        <div className="md:hidden mt-2 p-4 rounded-2xl border border-border/80 bg-background/95 dark:bg-card/95 backdrop-blur-xl shadow-xl flex flex-col gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="md:hidden mt-2 p-4 rounded-2xl border border-border/80 bg-background/95 dark:bg-card/95 backdrop-blur-xl shadow-xl flex flex-col gap-2.5 animate-in fade-in slide-in-from-top-2 duration-200">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="text-xs font-semibold tracking-wider text-foreground/80 hover:text-foreground px-2 py-1.5 rounded-lg hover:bg-muted transition-colors"
+              className="text-xs font-semibold tracking-wider text-foreground/80 hover:text-foreground px-3 py-2 rounded-xl hover:bg-muted transition-colors"
             >
               {link.label}
             </a>
           ))}
+          <div className="pt-2 border-t border-border/40">
+            <a
+              href={finalWhatsappUrl}
+              onClick={() => setMobileMenuOpen(false)}
+              className="inline-flex w-full items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-semibold tracking-wide shadow-xs"
+            >
+              <span>{t.nav.contactMe}</span>
+              <ArrowUpRight className="size-3.5" />
+            </a>
+          </div>
         </div>
       )}
     </header>

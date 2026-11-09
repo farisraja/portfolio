@@ -25,7 +25,7 @@ export default function ContactSection({
   const hasAnyContact = hasTwitter || hasWhatsapp || hasEmail || hasGithub;
 
   return (
-    <div className="border rounded-xl p-10 relative">
+    <div className="border rounded-xl p-6 sm:p-10 relative">
       <div className="absolute -top-4 border bg-primary z-10 rounded-xl px-4 py-1 left-1/2 -translate-x-1/2">
         <span className="text-background text-sm font-medium">{t.contact.badge}</span>
       </div>
