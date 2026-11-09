@@ -5,6 +5,7 @@ import BlurFade from "@/components/magicui/blur-fade";
 import { TypingEffect } from "@/components/magicui/typing-effect";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { Spotlight } from "@/components/ui/spotlight";
+import { useLanguage } from "@/i18n/language-context";
 
 interface HeroSectionProps {
   name?: string | null;
@@ -19,10 +20,10 @@ export function HeroSection({
   description = "Saya membangun website dan aplikasi modern dengan performa tinggi dan arsitektur teruji.",
   avatarUrl = "/faris-cutout.png",
 }: HeroSectionProps) {
+  const { locale, t } = useLanguage();
   const displayName = name || "Faris Raja Ardana";
   const displayDescription =
-    description ||
-    "Saya membangun website dan aplikasi modern dengan performa tinggi dan arsitektur teruji.";
+    locale === "en" ? t.hero.subtitle : (description || t.hero.subtitle);
   const displayAvatar = avatarUrl || "/faris-cutout.png";
 
   return (
@@ -161,13 +162,8 @@ export function HeroSection({
         <BlurFade delay={BLUR_FADE_DELAY + 0.08} yOffset={10}>
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-primary/20 bg-background/90 dark:bg-card/90 backdrop-blur-md text-primary text-xs font-semibold shadow-2xs mb-2.5">
             <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-            <TypingEffect
-              phrases={[
-                "Web & Software Developer",
-                "Next.js & React Specialist",
-                "Full-Stack System Builder",
-                "Backend & Database Engineer",
-              ]}
+            <TypingEffect key={locale}
+              phrases={t.hero.typingPhrases}
               startDelay={600}
               typingSpeed={60}
               deletingSpeed={30}
@@ -198,7 +194,7 @@ export function HeroSection({
               href="#projects"
               className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-xl bg-primary text-primary-foreground text-xs sm:text-sm font-semibold hover:bg-primary/90 transition-all duration-200 shadow-sm hover:shadow-md group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
-              <span>Lihat Proyek</span>
+              <span>{t.hero.viewProjects}</span>
               <ArrowDown className="size-3.5 sm:size-4 transition-transform duration-200 group-hover:translate-y-0.5" />
             </a>
 
@@ -206,7 +202,7 @@ export function HeroSection({
               href="#contact"
               className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-xl border border-border/80 bg-background/80 dark:bg-card/80 backdrop-blur-md text-foreground text-xs sm:text-sm font-semibold hover:bg-muted hover:border-border transition-all duration-200 shadow-2xs group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
-              <span>Hubungi Saya</span>
+              <span>{t.hero.contactMe}</span>
               <ArrowUpRight className="size-3.5 sm:size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           </div>

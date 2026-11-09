@@ -12,22 +12,22 @@ import {
   FolderGit2,
   Globe,
   LayoutGrid,
-  Play,
-  SlidersHorizontal,
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ProjectCard } from "@/components/project-card";
+import { useLanguage } from "@/i18n/language-context";
 
 interface Project3DSliderProps {
   projects: ProjectItem[];
 }
 
 export function Project3DSlider({ projects }: Project3DSliderProps) {
+  const { t, locale } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [viewMode, setViewMode] = useState<"3d" | "grid">("3d");
-  const [isHovered, setIsHovered] = useState(false);
+  const [, setIsHovered] = useState(false);
 
   const total = projects.length;
 
@@ -68,6 +68,15 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
   const getRepoUrl = (p: ProjectItem) =>
     p.repositoryUrl || p.links?.find((l) => l.type.toLowerCase() === "source")?.href;
 
+  const activeTranslated =
+    locale === "en" ? t.projects.projectsMap?.[activeSlug] : null;
+  const activeDisplayTitle = activeTranslated?.title || activeProject.title;
+  const activeDisplaySummary =
+    activeTranslated?.summary ||
+    activeTranslated?.description ||
+    activeProject.summary ||
+    activeProject.description;
+
   return (
     <div className="flex flex-col gap-8 w-full">
       {/* ── 1. Header Section ala Video Referensi ── */}
@@ -75,7 +84,7 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
         <div className="flex flex-col gap-1 text-center sm:text-left">
           <div className="flex items-center justify-center sm:justify-start gap-2">
             <span className="text-[11px] font-mono font-semibold tracking-widest uppercase text-primary">
-              SELECTED WORK
+              {t.projects.selectedWork}
             </span>
             <span className="size-1 rounded-full bg-primary" />
             <span className="text-xs font-mono text-muted-foreground">
@@ -83,10 +92,10 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
             </span>
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-            Work Gallery
+            {t.projects.title}
           </h2>
           <p className="text-xs sm:text-sm text-muted-foreground max-w-[500px]">
-            Eksplorasi sistem perangkat lunak, arsitektur web, dan proyek teknis yang telah saya kembangkan.
+            {t.projects.description}
           </p>
         </div>
 
@@ -95,28 +104,28 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
           <button
             onClick={() => setViewMode("3d")}
             className={cn(
-              "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200",
+              "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer",
               viewMode === "3d"
                 ? "bg-primary text-primary-foreground shadow-xs"
                 : "text-muted-foreground hover:text-foreground hover:bg-muted"
             )}
-            title="Tampilan 3D Cover Flow"
+            title={locale === "en" ? "3D Cover Flow Showcase" : "Tampilan 3D Cover Flow"}
           >
             <Sparkles className="size-3.5" />
-            <span>3D Showcase</span>
+            <span>{t.projects.mode3D}</span>
           </button>
           <button
             onClick={() => setViewMode("grid")}
             className={cn(
-              "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200",
+              "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer",
               viewMode === "grid"
                 ? "bg-primary text-primary-foreground shadow-xs"
                 : "text-muted-foreground hover:text-foreground hover:bg-muted"
             )}
-            title="Tampilan Grid Seluruh Proyek"
+            title={locale === "en" ? "Grid View for All Projects" : "Tampilan Grid Seluruh Proyek"}
           >
             <LayoutGrid className="size-3.5" />
-            <span>Grid View</span>
+            <span>{t.projects.modeGrid}</span>
           </button>
         </div>
       </div>
@@ -164,7 +173,7 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
 
                 if (distance === 1) {
                   return {
-                    x: direction * 230, // di mobile nanti diatur via CSS atau responsif
+                    x: direction * 230,
                     scale: 0.82,
                     rotateY: -direction * 24,
                     zIndex: 10,
@@ -181,6 +190,9 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
               };
 
               const tf = getTransformValues();
+              const pSlug = project.slug || project.title.toLowerCase().replace(/\s+/g, "-");
+              const pTrans = locale === "en" ? t.projects.projectsMap?.[pSlug] : null;
+              const pTitle = pTrans?.title || project.title;
 
               return (
                 <motion.div
@@ -220,7 +232,7 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
                         <span className="size-2 rounded-full bg-emerald-400/80" />
                       </div>
                       <span className="text-[10px] font-mono text-muted-foreground truncate max-w-[180px]">
-                        {project.title}
+                        {pTitle}
                       </span>
                       <div className="size-2" />
                     </div>
@@ -242,14 +254,14 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
                           src={project.image}
-                          alt={project.imageAlt || project.title}
+                          alt={project.imageAlt || pTitle}
                           className="size-full object-cover object-top transition-transform duration-500 group-hover/img:scale-105"
                         />
                       ) : (
                         <div className="size-full flex flex-col items-center justify-center p-4 text-center bg-gradient-to-br from-muted/50 to-muted/80">
                           <FolderGit2 className="size-8 text-muted-foreground/60 mb-2" />
                           <span className="text-xs font-semibold text-foreground/80">
-                            {project.title}
+                            {pTitle}
                           </span>
                         </div>
                       )}
@@ -267,16 +279,16 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
             {/* Tombol Navigasi Kiri & Kanan Melayang */}
             <button
               onClick={prevSlide}
-              aria-label="Proyek Sebelumnya"
-              className="absolute left-2 sm:left-4 z-30 size-10 sm:size-12 rounded-full border border-border/80 bg-background/80 dark:bg-card/80 backdrop-blur-md flex items-center justify-center text-foreground hover:bg-muted hover:scale-105 transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              aria-label={t.projects.previous}
+              className="absolute left-2 sm:left-4 z-30 size-10 sm:size-12 rounded-full border border-border/80 bg-background/80 dark:bg-card/80 backdrop-blur-md flex items-center justify-center text-foreground hover:bg-muted hover:scale-105 transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
             >
               <ChevronLeft className="size-5 sm:size-6" />
             </button>
 
             <button
               onClick={nextSlide}
-              aria-label="Proyek Selanjutnya"
-              className="absolute right-2 sm:right-4 z-30 size-10 sm:size-12 rounded-full border border-border/80 bg-background/80 dark:bg-card/80 backdrop-blur-md flex items-center justify-center text-foreground hover:bg-muted hover:scale-105 transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              aria-label={t.projects.next}
+              className="absolute right-2 sm:right-4 z-30 size-10 sm:size-12 rounded-full border border-border/80 bg-background/80 dark:bg-card/80 backdrop-blur-md flex items-center justify-center text-foreground hover:bg-muted hover:scale-105 transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
             >
               <ChevronRight className="size-5 sm:size-6" />
             </button>
@@ -286,7 +298,7 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
           <div className="w-full max-w-2xl mx-auto flex flex-col items-center text-center mt-4 px-4 min-h-[170px]">
             <AnimatePresence mode="wait">
               <motion.div
-                key={activeProject.id || activeProject.title}
+                key={activeProject.id || activeProject.title + locale}
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
@@ -299,13 +311,13 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
                     href={`/projects/${activeSlug}`}
                     className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-lg"
                   >
-                    {activeProject.title}
+                    {activeDisplayTitle}
                   </Link>
                 </h3>
 
                 {/* Ringkasan / Deskripsi */}
                 <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-xl text-pretty line-clamp-3 sm:line-clamp-none">
-                  {activeProject.summary || activeProject.description}
+                  {activeDisplaySummary}
                 </p>
 
                 {/* Badge Teknologi */}
@@ -327,9 +339,9 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
                 <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
                   <Link
                     href={`/projects/${activeSlug}`}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-semibold hover:bg-primary/90 transition-all shadow-xs hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-semibold hover:bg-primary/90 transition-all shadow-xs hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
                   >
-                    <span>Lihat Detail Proyek</span>
+                    <span>{t.projects.viewDetails}</span>
                     <ArrowUpRight className="size-3.5" />
                   </Link>
 
@@ -338,10 +350,10 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
                       href={activeWebsiteUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-border/80 bg-background/80 hover:bg-muted text-foreground text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-border/80 bg-background/80 hover:bg-muted text-foreground text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
                     >
                       <Globe className="size-3.5 text-muted-foreground" />
-                      <span>Live Demo</span>
+                      <span>{t.projects.liveDemo}</span>
                     </a>
                   )}
 
@@ -350,10 +362,10 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
                       href={activeRepoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-border/80 bg-background/80 hover:bg-muted text-foreground text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-border/80 bg-background/80 hover:bg-muted text-foreground text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
                     >
                       <Icons.github className="size-3.5 text-muted-foreground" />
-                      <span>Source Code</span>
+                      <span>{t.projects.sourceCode}</span>
                     </a>
                   )}
                 </div>
@@ -367,12 +379,14 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
                   key={i}
                   onClick={() => setCurrentIndex(i)}
                   className={cn(
-                    "h-1.5 rounded-full transition-all duration-300",
+                    "h-1.5 rounded-full transition-all duration-300 cursor-pointer",
                     i === currentIndex
                       ? "w-7 bg-primary"
                       : "w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/60"
                   )}
-                  aria-label={`Pindah ke slide ${i + 1}`}
+                  aria-label={
+                    locale === "en" ? `Switch to slide ${i + 1}` : `Pindah ke slide ${i + 1}`
+                  }
                 />
               ))}
             </div>
@@ -407,4 +421,3 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
     </div>
   );
 }
-

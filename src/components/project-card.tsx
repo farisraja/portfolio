@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { ArrowUpRight, FolderGit2, Play, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { useLanguage } from "@/i18n/language-context";
 
 interface Props {
   title: string;
@@ -40,6 +41,7 @@ function ProjectThumbnail({
   isFeatured?: boolean;
 }) {
   const [imageError, setImageError] = useState(false);
+  const { t, locale } = useLanguage();
   const detailHref = `/projects/${slug}`;
 
   return (
@@ -54,7 +56,9 @@ function ProjectThumbnail({
       <Link
         href={detailHref}
         className="block size-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-        aria-label={`Lihat detail proyek ${title}`}
+        aria-label={
+          locale === "en" ? `View project details for ${title}` : `Lihat detail proyek ${title}`
+        }
       >
         {video ? (
           <div className="relative size-full">
@@ -91,7 +95,7 @@ function ProjectThumbnail({
               {title}
             </span>
             <span className="text-[10px] text-muted-foreground mt-0.5 tracking-wider font-mono">
-              Pratinjau Aplikasi
+              {t.projects.appPreview}
             </span>
           </div>
         )}
@@ -115,12 +119,24 @@ export function ProjectCard({
   className,
   isFeatured = false,
 }: Props) {
+  const { t, locale } = useLanguage();
   const detailHref = `/projects/${slug}`;
   const MAX_TAGS = isFeatured ? 5 : 4;
   const visibleTags = tags.slice(0, MAX_TAGS);
   const remainingCount = tags.length - MAX_TAGS;
 
-  const displaySummary = summary || description || "";
+  const translatedProject =
+    locale === "en" && t.projects.projectsMap?.[slug]
+      ? t.projects.projectsMap[slug]
+      : null;
+
+  const displayTitle = translatedProject?.title || title;
+  const displaySummary =
+    translatedProject?.summary ||
+    translatedProject?.description ||
+    summary ||
+    description ||
+    "";
 
   if (isFeatured) {
     return (
@@ -135,7 +151,7 @@ export function ProjectCard({
           <ProjectThumbnail
             image={image}
             imageAlt={imageAlt}
-            title={title}
+            title={displayTitle}
             slug={slug}
             video={video}
             isFeatured={true}
@@ -143,7 +159,7 @@ export function ProjectCard({
           {/* Badge: Proyek Unggulan */}
           <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/90 backdrop-blur-md border border-border/80 shadow-xs text-xs font-medium text-foreground select-none pointer-events-none">
             <Sparkles className="size-3 text-amber-500 fill-amber-500" />
-            <span>Proyek Unggulan</span>
+            <span>{locale === "en" ? "Featured Project" : "Proyek Unggulan"}</span>
           </div>
         </div>
 
@@ -157,7 +173,7 @@ export function ProjectCard({
                     href={detailHref}
                     className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xs"
                   >
-                    {title}
+                    {displayTitle}
                   </Link>
                 </h3>
               </div>
@@ -190,8 +206,16 @@ export function ProjectCard({
                   <Link
                     href={detailHref}
                     className="text-[11px] font-medium border border-border rounded-md px-2 h-5 inline-flex items-center bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    title={`Lihat ${remainingCount} teknologi lainnya di halaman detail`}
-                    aria-label={`Lihat ${remainingCount} teknologi lainnya di halaman detail`}
+                    title={
+                      locale === "en"
+                        ? `View ${remainingCount} more technologies on details page`
+                        : `Lihat ${remainingCount} teknologi lainnya di halaman detail`
+                    }
+                    aria-label={
+                      locale === "en"
+                        ? `View ${remainingCount} more technologies on details page`
+                        : `Lihat ${remainingCount} teknologi lainnya di halaman detail`
+                    }
                   >
                     +{remainingCount}
                   </Link>
@@ -206,7 +230,7 @@ export function ProjectCard({
               href={detailHref}
               className="inline-flex items-center gap-1.5 text-xs font-medium px-3.5 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-2xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
-              <span>Lihat Detail</span>
+              <span>{t.projects.viewDetails}</span>
               <ArrowUpRight className="size-3.5 project-card-arrow transition-transform duration-250 ease-out" />
             </Link>
 
@@ -216,10 +240,14 @@ export function ProjectCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-2 rounded-lg border border-border bg-background hover:bg-muted text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                aria-label={`Buka demo langsung ${title}`}
+                aria-label={
+                  locale === "en"
+                    ? `Open live demo for ${displayTitle}`
+                    : `Buka demo langsung ${displayTitle}`
+                }
               >
                 <Icons.globe className="size-3 text-muted-foreground" />
-                <span>Demo</span>
+                <span>{t.projects.liveDemo}</span>
               </a>
             )}
 
@@ -229,10 +257,14 @@ export function ProjectCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-2 rounded-lg border border-border bg-background hover:bg-muted text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                aria-label={`Buka kode sumber GitHub ${title}`}
+                aria-label={
+                  locale === "en"
+                    ? `Open GitHub source code for ${displayTitle}`
+                    : `Buka kode sumber GitHub ${displayTitle}`
+                }
               >
                 <Icons.github className="size-3 text-muted-foreground" />
-                <span>Source Code</span>
+                <span>{t.projects.sourceCode}</span>
               </a>
             )}
           </div>
@@ -252,7 +284,7 @@ export function ProjectCard({
       <ProjectThumbnail
         image={image}
         imageAlt={imageAlt}
-        title={title}
+        title={displayTitle}
         slug={slug}
         video={video}
         isFeatured={false}
@@ -268,7 +300,7 @@ export function ProjectCard({
                 href={detailHref}
                 className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xs"
               >
-                {title}
+                {displayTitle}
               </Link>
             </h3>
             {dates && (
@@ -302,8 +334,16 @@ export function ProjectCard({
               <Link
                 href={detailHref}
                 className="text-[11px] font-medium border border-border rounded-md px-1.5 h-5 inline-flex items-center bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                title={`Lihat ${remainingCount} teknologi lainnya di halaman detail`}
-                aria-label={`Lihat ${remainingCount} teknologi lainnya di halaman detail`}
+                title={
+                  locale === "en"
+                    ? `View ${remainingCount} more technologies on details page`
+                    : `Lihat ${remainingCount} teknologi lainnya di halaman detail`
+                }
+                aria-label={
+                  locale === "en"
+                    ? `View ${remainingCount} more technologies on details page`
+                    : `Lihat ${remainingCount} teknologi lainnya di halaman detail`
+                }
               >
                 +{remainingCount}
               </Link>
@@ -318,7 +358,7 @@ export function ProjectCard({
             href={detailHref}
             className="inline-flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
-            <span>Lihat Detail</span>
+            <span>{t.projects.viewDetails}</span>
             <ArrowUpRight className="size-3.5 project-card-arrow transition-transform duration-250 ease-out" />
           </Link>
 
@@ -329,10 +369,14 @@ export function ProjectCard({
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg border border-border bg-background hover:bg-muted text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-              aria-label={`Buka demo langsung ${title}`}
+              aria-label={
+                locale === "en"
+                  ? `Open live demo for ${displayTitle}`
+                  : `Buka demo langsung ${displayTitle}`
+              }
             >
               <Icons.globe className="size-3 text-muted-foreground" />
-              <span>Demo</span>
+              <span>{t.projects.liveDemo}</span>
             </a>
           )}
 
@@ -343,10 +387,14 @@ export function ProjectCard({
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg border border-border bg-background hover:bg-muted text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-              aria-label={`Buka kode sumber GitHub ${title}`}
+              aria-label={
+                locale === "en"
+                  ? `Open GitHub source code for ${displayTitle}`
+                  : `Buka kode sumber GitHub ${displayTitle}`
+              }
             >
               <Icons.github className="size-3 text-muted-foreground" />
-              <span>Source Code</span>
+              <span>{t.projects.sourceCode}</span>
             </a>
           )}
         </div>

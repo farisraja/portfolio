@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ModeToggle } from "@/components/mode-toggle";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/i18n/language-context";
+import { LanguageSegmentedPill } from "@/components/language-switcher";
 
 interface TopNavbarProps {
   ownerName?: string;
@@ -15,6 +17,7 @@ export function TopNavbar({
   ownerName = "Faris Raja",
   whatsappUrl = "#contact",
 }: TopNavbarProps) {
+  const { t } = useLanguage();
   const finalWhatsappUrl = whatsappUrl || "#contact";
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -28,11 +31,11 @@ export function TopNavbar({
   }, []);
 
   const navLinks = [
-    { label: "PROYEK", href: "#projects" },
-    { label: "KEAHLIAN", href: "#skills" },
-    { label: "TENTANG", href: "#about" },
-    { label: "SERTIFIKASI", href: "#certificates" },
-    { label: "PENGALAMAN", href: "#work" },
+    { label: t.nav.projects, href: "#projects" },
+    { label: t.nav.skills, href: "#skills" },
+    { label: t.nav.about, href: "#about" },
+    { label: t.nav.certificates, href: "#certificates" },
+    { label: t.nav.experience, href: "#work" },
   ];
 
   return (
@@ -72,8 +75,11 @@ export function TopNavbar({
           ))}
         </div>
 
-        {/* Aksi Kanan: Dark Mode Toggle + Tombol "Hubungi Saya" */}
+        {/* Aksi Kanan: Language Switcher + Dark Mode Toggle + Tombol "Hubungi Saya" */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {/* Segmented Glass Pill Language Switcher */}
+          <LanguageSegmentedPill />
+
           <div className="size-8 flex items-center justify-center rounded-xl hover:bg-muted transition-colors">
             <ModeToggle className="size-full" />
           </div>
@@ -82,7 +88,7 @@ export function TopNavbar({
             href={finalWhatsappUrl}
             className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 rounded-xl border border-border/90 bg-primary text-primary-foreground text-xs font-semibold tracking-wide hover:bg-primary/90 transition-all duration-200 shadow-xs hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <span>Hubungi Saya</span>
+            <span>{t.nav.contactMe}</span>
             <ArrowUpRight className="size-3.5" />
           </a>
 

@@ -1,4 +1,6 @@
 import { ThemeProvider } from "@/components/theme-provider";
+import { LanguageProvider } from "@/i18n/language-context";
+import { OtherLanguagesModal } from "@/components/language-switcher";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { TopographicBackground } from "@/components/ui/topographic-background";
 import { DATA } from "@/data/resume";
@@ -84,10 +86,13 @@ export default async function RootLayout({
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="light">
-          <TooltipProvider delayDuration={0}>
-            <TopographicBackground />
-            {children}
-          </TooltipProvider>
+          <LanguageProvider>
+            <TooltipProvider delayDuration={0}>
+              <TopographicBackground />
+              {children}
+              <OtherLanguagesModal />
+            </TooltipProvider>
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

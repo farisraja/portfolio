@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
+import { useLanguage } from "@/i18n/language-context";
 
 export type ContactSectionProps = {
   twitterUrl?: string | null;
@@ -14,6 +17,7 @@ export default function ContactSection({
   email,
   githubUrl,
 }: ContactSectionProps = {}) {
+  const { t, locale } = useLanguage();
   const hasTwitter = Boolean(twitterUrl && twitterUrl.trim() !== "");
   const hasWhatsapp = Boolean(whatsappUrl && whatsappUrl.trim() !== "");
   const hasEmail = Boolean(email && email.trim() !== "");
@@ -23,7 +27,7 @@ export default function ContactSection({
   return (
     <div className="border rounded-xl p-10 relative">
       <div className="absolute -top-4 border bg-primary z-10 rounded-xl px-4 py-1 left-1/2 -translate-x-1/2">
-        <span className="text-background text-sm font-medium">Kontak</span>
+        <span className="text-background text-sm font-medium">{t.contact.badge}</span>
       </div>
       <div className="absolute inset-0 top-0 left-0 right-0 h-1/2 rounded-xl overflow-hidden">
         <FlickeringGrid
@@ -38,11 +42,11 @@ export default function ContactSection({
       </div>
       <div className="relative flex flex-col items-center gap-4 text-center">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-          Hubungi Saya
+          {t.contact.title}
         </h2>
         {hasAnyContact ? (
           <p className="mx-auto max-w-lg text-muted-foreground text-balance">
-            Tertarik untuk berkolaborasi atau mendiskusikan peluang kerja sama? Silakan hubungi saya melalui
+            {t.contact.descriptionPrefix}
             {hasEmail && (
               <>
                 {" "}
@@ -56,7 +60,7 @@ export default function ContactSection({
             )}
             {hasWhatsapp && (
               <>
-                {hasEmail ? " atau " : " "}
+                {hasEmail ? ` ${t.contact.orText} ` : " "}
                 <Link
                   href={whatsappUrl!}
                   target="_blank"
@@ -69,7 +73,7 @@ export default function ContactSection({
             )}
             {hasTwitter && (
               <>
-                {hasEmail || hasWhatsapp ? " atau " : " "}
+                {hasEmail || hasWhatsapp ? ` ${t.contact.orText} ` : " "}
                 <Link
                   href={twitterUrl!}
                   target="_blank"
@@ -82,7 +86,7 @@ export default function ContactSection({
             )}
             {hasGithub && (
               <>
-                {hasEmail || hasWhatsapp || hasTwitter ? " atau profil " : " "}
+                {hasEmail || hasWhatsapp || hasTwitter ? ` ${t.contact.orProfileText} ` : " "}
                 <Link
                   href={githubUrl!}
                   target="_blank"
@@ -94,15 +98,16 @@ export default function ContactSection({
                 </Link>
               </>
             )}
-            .
+            {t.contact.period}
           </p>
         ) : (
           <p className="mx-auto max-w-lg text-muted-foreground text-balance">
-            Tertarik untuk berdiskusi atau berkolaborasi? Saluran kontak langsung akan segera diperbarui.
+            {locale === "en"
+              ? "Interested in collaborating or discussing opportunities? Direct contact channels will be updated shortly."
+              : "Tertarik untuk berdiskusi atau berkolaborasi? Saluran kontak langsung akan segera diperbarui."}
           </p>
         )}
       </div>
     </div>
   );
 }
-

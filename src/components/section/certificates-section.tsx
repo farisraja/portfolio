@@ -19,6 +19,7 @@ import {
   FileCheck2,
 } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "@/i18n/language-context";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -27,6 +28,7 @@ interface CertificatesSectionProps {
 }
 
 export default function CertificatesSection({ data }: CertificatesSectionProps) {
+  const { t, locale } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<"khusus" | "umum">("khusus");
   const [previewImage, setPreviewImage] = useState<{
     url: string;
@@ -76,6 +78,20 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
     };
   }, [previewImage, handleCloseModal]);
 
+  const getCertData = (cert: CertificateItem) => {
+    if (locale !== "en") {
+      return {
+        title: cert.title,
+        description: cert.description,
+      };
+    }
+    const trans = t.certificates.certTranslations?.[cert.title];
+    return {
+      title: trans?.title || cert.title,
+      description: trans?.description || cert.description,
+    };
+  };
+
   return (
     <div className="flex min-h-0 flex-col gap-y-8 w-full">
       {/* 1. Header Section */}
@@ -83,17 +99,18 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
         <div className="flex items-center w-full max-w-[600px]">
           <div className="section-divider-shimmer" />
           <div className="border bg-primary z-10 rounded-xl px-4 py-1 mx-3 shrink-0">
-            <span className="text-background text-sm font-medium">Sertifikasi</span>
+            <span className="text-background text-sm font-medium">
+              {t.certificates.badge}
+            </span>
           </div>
           <div className="section-divider-shimmer" />
         </div>
         <div className="flex flex-col gap-y-2 items-center justify-center text-center">
           <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl">
-            Lisensi & Sertifikasi
+            {t.certificates.title}
           </h2>
           <p className="text-muted-foreground text-sm sm:text-base max-w-[600px] text-pretty">
-            Kredensial profesional dan sertifikasi kompetensi yang telah saya raih untuk
-            memvalidasi keahlian dan standar rekayasa perangkat lunak.
+            {t.certificates.description}
           </p>
         </div>
       </div>
@@ -105,7 +122,7 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
           <button
             type="button"
             onClick={() => setSelectedCategory("khusus")}
-            className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+            className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
               selectedCategory === "khusus"
                 ? "bg-background text-foreground shadow-sm border border-border/60"
                 : "text-muted-foreground hover:text-foreground hover:bg-background/40"
@@ -116,7 +133,7 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
                 selectedCategory === "khusus" ? "text-primary" : "text-muted-foreground"
               }`}
             />
-            <span>Sertifikat Khusus</span>
+            <span>{t.certificates.tabKhusus}</span>
             <span
               className={`text-xs px-2 py-0.5 rounded-full font-mono font-medium transition-colors ${
                 selectedCategory === "khusus"
@@ -132,7 +149,7 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
           <button
             type="button"
             onClick={() => setSelectedCategory("umum")}
-            className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+            className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
               selectedCategory === "umum"
                 ? "bg-background text-foreground shadow-sm border border-border/60"
                 : "text-muted-foreground hover:text-foreground hover:bg-background/40"
@@ -143,7 +160,7 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
                 selectedCategory === "umum" ? "text-primary" : "text-muted-foreground"
               }`}
             />
-            <span>Sertifikat Umum</span>
+            <span>{t.certificates.tabUmum}</span>
             <span
               className={`text-xs px-2 py-0.5 rounded-full font-mono font-medium transition-colors ${
                 selectedCategory === "umum"
@@ -160,13 +177,11 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
         <p className="text-xs text-muted-foreground text-center max-w-md animate-in fade-in duration-300">
           {selectedCategory === "khusus" ? (
             <span>
-              <strong>Sertifikat Khusus:</strong> Keahlian spesifik seperti rekayasa perangkat lunak,
-              arsitektur backend, machine learning, dan komputasi awan.
+              <strong>{t.certificates.tabKhusus}:</strong> {t.certificates.tabKhususDesc}
             </span>
           ) : (
             <span>
-              <strong>Sertifikat Umum:</strong> Pemahaman fondasi pemrograman, version control (Git),
-              metodologi manajemen proyek Agile, dan literasi digital.
+              <strong>{t.certificates.tabUmum}:</strong> {t.certificates.tabUmumDesc}
             </span>
           )}
         </p>
@@ -179,17 +194,24 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
             <Award className="size-6" />
           </div>
           <h3 className="text-base font-semibold text-foreground">
-            Belum Ada Sertifikat di Kategori Ini
+            {t.certificates.noCertificates}
           </h3>
           <p className="text-xs text-muted-foreground max-w-sm mt-1">
-            Anda dapat menambahkan sertifikat kategori ini melalui dashboard admin CMS di{" "}
-            <code className="text-primary font-mono text-[11px]">/admin/collections/certificates</code>.
+            {t.certificates.noCertificatesDesc}
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
           {activeCertificates.map((cert, index) => {
             const isKhusus = cert.category === "khusus" || !cert.category;
+            const certData = getCertData(cert);
+            const categoryBadgeLabel = isKhusus
+              ? locale === "en"
+                ? "Specialized"
+                : "Khusus"
+              : locale === "en"
+              ? "General"
+              : "Umum";
 
             return (
               <BlurFade
@@ -203,14 +225,14 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
                     <div className="relative w-full aspect-[16/10] overflow-hidden bg-muted/40 border-b border-border/70 group/img">
                       <img
                         src={cert.image}
-                        alt={`Sertifikat ${cert.title} - ${cert.issuer}`}
+                        alt={`Sertifikat ${certData.title} - ${cert.issuer}`}
                         loading="lazy"
                         decoding="async"
                         className="size-full object-cover object-center transition-transform duration-300 ease-out group-hover/img:scale-105 cursor-pointer"
                         onClick={() =>
                           setPreviewImage({
                             url: cert.image!,
-                            title: cert.title,
+                            title: certData.title,
                             issuer: cert.issuer,
                             credentialId: cert.credentialId,
                           })
@@ -222,18 +244,18 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
                         onClick={() =>
                           setPreviewImage({
                             url: cert.image!,
-                            title: cert.title,
+                            title: certData.title,
                             issuer: cert.issuer,
                             credentialId: cert.credentialId,
                           })
                         }
-                        aria-label="Lihat Sertifikat Penuh"
+                        aria-label={t.certificates.clickToEnlarge}
                         className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-medium text-xs backdrop-blur-xs cursor-pointer"
                       >
                         <div className="size-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
                           <Maximize2 className="size-4" />
                         </div>
-                        <span>Klik untuk Memperbesar</span>
+                        <span>{t.certificates.clickToEnlarge}</span>
                       </button>
 
                       {/* Badge terapung di atas gambar */}
@@ -246,7 +268,7 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
                               : "border-emerald-500/40 bg-background/90 text-emerald-600 dark:text-emerald-400"
                           }`}
                         >
-                          {isKhusus ? "Khusus" : "Umum"}
+                          {categoryBadgeLabel}
                         </Badge>
                       </div>
                     </div>
@@ -258,7 +280,7 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
                         <FileCheck2 className="size-6" />
                       </div>
                       <span className="text-xs font-semibold text-foreground/90 max-w-[85%] line-clamp-1">
-                        {cert.title}
+                        {certData.title}
                       </span>
                       <span className="text-[10px] text-muted-foreground mt-0.5 font-mono">
                         {cert.issuer}
@@ -272,7 +294,7 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
                               : "border-emerald-500/40 bg-background/90 text-emerald-600 dark:text-emerald-400"
                           }`}
                         >
-                          {isKhusus ? "Khusus" : "Umum"}
+                          {categoryBadgeLabel}
                         </Badge>
                       </div>
                     </div>
@@ -297,7 +319,7 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
 
                       {/* Judul Sertifikat */}
                       <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug group-hover:text-primary transition-colors">
-                        {cert.title}
+                        {certData.title}
                       </h3>
 
                       {/* Metadata: Tanggal & Kredensial ID */}
@@ -319,9 +341,9 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
                       </div>
 
                       {/* Deskripsi */}
-                      {cert.description && (
+                      {certData.description && (
                         <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed line-clamp-3 pt-1 text-pretty">
-                          {cert.description}
+                          {certData.description}
                         </p>
                       )}
                     </div>
@@ -350,15 +372,15 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
                               onClick={() =>
                                 setPreviewImage({
                                   url: cert.image!,
-                                  title: cert.title,
+                                  title: certData.title,
                                   issuer: cert.issuer,
                                   credentialId: cert.credentialId,
                                 })
                               }
-                              className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors py-1 px-2.5 rounded-lg bg-muted/70 hover:bg-muted border border-border/60"
+                              className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors py-1 px-2.5 rounded-lg bg-muted/70 hover:bg-muted border border-border/60 cursor-pointer"
                             >
                               <ZoomIn className="size-3.5" />
-                              <span>Lihat Sertifikat</span>
+                              <span>{locale === "en" ? "View Certificate" : "Lihat Sertifikat"}</span>
                             </button>
                           )}
 
@@ -369,13 +391,13 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-primary/80 transition-colors py-1 px-2 rounded-md group/link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             >
-                              <span>Verifikasi Kredensial</span>
+                              <span>{t.certificates.verifyOnline}</span>
                               <ExternalLink className="size-3.5 transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
                             </Link>
                           ) : (
                             <div className="inline-flex items-center gap-1.5 text-xs text-muted-foreground py-1">
                               <CheckCircle2 className="size-3.5 text-emerald-500" />
-                              <span>Terverifikasi</span>
+                              <span>{locale === "en" ? "Verified" : "Terverifikasi"}</span>
                             </div>
                           )}
                         </div>
@@ -398,7 +420,11 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
         <div
           role="dialog"
           aria-modal="true"
-          aria-label={`Pratinjau Sertifikat: ${previewImage.title}`}
+          aria-label={
+            locale === "en"
+              ? `Certificate Preview: ${previewImage.title}`
+              : `Pratinjau Sertifikat: ${previewImage.title}`
+          }
           onClick={handleCloseModal}
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 sm:p-6 animate-in fade-in duration-200"
         >
@@ -422,17 +448,19 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
                   href={previewImage.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-muted hover:bg-muted/80 text-foreground transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-muted hover:bg-muted/80 text-foreground transition-colors cursor-pointer"
                 >
                   <ExternalLink className="size-3.5" />
-                  <span className="hidden sm:inline">Buka Berkas Asli</span>
+                  <span className="hidden sm:inline">
+                    {locale === "en" ? "Open Original File" : "Buka Berkas Asli"}
+                  </span>
                 </a>
 
                 <button
                   type="button"
                   onClick={handleCloseModal}
-                  aria-label="Tutup Pratinjau"
-                  className="size-8 rounded-xl bg-muted/80 hover:bg-muted flex items-center justify-center text-foreground transition-colors"
+                  aria-label={t.certificates.closePreview}
+                  className="size-8 rounded-xl bg-muted/80 hover:bg-muted flex items-center justify-center text-foreground transition-colors cursor-pointer"
                 >
                   <X className="size-4" />
                 </button>
@@ -452,13 +480,21 @@ export default function CertificatesSection({ data }: CertificatesSectionProps) 
             {previewImage.credentialId && (
               <div className="px-5 py-2.5 border-t border-border/80 bg-muted/30 text-xs text-muted-foreground flex items-center justify-between">
                 <span>
-                  Credential ID:{" "}
+                  {t.certificates.credentialIdLabel}:{" "}
                   <strong className="font-mono text-foreground">
                     {previewImage.credentialId}
                   </strong>
                 </span>
                 <span className="text-[11px] text-muted-foreground">
-                  Tekan <kbd className="px-1.5 py-0.5 rounded bg-muted border text-[10px]">ESC</kbd> untuk menutup
+                  {locale === "en" ? (
+                    <>
+                      Press <kbd className="px-1.5 py-0.5 rounded bg-muted border text-[10px]">ESC</kbd> to close
+                    </>
+                  ) : (
+                    <>
+                      Tekan <kbd className="px-1.5 py-0.5 rounded bg-muted border text-[10px]">ESC</kbd> untuk menutup
+                    </>
+                  )}
                 </span>
               </div>
             )}
