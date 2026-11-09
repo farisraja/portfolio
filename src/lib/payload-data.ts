@@ -63,6 +63,7 @@ export type PortfolioData = {
     location: string
     locationLink: string
     avatarUrl: string
+    cvUrl?: string | null
   }
   skills: Array<{
     id?: string | number
@@ -479,6 +480,10 @@ export async function getPortfolioData(): Promise<PortfolioData> {
         location: rawProfile?.location || '',
         locationLink: rawProfile?.locationLink || '',
         avatarUrl: getMediaUrl(rawProfile?.avatar, rawProfile?.avatarUrl || ''),
+        cvUrl: getMediaUrl(
+          (rawProfile as any)?.cv,
+          (rawProfile as any)?.cvUrl || (DATA as any).cvUrl || '/cv-faris-raja-ardana.pdf'
+        ),
       },
       skills: mappedSkills,
       experiences: mappedExperiences,
@@ -525,6 +530,7 @@ function getFallbackData(reason: string): PortfolioData {
       location: DATA.location,
       locationLink: DATA.locationLink,
       avatarUrl: DATA.avatarUrl,
+      cvUrl: (DATA as any).cvUrl || '/cv-faris-raja-ardana.pdf',
     },
     skills: DATA.skills.map((s) => ({ name: s.name, iconKey: s.name })),
     experiences: [...DATA.work],

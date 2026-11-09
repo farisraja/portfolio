@@ -12,6 +12,7 @@ export const DATA = {
   summary:
     "Saya lulusan Ilmu Komputer Universitas Pakuan yang berfokus pada pengembangan web dan aplikasi modern dengan performa tinggi. Saya terbiasa menerjemahkan kebutuhan pengguna menjadi fitur yang terstruktur, efisien, dan dapat dikembangkan lebih lanjut.\n\nSaat ini saya berkontribusi aktif sebagai Web Developer di PUSDIK MK, bertanggung jawab dalam pengembangan platform pembelajaran digital MKLC. Peran saya mencakup perancangan fitur, optimasi antarmuka pengguna (UI/UX), integrasi sistem, hingga pengujian fungsional untuk memastikan keandalan platform.",
   avatarUrl: "/api/media/file/faris-raja-ardana.jpg",
+  cvUrl: "/cv-faris-raja-ardana.pdf",
   skills: [
     { name: "Laravel" },
     { name: "Next.js" },

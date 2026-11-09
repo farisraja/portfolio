@@ -11,6 +11,7 @@ interface HeroSectionProps {
   name?: string | null;
   description?: string | null;
   avatarUrl?: string | null;
+  cvUrl?: string | null;
 }
 
 const BLUR_FADE_DELAY = 0.04;
@@ -19,12 +20,14 @@ export function HeroSection({
   name = "Faris Raja Ardana",
   description = "Saya membangun website dan aplikasi modern dengan performa tinggi dan arsitektur teruji.",
   avatarUrl = "/faris-cutout.png",
+  cvUrl,
 }: HeroSectionProps) {
   const { locale, t } = useLanguage();
   const displayName = name || "Faris Raja Ardana";
   const displayDescription =
     locale === "en" ? t.hero.subtitle : (description || t.hero.subtitle);
   const displayAvatar = avatarUrl || "/faris-cutout.png";
+  const displayCvUrl = cvUrl || "/cv-faris-raja-ardana.pdf";
 
   return (
     <section
@@ -234,6 +237,24 @@ export function HeroSection({
               <ArrowUpRight className="size-3.5 sm:size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           </div>
+
+          {/* Inline Editorial Link (Non-Button) */}
+          {displayCvUrl && (
+            <div className="pt-2.5 text-center">
+              <a
+                href={displayCvUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs text-muted-foreground/80 hover:text-foreground transition-colors underline-offset-4 hover:underline cursor-pointer group"
+              >
+                <span>{locale === "en" ? "or explore my verified" : "atau pelajari berkas"}</span>
+                <span className="font-semibold text-foreground inline-flex items-center gap-0.5">
+                  Curriculum Vitae (PDF)
+                  <ArrowUpRight className="size-3 inline text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </span>
+              </a>
+            </div>
+          )}
         </BlurFade>
       </div>
 

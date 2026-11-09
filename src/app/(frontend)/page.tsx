@@ -45,11 +45,12 @@ export default async function Page() {
         name={data.profile.name || "Faris Raja Ardana"}
         description={data.profile.description}
         avatarUrl="/faris-cutout.png"
+        cvUrl={data.profile.cvUrl}
       />
 
       {/* 2. BAGIAN TEKS PANJANG (About, Experience, Education, Skills) - Lebar Nyaman max-w-2xl */}
       <div className="w-full max-w-2xl mx-auto px-6 flex flex-col gap-14 my-4">
-        <AboutSection summary={data.profile.summary} />
+        <AboutSection summary={data.profile.summary} cvUrl={data.profile.cvUrl} />
 
         <section id="work">
           <WorkSection data={data.experiences} />
