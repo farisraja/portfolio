@@ -14,6 +14,7 @@ import { Media } from './payload/collections/Media'
 import { Hackathons } from './payload/collections/Hackathons'
 import { GithubRepositories } from './payload/collections/GithubRepositories'
 import { Certificates } from './payload/collections/Certificates'
+import { VisitorLogs } from './payload/collections/VisitorLogs'
 
 import { SiteSettings } from './payload/globals/SiteSettings'
 import { Profile } from './payload/globals/Profile'
@@ -28,7 +29,18 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Projects, Experiences, Education, Skills, Media, Hackathons, GithubRepositories, Certificates],
+  collections: [
+    Users,
+    Projects,
+    Experiences,
+    Education,
+    Skills,
+    Media,
+    Hackathons,
+    GithubRepositories,
+    Certificates,
+    VisitorLogs,
+  ],
   globals: [SiteSettings, Profile],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'secure-payload-cms-secret-key-32-chars-min',

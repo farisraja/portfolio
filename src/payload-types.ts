@@ -76,6 +76,7 @@ export interface Config {
     hackathons: Hackathon;
     'github-repositories': GithubRepository;
     certificates: Certificate;
+    'visitor-logs': VisitorLog;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -92,6 +93,7 @@ export interface Config {
     hackathons: HackathonsSelect<false> | HackathonsSelect<true>;
     'github-repositories': GithubRepositoriesSelect<false> | GithubRepositoriesSelect<true>;
     certificates: CertificatesSelect<false> | CertificatesSelect<true>;
+    'visitor-logs': VisitorLogsSelect<false> | VisitorLogsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -478,6 +480,38 @@ export interface Certificate {
   createdAt: string;
 }
 /**
+ * Catatan jejak kunjungan pengunjung ke halaman portofolio, CV, dan proyek (Anonim & GDPR-compliant).
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "visitor-logs".
+ */
+export interface VisitorLog {
+  id: number;
+  pathname: string;
+  /**
+   * Misal: linkedin.com, github.com, google.com, direct
+   */
+  referrerDomain?: string | null;
+  referrer?: string | null;
+  country?: string | null;
+  /**
+   * Kode 2 huruf (misal: ID, US, SG, JP)
+   */
+  countryCode?: string | null;
+  city?: string | null;
+  region?: string | null;
+  deviceType?: ('Desktop' | 'Mobile' | 'Tablet' | 'Bot' | 'Other') | null;
+  browser?: string | null;
+  os?: string | null;
+  /**
+   * SHA-256 hash harian untuk menghitung unique visitors tanpa menyimpan IP mentah.
+   */
+  visitorHash?: string | null;
+  userAgent?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -536,6 +570,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'certificates';
         value: number | Certificate;
+      } | null)
+    | ({
+        relationTo: 'visitor-logs';
+        value: number | VisitorLog;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -828,6 +866,26 @@ export interface CertificatesSelect<T extends boolean = true> {
   imageUrl?: T;
   published?: T;
   sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "visitor-logs_select".
+ */
+export interface VisitorLogsSelect<T extends boolean = true> {
+  pathname?: T;
+  referrerDomain?: T;
+  referrer?: T;
+  country?: T;
+  countryCode?: T;
+  city?: T;
+  region?: T;
+  deviceType?: T;
+  browser?: T;
+  os?: T;
+  visitorHash?: T;
+  userAgent?: T;
   updatedAt?: T;
   createdAt?: T;
 }

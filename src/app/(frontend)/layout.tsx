@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+import { VisitorTracker } from "@/components/analytics/visitor-tracker";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/i18n/language-context";
 import { OtherLanguagesModal } from "@/components/language-switcher";
@@ -89,6 +91,9 @@ export default async function RootLayout({
           <LanguageProvider>
             <TooltipProvider delayDuration={0}>
               <TopographicBackground />
+              <Suspense fallback={null}>
+                <VisitorTracker />
+              </Suspense>
               {children}
               <OtherLanguagesModal />
             </TooltipProvider>
