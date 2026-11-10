@@ -117,7 +117,7 @@ export function TopNavbar({
         </a>
 
         {/* Menu Navigasi Tengah (Desktop Only): Scroll halus tanpa # di URL */}
-        <div className="hidden lg:flex items-center justify-center gap-3.5 xl:gap-6 flex-1 min-w-0">
+        <div className="hidden lg:flex items-center justify-center gap-4 xl:gap-7 flex-1 min-w-0">
           {navLinks.map((link) => (
             <a
               key={link.label}
@@ -128,12 +128,6 @@ export function TopNavbar({
               {link.label}
             </a>
           ))}
-          <Link
-            href={`/cv?lang=${locale}`}
-            className="text-xs font-bold tracking-wider text-primary hover:text-primary/80 transition-colors duration-200 whitespace-nowrap cursor-pointer px-2.5 py-1 rounded-lg bg-primary/10 border border-primary/20 hover:bg-primary/15 shrink-0"
-          >
-            {t.nav.cv || "RESUME / CV"}
-          </Link>
         </div>
 
         {/* Aksi Kanan: Language Switcher + Dark Mode Toggle + Tombol "Hubungi Saya" */}
