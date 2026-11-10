@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { HarvardCvView } from "@/components/cv/harvard-cv-view";
 import { getPortfolioData } from "@/lib/payload-data";
@@ -31,5 +32,15 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function CvPage() {
-  return <HarvardCvView />;
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-neutral-100 dark:bg-neutral-950 flex items-center justify-center p-8 text-neutral-500 font-sans text-sm">
+          Memuat Curriculum Vitae...
+        </div>
+      }
+    >
+      <HarvardCvView />
+    </Suspense>
+  );
 }
