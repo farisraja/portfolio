@@ -86,12 +86,13 @@ export function TopNavbar({
     setMobileMenuOpen(false);
   };
 
+  // Urutan menu navigasi diselaraskan dengan posisi konten di halaman dari atas ke bawah
   const navLinks = [
-    { label: t.nav.projects, targetId: "projects" },
-    { label: t.nav.skills, targetId: "skills" },
     { label: t.nav.about, targetId: "about" },
-    { label: t.nav.certificates, targetId: "certificates" },
     { label: t.nav.experience, targetId: "work" },
+    { label: t.nav.skills, targetId: "skills" },
+    { label: t.nav.projects, targetId: "projects" },
+    { label: t.nav.certificates, targetId: "certificates" },
   ];
 
   return (
