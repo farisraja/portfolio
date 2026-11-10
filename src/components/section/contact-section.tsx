@@ -119,8 +119,8 @@ export default function ContactSection({
             </p>
             <p className="text-[11px] text-muted-foreground mt-0.5">
               {locale === "en"
-                ? "Harvard format • ATS-compliant 2-page PDF"
-                : "Format Harvard 2 Halaman ramah sistem ATS"}
+                ? "Official • ATS-compliant 2-page PDF"
+                : "Dokumen Resmi 2 Halaman ramah sistem ATS"}
             </p>
           </div>
           <div className="flex items-center gap-2 shrink-0">

@@ -49,7 +49,7 @@ export function AboutSection({ summary, cvUrl }: AboutSectionProps) {
               {displaySummary}
             </Markdown>
 
-            {/* Inline Editorial Link (Harvard-Style CV) */}
+            {/* Inline Editorial Link (CV) */}
             <p className="mt-4 pt-1 text-xs sm:text-sm text-muted-foreground leading-relaxed">
               {locale === "en" ? (
                 <>
@@ -59,7 +59,7 @@ export function AboutSection({ summary, cvUrl }: AboutSectionProps) {
                     className="inline-flex items-center gap-1 font-semibold text-foreground underline decoration-primary/50 hover:decoration-primary underline-offset-4 transition-all hover:text-primary group"
                   >
                     <FileText className="size-3.5 inline shrink-0 text-primary" />
-                    <span>Curriculum Vitae (Harvard Format)</span>
+                    <span>Curriculum Vitae</span>
                     <ArrowUpRight className="size-3.5 inline shrink-0 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </Link>
                   .
@@ -72,7 +72,7 @@ export function AboutSection({ summary, cvUrl }: AboutSectionProps) {
                     className="inline-flex items-center gap-1 font-semibold text-foreground underline decoration-primary/50 hover:decoration-primary underline-offset-4 transition-all hover:text-primary group"
                   >
                     <FileText className="size-3.5 inline shrink-0 text-primary" />
-                    <span>Curriculum Vitae (Format Harvard)</span>
+                    <span>Curriculum Vitae</span>
                     <ArrowUpRight className="size-3.5 inline shrink-0 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </Link>
                   .

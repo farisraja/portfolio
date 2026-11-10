@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const owner = data.siteSettings.ownerName || data.siteSettings.name || "Faris Raja Ardana";
   const siteUrl = data.siteSettings.url || DATA.url;
   const title = `Curriculum Vitae (CV) — ${owner}, S.Kom.`;
-  const description = `Resume profesional standar Harvard dari ${owner}, Web & Software Developer lulusan Ilmu Komputer Universitas Pakuan. Lengkap dengan riwayat kerja, proyek publik, keahlian teknis, dan sertifikasi terverifikasi.`;
+  const description = `Resume profesional ATS-compliant dari ${owner}, Web & Software Developer lulusan Ilmu Komputer Universitas Pakuan. Lengkap dengan riwayat kerja, proyek publik, keahlian teknis, dan sertifikasi terverifikasi.`;
 
   return {
     title,

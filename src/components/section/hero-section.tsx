@@ -247,7 +247,7 @@ export function HeroSection({
             >
               <span>{locale === "en" ? "or view my verified" : "atau pelajari berkas"}</span>
               <span className="font-semibold text-foreground inline-flex items-center gap-0.5">
-                Curriculum Vitae (Harvard Format)
+                Curriculum Vitae
                 <ArrowUpRight className="size-3 inline text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </span>
             </Link>

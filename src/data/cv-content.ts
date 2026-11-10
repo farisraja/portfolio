@@ -377,7 +377,7 @@ export const CV_DATA: Record<"id" | "en", CvContent> = {
       printHint: "Gunakan menu Cetak peramban (Ctrl+P / Cmd+P) untuk menyimpan sebagai PDF standar A4 atau klik unduh berkas di samping.",
       serifToggle: "Klasik (Serif)",
       sansToggle: "Modern (Sans)",
-      pageCount: "Dokumen Resmi — Format Standar Harvard (Halaman 1–2)",
+      pageCount: "Dokumen Resmi — Format Standar ATS (Halaman 1–2)",
     },
   },
   en: {
@@ -655,10 +655,10 @@ export const CV_DATA: Record<"id" | "en", CvContent> = {
       backToPortfolio: "Back to Portfolio",
       downloadPdf: "Print / Save as PDF (A4)",
       downloadOriginalFile: "Download PDF File (EN)",
-      printHint: "Use browser print (Ctrl+P / Cmd+P) to save as an official Harvard-style A4 PDF or download the file directly.",
+      printHint: "Use browser print (Ctrl+P / Cmd+P) to save as an official ATS-compliant A4 PDF or download the file directly.",
       serifToggle: "Classic (Serif)",
       sansToggle: "Modern (Sans)",
-      pageCount: "Official Document — Harvard Resume Standard (Pages 1–2)",
+      pageCount: "Official Document — ATS-Compliant Standard (Pages 1–2)",
     },
   },
 };

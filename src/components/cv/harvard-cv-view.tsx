@@ -149,7 +149,11 @@ export function HarvardCvView({ initialLocale = "id" }: HarvardCvViewProps) {
           {/* Center: ATS Format Badge */}
           <div className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
             <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Harvard Resume Standard • ATS-Compliant 2-Page Format</span>
+            <span>
+              {activeLocale === "en"
+                ? "Professional Resume Standard • ATS-Compliant 2-Page Format"
+                : "Standar Resume Profesional • Format 2 Halaman Ramah ATS"}
+            </span>
           </div>
 
           {/* Right Controls: Language Switcher, Font Toggle, Theme Toggle */}

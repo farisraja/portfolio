@@ -184,7 +184,7 @@ export function TopNavbar({
           >
             <span>{t.nav.cv || "RESUME / CV"}</span>
             <span className="text-[10px] font-mono uppercase bg-primary text-primary-foreground px-1.5 py-0.5 rounded">
-              Harvard ATS
+              ATS Friendly
             </span>
           </Link>
           <div className="pt-2 border-t border-border/40">
