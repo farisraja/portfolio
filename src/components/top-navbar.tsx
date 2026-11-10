@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { ModeToggle } from "@/components/mode-toggle";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -127,6 +128,12 @@ export function TopNavbar({
               {link.label}
             </a>
           ))}
+          <Link
+            href="/cv"
+            className="text-xs font-bold tracking-wider text-primary hover:text-primary/80 transition-colors duration-200 whitespace-nowrap cursor-pointer px-2.5 py-1 rounded-lg bg-primary/10 border border-primary/20 hover:bg-primary/15"
+          >
+            {t.nav.cv || "RESUME / CV"}
+          </Link>
         </div>
 
         {/* Aksi Kanan: Language Switcher + Dark Mode Toggle + Tombol "Hubungi Saya" */}
@@ -176,6 +183,16 @@ export function TopNavbar({
               {link.label}
             </a>
           ))}
+          <Link
+            href="/cv"
+            onClick={() => setMobileMenuOpen(false)}
+            className="text-xs font-bold tracking-wider text-primary px-3 py-2 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-between hover:bg-primary/15 transition-colors"
+          >
+            <span>{t.nav.cv || "RESUME / CV"}</span>
+            <span className="text-[10px] font-mono uppercase bg-primary text-primary-foreground px-1.5 py-0.5 rounded">
+              Harvard ATS
+            </span>
+          </Link>
           <div className="pt-2 border-t border-border/40">
             <a
               href={finalWhatsappUrl}

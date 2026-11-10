@@ -1,5 +1,5 @@
 import { Icons } from "@/components/icons";
-import { HomeIcon } from "lucide-react";
+import { HomeIcon, FileText } from "lucide-react";
 
 export const DATA = {
   name: "Faris Raja Ardana",
@@ -34,7 +34,10 @@ export const DATA = {
     { name: "Laravel Sanctum" },
     { name: "WebSockets" },
   ],
-  navbar: [{ href: "/", icon: HomeIcon, label: "Home" }],
+  navbar: [
+    { href: "/", icon: HomeIcon, label: "Home" },
+    { href: "/cv", icon: FileText, label: "Resume / CV" },
+  ],
   contact: {
     email: "",
     tel: "",

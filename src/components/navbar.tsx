@@ -87,10 +87,15 @@ export default function Navbar({ social, ownerName = "Faris Raja Ardana" }: Navb
         className="pointer-events-none fixed inset-x-0 bottom-4 z-30 hidden md:flex justify-center pb-[env(safe-area-inset-bottom,0px)]"
       >
         <Dock className="z-50 pointer-events-auto relative h-14 p-2 w-fit max-w-[calc(100vw-2rem)] mx-auto flex items-center gap-1.5 sm:gap-2 border bg-card/90 backdrop-blur-3xl shadow-[0_0_10px_3px] shadow-primary/5">
-          {/* Beranda (Home) */}
+          {/* Beranda (Home) & Navigasi Cepat */}
           {DATA.navbar.map((item) => {
             const isExternal = item.href.startsWith("http");
-            const label = item.label === "Home" ? t.nav.home : item.label;
+            const label =
+              item.label === "Home"
+                ? t.nav.home
+                : item.label === "Resume / CV"
+                ? (t.nav.cv || "Resume / CV")
+                : item.label;
             return (
               <Tooltip key={item.href}>
                 <TooltipTrigger asChild>

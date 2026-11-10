@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import BlurFade from "@/components/magicui/blur-fade";
 import { TypingEffect } from "@/components/magicui/typing-effect";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
@@ -239,22 +240,18 @@ export function HeroSection({
           </div>
 
           {/* Inline Editorial Link (Non-Button) */}
-          {displayCvUrl && (
-            <div className="pt-2.5 text-center">
-              <a
-                href={displayCvUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs text-muted-foreground/80 hover:text-foreground transition-colors underline-offset-4 hover:underline cursor-pointer group"
-              >
-                <span>{locale === "en" ? "or explore my verified" : "atau pelajari berkas"}</span>
-                <span className="font-semibold text-foreground inline-flex items-center gap-0.5">
-                  Curriculum Vitae (PDF)
-                  <ArrowUpRight className="size-3 inline text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </span>
-              </a>
-            </div>
-          )}
+          <div className="pt-2.5 text-center">
+            <Link
+              href="/cv"
+              className="inline-flex items-center gap-1.5 text-xs text-muted-foreground/80 hover:text-foreground transition-colors underline-offset-4 hover:underline cursor-pointer group"
+            >
+              <span>{locale === "en" ? "or view my verified" : "atau pelajari berkas"}</span>
+              <span className="font-semibold text-foreground inline-flex items-center gap-0.5">
+                Curriculum Vitae (Harvard Format)
+                <ArrowUpRight className="size-3 inline text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </span>
+            </Link>
+          </div>
         </BlurFade>
       </div>
 

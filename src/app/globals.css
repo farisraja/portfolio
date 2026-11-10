@@ -453,3 +453,65 @@
     -webkit-text-stroke-width: 2.2px !important;
   }
 }
+
+/* ========================================================
+   Print Styles: Harvard Resume PDF & Printing Optimization
+   ======================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 15mm;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide all interactive UI, top navbars, docks, background canvases */
+  .no-print,
+  header.no-print,
+  footer.no-print,
+  nav,
+  .topo-canvas,
+  .topo-background,
+  #hero-canvas,
+  .spotlight-container,
+  [data-radix-portal] {
+    display: none !important;
+  }
+
+  /* Make the resume sheet take up the pure page without shadows, rounded corners, or borders */
+  .harvard-sheet {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    color: #111827 !important;
+  }
+
+  .harvard-sheet a {
+    color: #111827 !important;
+    text-decoration: none !important;
+  }
+
+  .break-inside-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Ensure lines print with pure solid black */
+  .harvard-sheet hr,
+  .harvard-sheet .border-b {
+    border-color: #111827 !important;
+    border-bottom-width: 1px !important;
+  }
+}

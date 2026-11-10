@@ -21,6 +21,7 @@ export interface Dictionary {
     contact: string
     contactMe: string
     toggleTheme: string
+    cv?: string
   }
   hero: {
     typingPhrases: string[]

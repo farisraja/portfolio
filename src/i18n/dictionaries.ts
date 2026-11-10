@@ -22,6 +22,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       contact: 'KONTAK',
       contactMe: 'Hubungi Saya',
       toggleTheme: 'Pengubah Tema',
+      cv: 'RESUME / CV',
     },
     hero: {
       typingPhrases: [
@@ -189,6 +190,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       contact: 'CONTACT',
       contactMe: 'Contact Me',
       toggleTheme: 'Theme Toggle',
+      cv: 'RESUME / CV',
     },
     hero: {
       typingPhrases: [
