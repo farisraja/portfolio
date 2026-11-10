@@ -105,7 +105,7 @@ export function TopNavbar({
             : "bg-background/60 dark:bg-card/50 backdrop-blur-md border-border/40"
         )}
       >
-        {/* Brand Kiri: Logo Badge FRA. + Nama Faris Raja (ala Referensi) */}
+        {/* Brand Kiri: Logo Badge FRA. + Nama Lengkap Faris Raja Ardana */}
         <a
           href="/"
           onClick={(e) => scrollToSection(e, "hero")}
@@ -121,9 +121,9 @@ export function TopNavbar({
             />
           </div>
 
-          {/* Name Text: Faris Raja */}
+          {/* Name Text: Faris Raja Ardana */}
           <span className="font-bold text-xs sm:text-sm tracking-tight text-foreground whitespace-nowrap group-hover:text-primary transition-colors">
-            Faris Raja
+            {ownerName || "Faris Raja Ardana"}
           </span>
         </a>
 
