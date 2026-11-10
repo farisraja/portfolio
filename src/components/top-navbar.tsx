@@ -99,7 +99,7 @@ export function TopNavbar({
       <nav
         aria-label="Navigasi Atas"
         className={cn(
-          "flex items-center justify-between px-3 sm:px-6 py-2 sm:py-2.5 rounded-2xl border transition-all duration-300",
+          "flex items-center justify-between gap-3 sm:gap-4 lg:gap-6 px-3.5 sm:px-6 py-2 sm:py-2.5 rounded-2xl border transition-all duration-300",
           scrolled
             ? "bg-background/80 dark:bg-card/75 backdrop-blur-xl border-border/80 shadow-md shadow-primary/5"
             : "bg-background/60 dark:bg-card/50 backdrop-blur-md border-border/40"
@@ -109,7 +109,7 @@ export function TopNavbar({
         <a
           href="/"
           onClick={(e) => scrollToSection(e, "hero")}
-          className="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl shrink-0 cursor-pointer"
+          className="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl shrink-0 cursor-pointer pr-3 lg:pr-5 border-r border-border/30"
         >
           <span className="font-bold text-[11px] sm:text-xs md:text-sm tracking-wider uppercase text-foreground whitespace-nowrap">
             {ownerName}
@@ -117,27 +117,27 @@ export function TopNavbar({
         </a>
 
         {/* Menu Navigasi Tengah (Desktop Only): Scroll halus tanpa # di URL */}
-        <div className="hidden md:flex items-center gap-5 lg:gap-7">
+        <div className="hidden lg:flex items-center justify-center gap-3.5 xl:gap-6 flex-1 min-w-0">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={`#${link.targetId}`}
               onClick={(e) => scrollToSection(e, link.targetId)}
-              className="text-xs font-semibold tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-200 whitespace-nowrap cursor-pointer"
+              className="text-xs font-semibold tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-200 whitespace-nowrap cursor-pointer px-1 py-0.5"
             >
               {link.label}
             </a>
           ))}
           <Link
             href={`/cv?lang=${locale}`}
-            className="text-xs font-bold tracking-wider text-primary hover:text-primary/80 transition-colors duration-200 whitespace-nowrap cursor-pointer px-2.5 py-1 rounded-lg bg-primary/10 border border-primary/20 hover:bg-primary/15"
+            className="text-xs font-bold tracking-wider text-primary hover:text-primary/80 transition-colors duration-200 whitespace-nowrap cursor-pointer px-2.5 py-1 rounded-lg bg-primary/10 border border-primary/20 hover:bg-primary/15 shrink-0"
           >
             {t.nav.cv || "RESUME / CV"}
           </Link>
         </div>
 
         {/* Aksi Kanan: Language Switcher + Dark Mode Toggle + Tombol "Hubungi Saya" */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 md:gap-3 shrink-0 ml-2 sm:ml-4 lg:ml-8 pl-2 sm:pl-3 lg:pl-5 border-l border-border/40">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 lg:gap-3 shrink-0 ml-auto pl-2 sm:pl-3 lg:pl-5 border-l border-border/40">
           {/* Segmented Glass Pill Language Switcher */}
           <LanguageSegmentedPill />
 
@@ -159,10 +159,10 @@ export function TopNavbar({
             <ArrowUpRight className="size-3.5" />
           </a>
 
-          {/* Tombol Hamburger Mobile */}
+          {/* Tombol Hamburger Mobile / Tablet (< 1024px) */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
+            className="lg:hidden p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
@@ -170,9 +170,9 @@ export function TopNavbar({
         </div>
       </nav>
 
-      {/* Menu Dropdown Mobile */}
+      {/* Menu Dropdown Mobile / Tablet */}
       {mobileMenuOpen && (
-        <div className="md:hidden mt-2 p-4 rounded-2xl border border-border/80 bg-background/95 dark:bg-card/95 backdrop-blur-xl shadow-xl flex flex-col gap-2.5 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="lg:hidden mt-2 p-4 rounded-2xl border border-border/80 bg-background/95 dark:bg-card/95 backdrop-blur-xl shadow-xl flex flex-col gap-2.5 animate-in fade-in slide-in-from-top-2 duration-200">
           {navLinks.map((link) => (
             <a
               key={link.label}
