@@ -55,7 +55,7 @@ export function AboutSection({ summary, cvUrl }: AboutSectionProps) {
                 <>
                   A detailed breakdown of my qualifications, project milestones, and technical background is documented in my{" "}
                   <Link
-                    href="/cv"
+                    href={`/cv?lang=${locale}`}
                     className="inline-flex items-center gap-1 font-semibold text-foreground underline decoration-primary/50 hover:decoration-primary underline-offset-4 transition-all hover:text-primary group"
                   >
                     <FileText className="size-3.5 inline shrink-0 text-primary" />
@@ -68,7 +68,7 @@ export function AboutSection({ summary, cvUrl }: AboutSectionProps) {
                 <>
                   Rincian kualifikasi, riwayat pengalaman, dan latar belakang teknis lengkap saya rangkum dalam berkas{" "}
                   <Link
-                    href="/cv"
+                    href={`/cv?lang=${locale}`}
                     className="inline-flex items-center gap-1 font-semibold text-foreground underline decoration-primary/50 hover:decoration-primary underline-offset-4 transition-all hover:text-primary group"
                   >
                     <FileText className="size-3.5 inline shrink-0 text-primary" />

@@ -71,65 +71,113 @@ export const DATA = {
 
   work: [
     {
-      company: "PUSDIK MK",
-      href: "",
-      badges: [],
-      location: "",
+      company: "PUSDIK MK (Mahkamah Konstitusi RI)",
+      href: "https://pusdik.mkri.id",
+      badges: ["Next.js 14", "Laravel 10", "PostgreSQL", "SCORM 1.2/2004"],
+      location: "Bogor / Jakarta, Indonesia",
       title: "Web Developer",
       logoUrl: "",
       start: "September 2026",
       end: "Sekarang",
       description:
-        "• Terlibat dalam pengembangan fitur platform pembelajaran MKLC.\n• Membantu perapihan antarmuka dan pengalaman pengguna.\n• Melakukan pengujian fungsional serta mendokumentasikan temuan perbaikan.",
+        "• Mengembangkan dan memelihara modul fungsional platform pembelajaran digital MKLC (Mahkamah Konstitusi Learning Center) berbasis Next.js 14 App Router dan Laravel 10 REST API.\n• Membangun antarmuka pemutar SCORM runtime simulator untuk pengujian modul kursus digital interaktif standar SCORM 1.2 dan 2004.\n• Mengimplementasikan pengujian fungsional modul, perbaikan bug antarmuka, serta integrasi endpoint API backend secara terstruktur.",
     },
     {
       company: "FMIPA Universitas Pakuan",
-      href: "",
-      badges: [],
-      location: "",
-      title: "Staff Administrasi Sistem & Pengelola Data",
+      href: "https://fmipa.unpak.ac.id",
+      badges: ["PHP", "MySQL", "Jaringan Komputer", "Digital Library"],
+      location: "Bogor, Indonesia",
+      title: "Laboratorium Komputer & Sistem Administrasi",
       logoUrl: "",
-      start: "",
-      end: "",
+      start: "Agustus 2023",
+      end: "Januari 2024",
       description:
-        "• Melakukan pendataan buku dan administrasi perpustakaan.\n• Membantu pengelolaan arsip berbasis web.\n• Mendukung administrasi dan penyusunan laporan.",
+        "• Mengembangkan dan merawat sistem repositori dan perpustakaan digital (Digital Library) berbasis web untuk pengarsipan dan penelusuran karya ilmiah skripsi mahasiswa.\n• Mengelola operasional dan konfigurasi perangkat komputer laboratorium serta jaringan lokal (LAN) fakultas.\n• Mendukung kelancaran layanan infrastruktur teknologi informasi fakultas serta membantu penyusunan laporan administratif berkala.",
     },
     {
-      company: "Surveyor Freelance",
+      company: "Riset Lapangan Independen (Freelance)",
       href: "",
-      badges: [],
-      location: "Jakarta",
-      title: "Surveyor",
+      badges: ["Data Verification", "Field Survey", "Quantitative Sampling"],
+      location: "Jakarta, Indonesia",
+      title: "Surveyor Data Lapangan",
       logoUrl: "",
       start: "April 2026",
       end: "Agustus 2026",
       description:
-        "Melaksanakan survei lapangan di wilayah Jakarta sesuai kebutuhan pengumpulan data.",
+        "• Melaksanakan pengumpulan data primer, verifikasi lapangan, dan sampling kuantitatif di wilayah DKI Jakarta sesuai parameter metodologi survei.\n• Memvalidasi integritas dataset lapangan secara ketat untuk menjamin kepatuhan metodologi dan akurasi data sebelum dianalisis.",
     },
   ],
   education: [
     {
       school: "Universitas Pakuan",
-      href: "",
-      degree: "Ilmu Komputer (IPK 3,47 / 4,00) — Lulus",
+      href: "https://unpak.ac.id",
+      degree: "Sarjana Ilmu Komputer (S.Kom.) — IPK 3.47 / 4.00",
       logoUrl: "",
-      start: "",
-      end: "",
+      start: "2020",
+      end: "2024",
       description:
-        "Program Studi Ilmu Komputer, Fakultas Matematika dan Ilmu Pengetahuan Alam (FMIPA).",
+        "Program Studi Ilmu Komputer, Fakultas Matematika dan Ilmu Pengetahuan Alam (FMIPA). Lulus dengan predikat Sangat Memuaskan (IPK 3.47 / 4.00).\n• Mata Kuliah Utama: Rekayasa Perangkat Lunak, Sistem Basis Data, Pemrograman Berorientasi Objek, Pemrograman Web, Jaringan Komputer, Sistem Operasi, Data Mining, Kecerdasan Buatan.",
     },
   ],
-  projects: [] as Array<{
-    title: string;
-    href?: string;
-    dates: string;
-    active: boolean;
-    description: string;
-    technologies: readonly string[];
-    links: readonly { type: string; href: string }[];
-    image?: string;
-    video?: string;
-  }>,
+  projects: [
+    {
+      title: "PB Cipta Badminton League Application",
+      href: "https://pb-cipta-esports.vercel.app",
+      dates: "2024",
+      active: true,
+      description:
+        "Aplikasi web modern untuk manajemen turnamen dan liga bulu tangkis yang mencakup pencatatan skor pertandingan real-time, statistik otomatis, dan papan peringkat dinamis.",
+      technologies: ["React 18", "TypeScript", "Tailwind CSS", "Vite", "Supabase", "Express.js"] as readonly string[],
+      links: [
+        { type: "Website", href: "https://pb-cipta-esports.vercel.app" },
+        { type: "Source", href: "https://github.com/farisraja/pb-cipta-sports" },
+      ] as readonly { type: string; href: string }[],
+      image: "",
+      video: "",
+    },
+    {
+      title: "AI Resume Optimizer (ATS Beater)",
+      href: "https://github.com/farisraja/resume-optimizer",
+      dates: "2024",
+      active: true,
+      description:
+        "Platform open-source berbasis AI untuk mengoptimalkan resume terhadap deskripsi pekerjaan melalui pencocokan kata kunci kontekstual dan kompilasi otomatis format standar ATS.",
+      technologies: ["Python 3.12", "FastAPI", "Google Gemini 1.5 Flash Vision & Pro", "LaTeX", "Vue 3", "PostgreSQL"] as readonly string[],
+      links: [
+        { type: "Source", href: "https://github.com/farisraja/resume-optimizer" },
+      ] as readonly { type: string; href: string }[],
+      image: "",
+      video: "",
+    },
+    {
+      title: "MKLC SCORM Platform & Simulation Engine",
+      href: "https://github.com/farisraja/mklc-scorm-frontend",
+      dates: "2026",
+      active: true,
+      description:
+        "Platform e-learning dan SCORM runtime engine untuk standardisasi materi pembelajaran interaktif pada Pusat Pendidikan Pancasila dan Konstitusi Mahkamah Konstitusi RI.",
+      technologies: ["Next.js 14", "Laravel 10", "PHP 8.1", "PostgreSQL 16", "SCORM 1.2/2004 RTE", "Docker"] as readonly string[],
+      links: [
+        { type: "Source", href: "https://github.com/farisraja/mklc-scorm-frontend" },
+      ] as readonly { type: string; href: string }[],
+      image: "",
+      video: "",
+    },
+    {
+      title: "Analisis Keranjang Belanja (Market Basket Analysis)",
+      href: "https://github.com/farisraja/analisis_keranjang_belanja_2026",
+      dates: "2024",
+      active: true,
+      description:
+        "Aplikasi web pengolahan data riwayat transaksi penjualan retail menggunakan algoritma data mining asosiasi untuk menemukan pola afinitas pembelian konsumen.",
+      technologies: ["Laravel", "PHP", "MySQL", "Tailwind CSS", "Vite", "Blade"] as readonly string[],
+      links: [
+        { type: "Source", href: "https://github.com/farisraja/analisis_keranjang_belanja_2026" },
+      ] as readonly { type: string; href: string }[],
+      image: "",
+      video: "",
+    },
+  ],
   hackathons: [] as Array<{
     title: string;
     dates: string;

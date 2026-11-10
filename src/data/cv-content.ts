@@ -383,7 +383,7 @@ export const CV_DATA: Record<"id" | "en", CvContent> = {
   en: {
     header: {
       name: "FARIS RAJA ARDANA",
-      degreeSuffix: "B.Comp.Sc.",
+      degreeSuffix: "S.Kom.",
       title: "Web & Software Developer",
       email: "farisraja003@gmail.com",
       phone: "+62 889-8870-0804",

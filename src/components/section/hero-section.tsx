@@ -242,7 +242,7 @@ export function HeroSection({
           {/* Inline Editorial Link (Non-Button) */}
           <div className="pt-2.5 text-center">
             <Link
-              href="/cv"
+              href={`/cv?lang=${locale}`}
               className="inline-flex items-center gap-1.5 text-xs text-muted-foreground/80 hover:text-foreground transition-colors underline-offset-4 hover:underline cursor-pointer group"
             >
               <span>{locale === "en" ? "or view my verified" : "atau pelajari berkas"}</span>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 import { useLanguage } from "@/i18n/language-context";
+import { FileText, ArrowUpRight, Download } from "lucide-react";
 
 export type ContactSectionProps = {
   twitterUrl?: string | null;
@@ -108,6 +109,39 @@ export default function ContactSection({
               : "Tertarik untuk berdiskusi atau berkolaborasi? Saluran kontak langsung akan segera diperbarui."}
           </p>
         )}
+
+        {/* Recruiter Fast-Track Card (Harvard CV Access) */}
+        <div className="mt-3 pt-3 border-t border-border/60 w-full max-w-md mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 bg-muted/30 dark:bg-muted/15 backdrop-blur-xs p-3.5 rounded-2xl border border-border/80">
+          <div className="text-center sm:text-left text-xs">
+            <p className="font-semibold text-foreground flex items-center justify-center sm:justify-start gap-1.5">
+              <FileText className="size-3.5 text-primary shrink-0" />
+              <span>{locale === "en" ? "Looking for my verified CV?" : "Butuh resume kualifikasi lengkap?"}</span>
+            </p>
+            <p className="text-[11px] text-muted-foreground mt-0.5">
+              {locale === "en"
+                ? "Harvard format • ATS-compliant 2-page PDF"
+                : "Format Harvard 2 Halaman ramah sistem ATS"}
+            </p>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <Link
+              href={`/cv?lang=${locale}`}
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-primary text-primary-foreground text-xs font-semibold hover:bg-primary/90 transition-colors shadow-2xs cursor-pointer"
+            >
+              <span>{locale === "en" ? "View CV" : "Buka CV"}</span>
+              <ArrowUpRight className="size-3" />
+            </Link>
+            <a
+              href={locale === "en" ? "/cv-faris-raja-ardana-en.pdf" : "/cv-faris-raja-ardana-id.pdf"}
+              download={locale === "en" ? "Faris_Raja_Ardana_CV_EN.pdf" : "Faris_Raja_Ardana_CV_ID.pdf"}
+              title={locale === "en" ? "Download Vector PDF" : "Unduh Berkas PDF"}
+              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl border border-border bg-background hover:bg-muted text-muted-foreground hover:text-foreground text-xs transition-colors cursor-pointer"
+            >
+              <Download className="size-3" />
+              <span>PDF</span>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );

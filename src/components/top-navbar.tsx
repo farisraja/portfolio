@@ -25,7 +25,7 @@ export function TopNavbar({
   whatsappUrl = "#contact",
   social,
 }: TopNavbarProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const finalWhatsappUrl = whatsappUrl || "#contact";
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -129,7 +129,7 @@ export function TopNavbar({
             </a>
           ))}
           <Link
-            href="/cv"
+            href={`/cv?lang=${locale}`}
             className="text-xs font-bold tracking-wider text-primary hover:text-primary/80 transition-colors duration-200 whitespace-nowrap cursor-pointer px-2.5 py-1 rounded-lg bg-primary/10 border border-primary/20 hover:bg-primary/15"
           >
             {t.nav.cv || "RESUME / CV"}
@@ -184,7 +184,7 @@ export function TopNavbar({
             </a>
           ))}
           <Link
-            href="/cv"
+            href={`/cv?lang=${locale}`}
             onClick={() => setMobileMenuOpen(false)}
             className="text-xs font-bold tracking-wider text-primary px-3 py-2 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-between hover:bg-primary/15 transition-colors"
           >

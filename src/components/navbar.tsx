@@ -30,7 +30,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ social, ownerName = "Faris Raja Ardana" }: NavbarProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   // Determine social links with priority: CMS live data -> DATA fallback
   const githubUrl =
     social?.github !== undefined ? social.github : DATA.contact.social.GitHub?.url;
@@ -90,6 +90,7 @@ export default function Navbar({ social, ownerName = "Faris Raja Ardana" }: Navb
           {/* Beranda (Home) & Navigasi Cepat */}
           {DATA.navbar.map((item) => {
             const isExternal = item.href.startsWith("http");
+            const resolvedHref = item.href === "/cv" ? `/cv?lang=${locale}` : item.href;
             const label =
               item.label === "Home"
                 ? t.nav.home
@@ -100,7 +101,7 @@ export default function Navbar({ social, ownerName = "Faris Raja Ardana" }: Navb
               <Tooltip key={item.href}>
                 <TooltipTrigger asChild>
                   <a
-                    href={item.href}
+                    href={resolvedHref}
                     target={isExternal ? "_blank" : undefined}
                     rel={isExternal ? "noopener noreferrer" : undefined}
                     aria-label={`${label} ${ownerName}`}
