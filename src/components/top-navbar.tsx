@@ -105,14 +105,25 @@ export function TopNavbar({
             : "bg-background/60 dark:bg-card/50 backdrop-blur-md border-border/40"
         )}
       >
-        {/* Brand Kiri: Smooth scroll ke atas & URL tetap bersih tanpa #hero */}
+        {/* Brand Kiri: Logo Badge FRA. + Nama Faris Raja (ala Referensi) */}
         <a
           href="/"
           onClick={(e) => scrollToSection(e, "hero")}
-          className="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl shrink-0 cursor-pointer pr-3 lg:pr-5 border-r border-border/30"
+          className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl shrink-0 cursor-pointer pr-3 lg:pr-5 border-r border-border/30"
+          aria-label="Beranda Faris Raja Ardana"
         >
-          <span className="font-bold text-[11px] sm:text-xs md:text-sm tracking-wider uppercase text-foreground whitespace-nowrap">
-            {ownerName}
+          {/* Logo Badge: Rounded Square with signature FRA. logo */}
+          <div className="size-8 sm:size-8.5 rounded-xl overflow-hidden border border-border/60 shadow-2xs group-hover:scale-105 group-hover:border-primary/40 transition-all duration-200 shrink-0 bg-[#f4efe6]">
+            <img
+              src="/logo.png"
+              alt="Logo FRA - Faris Raja Ardana"
+              className="size-full object-cover"
+            />
+          </div>
+
+          {/* Name Text: Faris Raja */}
+          <span className="font-bold text-xs sm:text-sm tracking-tight text-foreground whitespace-nowrap group-hover:text-primary transition-colors">
+            Faris Raja
           </span>
         </a>
 
