@@ -115,7 +115,7 @@ export function TopNavbar({
           {/* Logo Badge: Rounded Square with signature FRA. logo */}
           <div className="size-8 sm:size-8.5 rounded-xl overflow-hidden border border-border/60 shadow-2xs group-hover:scale-105 group-hover:border-primary/40 transition-all duration-200 shrink-0 bg-[#f4efe6]">
             <img
-              src="/logo.png"
+              src="/logo.png?v=4"
               alt="Logo FRA - Faris Raja Ardana"
               className="size-full object-cover"
             />
@@ -123,7 +123,7 @@ export function TopNavbar({
 
           {/* Name Text: Faris Raja Ardana */}
           <span className="font-bold text-xs sm:text-sm tracking-tight text-foreground whitespace-nowrap group-hover:text-primary transition-colors">
-            {ownerName || "Faris Raja Ardana"}
+            Faris Raja Ardana
           </span>
         </a>
 
