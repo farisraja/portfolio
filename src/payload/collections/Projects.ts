@@ -257,15 +257,22 @@ export const Projects: CollectionConfig = {
             {
               name: 'video',
               type: 'text',
-              label: 'URL Video Demo',
+              label: 'URL Video Perkenalan / Demo Aplikasi',
               required: false,
+              admin: {
+                description:
+                  'Mendukung link YouTube (youtube.com/watch?v=... atau youtu.be/...), Loom, Vimeo, atau file video langsung (.mp4/.webm).',
+              },
             },
             {
               name: 'videoPoster',
               type: 'upload',
               relationTo: 'media',
-              label: 'Poster Video (Thumbnail)',
+              label: 'Poster Video (Thumbnail Opsional)',
               required: false,
+              admin: {
+                description: 'Gambar cover thumbnail sebelum video diputar.',
+              },
             },
           ],
         },

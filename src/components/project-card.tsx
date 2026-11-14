@@ -8,6 +8,7 @@ import { ArrowUpRight, FolderGit2, Play, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useLanguage } from "@/i18n/language-context";
+import { parseVideoUrl } from "@/components/project-video-player";
 
 interface Props {
   title: string;
@@ -60,45 +61,66 @@ function ProjectThumbnail({
           locale === "en" ? `View project details for ${title}` : `Lihat detail proyek ${title}`
         }
       >
-        {video ? (
-          <div className="relative size-full">
-            <video
-              src={video}
-              autoPlay
-              muted
-              playsInline
-              loop
-              preload="metadata"
-              poster={image}
-              className="size-full object-cover aspect-video md:aspect-auto project-card-image"
-            />
-            <div className="absolute bottom-2 right-2 rounded-full bg-black/60 p-1.5 text-white backdrop-blur-xs">
-              <Play className="size-3 fill-white" />
+        {(() => {
+          const parsed = video ? parseVideoUrl(video) : null;
+          if (parsed?.type === "direct") {
+            return (
+              <div className="relative size-full">
+                <video
+                  src={parsed.embedUrl}
+                  autoPlay
+                  muted
+                  playsInline
+                  loop
+                  preload="metadata"
+                  poster={image}
+                  className="size-full object-cover aspect-video md:aspect-auto project-card-image"
+                />
+                <div className="absolute bottom-2 right-2 rounded-full bg-black/60 p-1.5 text-white backdrop-blur-xs">
+                  <Play className="size-3 fill-white" />
+                </div>
+              </div>
+            );
+          }
+          if (image && !imageError) {
+            return (
+              <div className="relative size-full">
+                <img
+                  src={image}
+                  alt={imageAlt || `Screenshot aplikasi ${title}`}
+                  loading="lazy"
+                  decoding="async"
+                  className="size-full object-cover aspect-video md:aspect-auto project-card-image"
+                  onError={() => setImageError(true)}
+                />
+                {parsed && (
+                  <div className="absolute bottom-2.5 right-2.5 rounded-full bg-black/75 px-2 py-1 text-white text-[10px] font-medium backdrop-blur-md flex items-center gap-1 shadow-sm">
+                    <Play className="size-2.5 fill-white text-white" />
+                    <span>Video Intro</span>
+                  </div>
+                )}
+              </div>
+            );
+          }
+          return (
+            <div className="size-full min-h-[180px] aspect-video md:aspect-auto bg-linear-to-br from-muted/60 via-muted/30 to-muted/80 flex flex-col items-center justify-center p-4 text-center select-none relative overflow-hidden project-card-image">
+              <div className="absolute inset-0 bg-[radial-gradient(#00000010_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff10_1px,transparent_1px)] [background-size:14px_14px] pointer-events-none" />
+              <div className="size-10 rounded-xl bg-background/90 border border-border shadow-xs flex items-center justify-center text-muted-foreground mb-2">
+                <FolderGit2 className="size-5 text-foreground/70" />
+              </div>
+              <span className="text-xs font-medium text-foreground/85 tracking-tight line-clamp-1 max-w-[85%]">
+                {title}
+              </span>
+              <span className="text-[10px] text-muted-foreground mt-0.5 tracking-wider font-mono">
+                {video
+                  ? locale === "en"
+                    ? "Intro Video Available"
+                    : "Tersedia Video Intro"
+                  : t.projects.appPreview}
+              </span>
             </div>
-          </div>
-        ) : image && !imageError ? (
-          <img
-            src={image}
-            alt={imageAlt || `Screenshot aplikasi ${title}`}
-            loading="lazy"
-            decoding="async"
-            className="size-full object-cover aspect-video md:aspect-auto project-card-image"
-            onError={() => setImageError(true)}
-          />
-        ) : (
-          <div className="size-full min-h-[180px] aspect-video md:aspect-auto bg-linear-to-br from-muted/60 via-muted/30 to-muted/80 flex flex-col items-center justify-center p-4 text-center select-none relative overflow-hidden project-card-image">
-            <div className="absolute inset-0 bg-[radial-gradient(#00000010_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff10_1px,transparent_1px)] [background-size:14px_14px] pointer-events-none" />
-            <div className="size-10 rounded-xl bg-background/90 border border-border shadow-xs flex items-center justify-center text-muted-foreground mb-2">
-              <FolderGit2 className="size-5 text-foreground/70" />
-            </div>
-            <span className="text-xs font-medium text-foreground/85 tracking-tight line-clamp-1 max-w-[85%]">
-              {title}
-            </span>
-            <span className="text-[10px] text-muted-foreground mt-0.5 tracking-wider font-mono">
-              {t.projects.appPreview}
-            </span>
-          </div>
-        )}
+          );
+        })()}
       </Link>
     </div>
   );

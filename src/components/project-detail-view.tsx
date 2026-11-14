@@ -10,12 +10,14 @@ import {
   Layers,
   Sparkles,
   AlertCircle,
+  Video as VideoIcon,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Icons } from "@/components/icons";
 import { ModeToggle } from "@/components/mode-toggle";
 import { LanguageSegmentedPill } from "@/components/language-switcher";
 import { ProjectGalleryLightbox } from "@/components/project-gallery-lightbox";
+import { ProjectVideoPlayer } from "@/components/project-video-player";
 import Markdown from "react-markdown";
 import { type ProjectItem } from "@/lib/payload-data";
 import { useLanguage } from "@/i18n/language-context";
@@ -186,22 +188,20 @@ export function ProjectDetailView({
           )}
         </header>
 
-        {/* 3. Cover Image / Video Preview */}
+        {/* 3. Cover Image / Media Utama */}
         <section aria-label="Media Utama Proyek" className="mt-8 sm:mt-10">
           <figure className="relative w-full aspect-video rounded-xl overflow-hidden border border-border bg-muted/20 shadow-sm">
-            {project.video ? (
-              <video
-                src={project.video}
-                poster={project.videoPoster || project.image}
-                controls
-                playsInline
-                className="size-full object-cover aspect-video"
-              />
-            ) : project.image ? (
+            {project.image ? (
               <img
                 src={project.image}
                 alt={project.imageAlt || `Tampilan ${displayTitle}`}
                 className="size-full object-cover aspect-video"
+              />
+            ) : project.video ? (
+              <ProjectVideoPlayer
+                url={project.video}
+                poster={project.videoPoster}
+                title={`Video Perkenalan ${displayTitle}`}
               />
             ) : (
               <div className="size-full aspect-video bg-linear-to-br from-muted/60 via-muted/30 to-muted/80 flex flex-col items-center justify-center p-6 text-center select-none relative overflow-hidden">
@@ -226,6 +226,23 @@ export function ProjectDetailView({
             )}
           </figure>
         </section>
+
+        {/* Video Perkenalan & Demo Aplikasi */}
+        {project.video && project.image && (
+          <section aria-labelledby="section-video" className="mt-9 sm:mt-11 flex flex-col gap-3">
+            <div className="flex items-center gap-2 text-foreground font-semibold text-base sm:text-lg">
+              <VideoIcon className="size-4.5 text-primary" />
+              <h2 id="section-video">
+                {locale === "en" ? "App Introduction & Demo Video" : "Video Perkenalan & Demo Aplikasi"}
+              </h2>
+            </div>
+            <ProjectVideoPlayer
+              url={project.video}
+              poster={project.videoPoster || project.image}
+              title={`Video Demo ${displayTitle}`}
+            />
+          </section>
+        )}
 
         {/* 4. Masalah atau Kebutuhan */}
         {project.problem && (

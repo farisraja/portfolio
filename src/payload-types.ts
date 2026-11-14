@@ -225,7 +225,13 @@ export interface Project {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Mendukung link YouTube (youtube.com/watch?v=... atau youtu.be/...), Loom, Vimeo, atau file video langsung (.mp4/.webm).
+   */
   video?: string | null;
+  /**
+   * Gambar cover thumbnail sebelum video diputar.
+   */
   videoPoster?: (number | null) | Media;
   /**
    * ID unik numerik repository dari GitHub API.
