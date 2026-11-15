@@ -125,6 +125,175 @@ export type CertificateItem = {
   thumbnailUrl?: string | null
 }
 
+export const FALLBACK_PROJECTS: ProjectItem[] = [
+  {
+    id: 1,
+    title: "MKLC SCORM Simulator & Player",
+    slug: "mklc-scorm-frontend",
+    dates: "Sep 2026 - Sekarang",
+    active: true,
+    featured: true,
+    projectType: "Interactive SCORM Runner & Web App",
+    role: "Frontend & SCORM Runtime Developer",
+    institutionName: "Mahkamah Konstitusi RI",
+    institutionLogo: "/images/institutions/mkri-logo.png",
+    summary:
+      "Aplikasi antarmuka web modern berbasis Next.js 14 App Router & React 18 sebagai SCORM Viewer, Player Interaktif, dan Simulator Runtime SCORM 1.2 & 2004 untuk Pusdik Mahkamah Konstitusi (MKLC).",
+    description:
+      "MKLC SCORM Simulator & Frontend Runner adalah aplikasi antarmuka web modern berbasis Next.js 14 App Router dan React 18 yang berfungsi sebagai SCORM Viewer, Player Interaktif, dan Simulator Runtime SCORM 1.2 & SCORM 2004 untuk Pusat Pembelajaran Digital Mahkamah Konstitusi Republik Indonesia (MKLC).",
+    technologies: ["Next.js 14", "React 18", "SCORM RTE", "Bootstrap 5", "JavaScript", "Laravel Sanctum", "Axios"],
+    image: "/media/mklc-fe-01-daftar-materi.png",
+    video: "/videos/mklc-scorm-frontend-demo.webm",
+    repositoryUrl: "https://github.com/farisraja/mklc-scorm-frontend",
+    websiteUrl: "https://github.com/farisraja/mklc-scorm-frontend",
+    links: [
+      { type: "Source", href: "https://github.com/farisraja/mklc-scorm-frontend" },
+    ],
+  },
+  {
+    id: 2,
+    title: "MKLC SCORM Engine & Admin Backend",
+    slug: "mklc-scorm-backend",
+    dates: "Sep 2026 - Sekarang",
+    active: true,
+    featured: true,
+    projectType: "LMS Backend & Learning Analytics Dashboard",
+    role: "Backend Developer",
+    institutionName: "Mahkamah Konstitusi RI",
+    institutionLogo: "/images/institutions/mkri-logo.png",
+    summary:
+      "Layanan backend, REST API, dan dasbor analitik pembelajaran untuk standardisasi paket SCORM Pusdik Mahkamah Konstitusi RI.",
+    description:
+      "Backend service berbasis Laravel 10 dan PostgreSQL 16 untuk integrasi SCORM CMI data tracking dan analitik peserta.",
+    technologies: ["Laravel 10", "PHP 8.1", "PostgreSQL 16", "REST API", "Docker", "SCORM CMI"],
+    image: "/media/mklc-be-01-dashboard-overview.png",
+    video: "/videos/mklc-scorm-backend-demo.webm",
+    repositoryUrl: "https://github.com/farisraja/mklc-scorm-backend",
+    websiteUrl: "https://github.com/farisraja/mklc-scorm-backend",
+    links: [
+      { type: "Source", href: "https://github.com/farisraja/mklc-scorm-backend" },
+    ],
+  },
+  {
+    id: 3,
+    title: "Digital Library FMIPA Universitas Pakuan",
+    slug: "digital-library-unpak",
+    dates: "2023 - 2024",
+    active: true,
+    featured: false,
+    projectType: "Academic Repository & Web App",
+    role: "Full Stack Developer & Admin Sistem",
+    institutionName: "Universitas Pakuan",
+    institutionLogo: "/images/institutions/unpak-logo.png",
+    summary:
+      "Sistem repositori dan perpustakaan digital berbasis web untuk pengarsipan, pencarian cepat, dan manajemen karya ilmiah skripsi mahasiswa FMIPA Unpak.",
+    description:
+      "Aplikasi perpustakaan digital repositori skripsi mahasiswa Fakultas MIPA Universitas Pakuan.",
+    technologies: ["PHP", "MySQL", "Bootstrap", "Apache", "JavaScript"],
+    video: "/videos/digital-library-unpak-demo.webm",
+    repositoryUrl: "https://github.com/farisraja/digital-library-unpak",
+    websiteUrl: "https://github.com/farisraja/digital-library-unpak",
+    links: [
+      { type: "Source", href: "https://github.com/farisraja/digital-library-unpak" },
+    ],
+  },
+  {
+    id: 4,
+    title: "Analisis Keranjang Belanja (Market Basket Analysis)",
+    slug: "analisis_keranjang_belanja_2026",
+    dates: "2024",
+    active: true,
+    featured: false,
+    projectType: "Data Mining & Web Analytics",
+    role: "Software Developer & Researcher",
+    institutionName: "Universitas Pakuan",
+    institutionLogo: "/images/institutions/unpak-logo.png",
+    summary:
+      "Aplikasi web pengolahan data riwayat transaksi penjualan retail menggunakan algoritma data mining asosiasi Apriori untuk menemukan pola afinitas pembelian konsumen.",
+    description:
+      "Aplikasi web pengolahan data riwayat transaksi penjualan retail menggunakan algoritma data mining asosiasi.",
+    technologies: ["Laravel", "PHP", "MySQL", "Tailwind CSS", "Vite", "Blade"],
+    video: "/videos/analisis-keranjang-belanja-demo.webm",
+    repositoryUrl: "https://github.com/farisraja/analisis_keranjang_belanja_2026",
+    websiteUrl: "https://github.com/farisraja/analisis_keranjang_belanja_2026",
+    links: [
+      { type: "Source", href: "https://github.com/farisraja/analisis_keranjang_belanja_2026" },
+    ],
+  },
+  {
+    id: 5,
+    title: "PB Cipta Badminton League Application",
+    slug: "pb-cipta-sports",
+    dates: "2024",
+    active: true,
+    featured: false,
+    projectType: "Sports Tournament & League Management",
+    role: "Full Stack Developer",
+    institutionName: "PB Cipta Sports",
+    institutionLogo: "/images/institutions/pb-cipta-logo.svg",
+    summary:
+      "Aplikasi web modern untuk manajemen turnamen dan liga bulu tangkis yang mencakup pencatatan skor real-time, statistik otomatis, dan papan peringkat dinamis.",
+    description:
+      "Aplikasi manajemen turnamen bulu tangkis dengan live scoring dan dynamic leaderboard.",
+    technologies: ["React 18", "TypeScript", "Tailwind CSS", "Vite", "Supabase", "Express.js"],
+    image: "/media/pb-cipta-login.png",
+    video: "/videos/pb-cipta-demo.mp4",
+    websiteUrl: "https://pb-cipta-esports.vercel.app",
+    repositoryUrl: "https://github.com/farisraja/pb-cipta-sports",
+    links: [
+      { type: "Website", href: "https://pb-cipta-esports.vercel.app" },
+      { type: "Source", href: "https://github.com/farisraja/pb-cipta-sports" },
+    ],
+  },
+  {
+    id: 6,
+    title: "AI Resume Optimizer (ATS Beater)",
+    slug: "resume-optimizer",
+    dates: "2024",
+    active: true,
+    featured: false,
+    projectType: "AI-Powered Career Tool",
+    role: "AI & Full Stack Developer",
+    institutionName: "Open Source Project",
+    institutionLogo: "/images/institutions/open-source-logo.svg",
+    summary:
+      "Platform open-source berbasis AI untuk mengoptimalkan resume terhadap deskripsi pekerjaan melalui pencocokan kata kunci kontekstual dan kompilasi otomatis format standar ATS.",
+    description:
+      "AI Resume Optimizer ATS Beater powered by FastAPI and Gemini AI.",
+    technologies: ["Python 3.12", "FastAPI", "Google Gemini 1.5", "LaTeX", "Vue 3", "PostgreSQL"],
+    video: "/videos/resume-optimizer-demo.webm",
+    repositoryUrl: "https://github.com/farisraja/resume-optimizer",
+    websiteUrl: "https://github.com/farisraja/resume-optimizer",
+    links: [
+      { type: "Source", href: "https://github.com/farisraja/resume-optimizer" },
+    ],
+  },
+  {
+    id: 7,
+    title: "Futuristic Glassmorphic Web Portfolio",
+    slug: "web-portofolio",
+    dates: "2024",
+    active: true,
+    featured: false,
+    projectType: "Personal Portfolio & UI/UX Showcase",
+    role: "Frontend Developer & Designer",
+    institutionName: "Personal Project",
+    institutionLogo: "/images/institutions/open-source-logo.svg",
+    summary:
+      "Website portofolio interaktif dengan desain Glassmorphism futuristik, animasi framer-motion responsif, dan performa tinggi berbasis Next.js 16.",
+    description:
+      "Personal portfolio website showcasing futuristic aesthetics and interactive components.",
+    technologies: ["Next.js 16", "React 19", "Tailwind CSS", "Motion", "TypeScript"],
+    video: "/videos/web-portofolio-demo.webm",
+    websiteUrl: "https://web-portofolio-eight-rust.vercel.app",
+    repositoryUrl: "https://github.com/farisraja/web-portofolio",
+    links: [
+      { type: "Website", href: "https://web-portofolio-eight-rust.vercel.app" },
+      { type: "Source", href: "https://github.com/farisraja/web-portofolio" },
+    ],
+  },
+]
+
 export function getMediaUrl(media?: (string | number | Media) | null, fallbackUrl?: string | null): string {
   if (!media) return fallbackUrl || ''
   if (typeof media === 'string') return media
@@ -255,9 +424,11 @@ export function formatWhatsAppUrl(phone?: string | null, message?: string | null
 }
 
 export async function getProjectBySlug(slug: string): Promise<ProjectItem | null> {
+  const fallbackMatch = FALLBACK_PROJECTS.find((p) => p.slug === slug) || null
+
   const dbUrl = process.env.DATABASE_URL
   if (!dbUrl || dbUrl.includes('PASSWORD_POSTGRES_ANDA') || dbUrl.includes('YOUR_POSTGRES_PASSWORD')) {
-    return null
+    return fallbackMatch
   }
 
   try {
@@ -274,25 +445,25 @@ export async function getProjectBySlug(slug: string): Promise<ProjectItem | null
     })
 
     if (!res.docs || res.docs.length === 0) {
-      return null
+      return fallbackMatch
     }
 
     const doc = res.docs[0]
     if ((doc as any)._status !== 'published') {
-      return null
+      return fallbackMatch
     }
 
     return formatProjectDoc(doc)
   } catch (err: any) {
-    console.error(`Gagal mengambil detail proyek [${slug}]:`, err?.message || err)
-    return null
+    return fallbackMatch
   }
 }
 
 export async function getAllPublishedProjectSlugs(): Promise<string[]> {
+  const fallbackSlugs = FALLBACK_PROJECTS.map((p) => p.slug)
   const dbUrl = process.env.DATABASE_URL
   if (!dbUrl || dbUrl.includes('PASSWORD_POSTGRES_ANDA') || dbUrl.includes('YOUR_POSTGRES_PASSWORD')) {
-    return []
+    return fallbackSlugs
   }
 
   try {
@@ -306,9 +477,10 @@ export async function getAllPublishedProjectSlugs(): Promise<string[]> {
       limit: 100,
     })
 
-    return res.docs.map((p) => p.slug).filter(Boolean)
+    const dbSlugs = res.docs.map((p) => p.slug).filter(Boolean)
+    return dbSlugs.length > 0 ? dbSlugs : fallbackSlugs
   } catch {
-    return []
+    return fallbackSlugs
   }
 }
 
@@ -513,7 +685,7 @@ export async function getPortfolioData(): Promise<PortfolioData> {
       skills: mappedSkills,
       experiences: mappedExperiences,
       education: mappedEducation,
-      projects: mappedProjects,
+      projects: mappedProjects && mappedProjects.length > 0 ? mappedProjects : FALLBACK_PROJECTS,
       hackathons: mappedHackathons,
       certificates:
         mappedCertificates.length > 0 ? mappedCertificates : (DATA.certificates as CertificateItem[]),
@@ -560,7 +732,7 @@ function getFallbackData(reason: string): PortfolioData {
     skills: DATA.skills.map((s) => ({ name: s.name, iconKey: s.name })),
     experiences: [...DATA.work],
     education: [...DATA.education],
-    projects: [],
+    projects: FALLBACK_PROJECTS,
     hackathons: [],
     certificates: [...(DATA.certificates as CertificateItem[])],
   }

@@ -62,13 +62,11 @@ export default async function Page() {
       </div>
 
       {/* 3. PROYEK UNGGULAN DENGAN BENTO GRID & 3D COVER FLOW - Lebar max-w-5xl */}
-      {data.projects && data.projects.length > 0 && (
-        <section id="projects" className="w-full max-w-5xl mx-auto px-4 sm:px-6 my-10 sm:my-14">
-          <BlurFade delay={BLUR_FADE_DELAY * 11}>
-            <ProjectsSection data={data.projects} />
-          </BlurFade>
-        </section>
-      )}
+      <section id="projects" className="w-full max-w-5xl mx-auto px-4 sm:px-6 my-10 sm:my-14">
+        <BlurFade delay={BLUR_FADE_DELAY * 11}>
+          <ProjectsSection data={data.projects} />
+        </BlurFade>
+      </section>
 
       {/* 4. LISENSI & SERTIFIKASI (Sertifikat Khusus & Sertifikat Umum) - Lebar max-w-5xl */}
       {data.certificates && data.certificates.length > 0 && (

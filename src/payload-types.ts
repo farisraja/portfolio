@@ -177,6 +177,9 @@ export interface Project {
   slug: string;
   dates?: string | null;
   projectType?: string | null;
+  institutionName?: string | null;
+  institutionLogo?: (number | null) | Media;
+  institutionLogoUrl?: string | null;
   role?: string | null;
   active?: boolean | null;
   featured?: boolean | null;
@@ -657,6 +660,9 @@ export interface ProjectsSelect<T extends boolean = true> {
   slug?: T;
   dates?: T;
   projectType?: T;
+  institutionName?: T;
+  institutionLogo?: T;
+  institutionLogoUrl?: T;
   role?: T;
   active?: T;
   featured?: T;
