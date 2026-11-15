@@ -20,6 +20,8 @@ interface Props {
   image?: string;
   imageAlt?: string;
   video?: string;
+  institutionName?: string | null;
+  institutionLogo?: string | null;
   websiteUrl?: string | null;
   repositoryUrl?: string | null;
   className?: string;
@@ -32,6 +34,8 @@ function ProjectThumbnail({
   title,
   slug,
   video,
+  institutionName,
+  institutionLogo,
   isFeatured = false,
 }: {
   image?: string;
@@ -39,6 +43,8 @@ function ProjectThumbnail({
   title: string;
   slug: string;
   video?: string;
+  institutionName?: string | null;
+  institutionLogo?: string | null;
   isFeatured?: boolean;
 }) {
   const [imageError, setImageError] = useState(false);
@@ -122,6 +128,25 @@ function ProjectThumbnail({
           );
         })()}
       </Link>
+
+      {/* Floating Badge Logo Instansi */}
+      {institutionName && (
+        <div
+          className={cn(
+            "absolute z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/90 dark:bg-card/90 backdrop-blur-md border border-border/80 shadow-xs text-[11px] font-medium text-foreground select-none pointer-events-none transition-transform duration-300 group-hover/thumb:scale-105",
+            isFeatured ? "top-3 right-3" : "top-2.5 left-2.5"
+          )}
+        >
+          {institutionLogo && (
+            <img
+              src={institutionLogo}
+              alt={institutionName}
+              className="size-3.5 object-contain rounded-full bg-white p-0.5 shadow-2xs shrink-0"
+            />
+          )}
+          <span className="truncate max-w-[130px] sm:max-w-[170px]">{institutionName}</span>
+        </div>
+      )}
     </div>
   );
 }
@@ -136,6 +161,8 @@ export function ProjectCard({
   image,
   imageAlt,
   video,
+  institutionName,
+  institutionLogo,
   websiteUrl,
   repositoryUrl,
   className,
@@ -176,6 +203,8 @@ export function ProjectCard({
             title={displayTitle}
             slug={slug}
             video={video}
+            institutionName={institutionName}
+            institutionLogo={institutionLogo}
             isFeatured={true}
           />
           {/* Badge: Proyek Unggulan */}
@@ -188,7 +217,19 @@ export function ProjectCard({
         {/* Right Content Area */}
         <div className="p-5 sm:p-6 lg:p-7 flex flex-col justify-between flex-1 gap-4">
           <div className="flex flex-col gap-2.5">
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1.5">
+              {institutionName && (
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary">
+                  {institutionLogo && (
+                    <img
+                      src={institutionLogo}
+                      alt={institutionName}
+                      className="size-3.5 object-contain rounded-full bg-white p-0.5 shadow-2xs shrink-0"
+                    />
+                  )}
+                  <span>{institutionName}</span>
+                </div>
+              )}
               <div className="flex items-start justify-between gap-2">
                 <h3 className="font-bold text-lg sm:text-xl lg:text-2xl tracking-tight leading-snug">
                   <Link
@@ -309,13 +350,27 @@ export function ProjectCard({
         title={displayTitle}
         slug={slug}
         video={video}
+        institutionName={institutionName}
+        institutionLogo={institutionLogo}
         isFeatured={false}
       />
 
       {/* 2. Content Area */}
       <div className="p-4 sm:p-5 flex flex-col flex-1 gap-3">
         {/* Header: Judul & Periode */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1.5">
+          {institutionName && (
+            <div className="inline-flex items-center gap-1.5 text-[11px] font-medium text-primary">
+              {institutionLogo && (
+                <img
+                  src={institutionLogo}
+                  alt={institutionName}
+                  className="size-3.5 object-contain rounded-full bg-white p-0.5 shadow-2xs shrink-0"
+                />
+              )}
+              <span className="truncate">{institutionName}</span>
+            </div>
+          )}
           <div className="flex items-start justify-between gap-2">
             <h3 className="font-semibold text-base sm:text-lg tracking-tight leading-snug">
               <Link

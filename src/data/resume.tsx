@@ -125,6 +125,8 @@ export const DATA = {
       href: "https://pb-cipta-esports.vercel.app",
       dates: "2024",
       active: true,
+      institutionName: "PB Cipta Sports",
+      institutionLogo: "/images/institutions/pb-cipta-logo.svg",
       description:
         "Aplikasi web modern untuk manajemen turnamen dan liga bulu tangkis yang mencakup pencatatan skor pertandingan real-time, statistik otomatis, dan papan peringkat dinamis.",
       technologies: ["React 18", "TypeScript", "Tailwind CSS", "Vite", "Supabase", "Express.js"] as readonly string[],
@@ -140,6 +142,8 @@ export const DATA = {
       href: "https://github.com/farisraja/resume-optimizer",
       dates: "2024",
       active: true,
+      institutionName: "Open Source Project",
+      institutionLogo: "/images/institutions/open-source-logo.svg",
       description:
         "Platform open-source berbasis AI untuk mengoptimalkan resume terhadap deskripsi pekerjaan melalui pencocokan kata kunci kontekstual dan kompilasi otomatis format standar ATS.",
       technologies: ["Python 3.12", "FastAPI", "Google Gemini 1.5 Flash Vision & Pro", "LaTeX", "Vue 3", "PostgreSQL"] as readonly string[],
@@ -154,6 +158,8 @@ export const DATA = {
       href: "https://github.com/farisraja/mklc-scorm-frontend",
       dates: "2026",
       active: true,
+      institutionName: "Mahkamah Konstitusi RI",
+      institutionLogo: "/images/institutions/mkri-logo.png",
       description:
         "Platform e-learning dan SCORM runtime engine untuk standardisasi materi pembelajaran interaktif pada Pusat Pendidikan Pancasila dan Konstitusi Mahkamah Konstitusi RI.",
       technologies: ["Next.js 14", "Laravel 10", "PHP 8.1", "PostgreSQL 16", "SCORM 1.2/2004 RTE", "Docker"] as readonly string[],
@@ -168,6 +174,8 @@ export const DATA = {
       href: "https://github.com/farisraja/analisis_keranjang_belanja_2026",
       dates: "2024",
       active: true,
+      institutionName: "Universitas Pakuan",
+      institutionLogo: "/images/institutions/unpak-logo.png",
       description:
         "Aplikasi web pengolahan data riwayat transaksi penjualan retail menggunakan algoritma data mining asosiasi untuk menemukan pola afinitas pembelian konsumen.",
       technologies: ["Laravel", "PHP", "MySQL", "Tailwind CSS", "Vite", "Blade"] as readonly string[],

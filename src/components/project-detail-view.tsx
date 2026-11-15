@@ -127,8 +127,20 @@ export function ProjectDetailView({
               {displayTitle}
             </h1>
 
-            {/* Metadata Proyek: Jenis, Peran, Periode */}
+            {/* Metadata Proyek: Instansi, Jenis, Peran, Periode */}
             <div className="flex flex-wrap items-center gap-2">
+              {project.institutionName && (
+                <Badge variant="outline" className="gap-1.5 text-xs px-2.5 py-0.5 font-medium border-primary/30 bg-primary/5 text-primary">
+                  {project.institutionLogo ? (
+                    <img
+                      src={project.institutionLogo}
+                      alt={project.institutionName}
+                      className="size-3.5 object-contain rounded-full bg-white p-0.5 shadow-2xs"
+                    />
+                  ) : null}
+                  <span>{project.institutionName}</span>
+                </Badge>
+              )}
               {project.projectType && (
                 <Badge variant="secondary" className="gap-1.5 text-xs px-2.5 py-0.5 font-normal">
                   <Layers className="size-3 text-muted-foreground" />

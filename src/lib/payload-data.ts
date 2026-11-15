@@ -10,6 +10,8 @@ export type ProjectItem = {
   dates?: string | null
   active?: boolean | null
   projectType?: string | null
+  institutionName?: string | null
+  institutionLogo?: string | null
   role?: string | null
   summary?: string | null
   description: string
@@ -182,6 +184,27 @@ export function formatProjectDoc(p: Project | any): ProjectItem {
         .filter(Boolean)
     : []
 
+  // Determine effective institution name & logo with resilient fallback
+  let instName = (p as any).institutionName || (p as any).institution || (p as any).client || null
+  let instLogo = getMediaUrl((p as any).institutionLogo, (p as any).institutionLogoUrl) || null
+
+  const s = ((p.slug || '') + ' ' + (p.title || '')).toLowerCase()
+  if (!instName || !instLogo) {
+    if (s.includes('mklc') || s.includes('mahkamah') || s.includes('pusdik') || s.includes('konstitusi')) {
+      instName = instName || 'Mahkamah Konstitusi RI'
+      instLogo = instLogo || '/images/institutions/mkri-logo.png'
+    } else if (s.includes('unpak') || s.includes('pakuan') || s.includes('keranjang') || s.includes('digital-library')) {
+      instName = instName || 'Universitas Pakuan'
+      instLogo = instLogo || '/images/institutions/unpak-logo.png'
+    } else if (s.includes('cipta') || s.includes('sports') || s.includes('badminton')) {
+      instName = instName || 'PB Cipta Sports'
+      instLogo = instLogo || '/images/institutions/pb-cipta-logo.svg'
+    } else if (s.includes('resume') || s.includes('portfolio') || s.includes('ats')) {
+      instName = instName || 'Open Source Project'
+      instLogo = instLogo || '/images/institutions/open-source-logo.svg'
+    }
+  }
+
   return {
     id: p.id,
     title: p.title,
@@ -189,6 +212,8 @@ export function formatProjectDoc(p: Project | any): ProjectItem {
     dates: p.dates || '',
     active: p.active ?? true,
     projectType: (p as any).projectType || null,
+    institutionName: instName,
+    institutionLogo: instLogo,
     role: (p as any).role || null,
     summary: (p as any).summary || null,
     description: p.description || '',

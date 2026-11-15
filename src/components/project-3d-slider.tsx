@@ -268,21 +268,49 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
                         : "border-border/60 hover:opacity-75"
                     )}
                   >
-                    {/* Mockup Frame Bar Atas (3 Titik macOS Minimalis) */}
+                    {/* Mockup Frame Bar Atas (3 Titik macOS Minimalis + Badge Instansi) */}
                     <div className="h-6 sm:h-7 px-3 bg-muted/70 border-b border-border/50 flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
                         <span className="size-2 rounded-full bg-red-400/80" />
                         <span className="size-2 rounded-full bg-amber-400/80" />
                         <span className="size-2 rounded-full bg-emerald-400/80" />
                       </div>
-                      <span className="text-[10px] font-mono text-muted-foreground truncate max-w-[180px]">
-                        {pTitle}
-                      </span>
+                      {project.institutionName ? (
+                        <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-background/80 dark:bg-card/80 border border-border/60 shadow-2xs text-[10px] font-medium text-foreground max-w-[200px] truncate">
+                          {project.institutionLogo && (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={project.institutionLogo}
+                              alt={project.institutionName}
+                              className="size-3.5 object-contain rounded-full bg-white p-0.5 shadow-2xs shrink-0"
+                            />
+                          )}
+                          <span className="truncate">{project.institutionName}</span>
+                        </div>
+                      ) : (
+                        <span className="text-[10px] font-mono text-muted-foreground truncate max-w-[180px]">
+                          {pTitle}
+                        </span>
+                      )}
                       <div className="size-2" />
                     </div>
 
                     {/* Screenshot / Preview */}
                     <div className="relative w-full h-[calc(100%-24px)] sm:h-[calc(100%-28px)] bg-muted/40 overflow-hidden group/img">
+                      {/* Floating Badge Logo Instansi di Sudut Atas Preview */}
+                      {project.institutionName && (
+                        <div className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 z-20 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/90 dark:bg-card/90 backdrop-blur-md border border-border/80 shadow-md text-[10px] sm:text-[11px] font-semibold text-foreground pointer-events-none transition-transform duration-300 group-hover/img:scale-105">
+                          {project.institutionLogo && (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={project.institutionLogo}
+                              alt={project.institutionName}
+                              className="size-3.5 sm:size-4 object-contain rounded-full bg-white p-0.5 shadow-2xs shrink-0"
+                            />
+                          )}
+                          <span className="truncate max-w-[140px] sm:max-w-[200px]">{project.institutionName}</span>
+                        </div>
+                      )}
                       {project.video ? (
                         <video
                           src={project.video}
@@ -347,8 +375,23 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.25 }}
-                className="flex flex-col items-center gap-3 w-full"
+                className="flex flex-col items-center gap-2.5 w-full"
               >
+                {/* Badge Logo & Nama Instansi */}
+                {activeProject.institutionName && (
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/25 bg-primary/5 text-primary text-xs font-semibold shadow-2xs">
+                    {activeProject.institutionLogo && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={activeProject.institutionLogo}
+                        alt={activeProject.institutionName}
+                        className="size-4 object-contain rounded-full bg-white p-0.5 shadow-xs"
+                      />
+                    )}
+                    <span>{activeProject.institutionName}</span>
+                  </div>
+                )}
+
                 {/* Judul Proyek */}
                 <h3 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-foreground">
                   <Link
@@ -454,6 +497,8 @@ export function Project3DSlider({ projects }: Project3DSliderProps) {
                 image={project.image}
                 imageAlt={project.imageAlt}
                 video={project.video}
+                institutionName={project.institutionName}
+                institutionLogo={project.institutionLogo}
                 websiteUrl={getWebsiteUrl(project)}
                 repositoryUrl={getRepoUrl(project)}
                 isFeatured={false}

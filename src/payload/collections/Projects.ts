@@ -77,6 +77,25 @@ export const Projects: CollectionConfig = {
               required: false,
             },
             {
+              name: 'institutionName',
+              type: 'text',
+              label: 'Nama Instansi / Klien / Lembaga (misal: Mahkamah Konstitusi RI, Universitas Pakuan)',
+              required: false,
+            },
+            {
+              name: 'institutionLogo',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'Logo Instansi (Unggahan Media)',
+              required: false,
+            },
+            {
+              name: 'institutionLogoUrl',
+              type: 'text',
+              label: 'URL Logo Instansi (Aset Statis / Eksternal Fallback)',
+              required: false,
+            },
+            {
               name: 'role',
               type: 'text',
               label: 'Peran / Tanggung Jawab Utama (misal: Full Stack Developer)',
